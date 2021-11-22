@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // PermissionsTableSeeder::class,
-            // RolesTableSeeder::class,
-            // VendorsSeeder::class,
-            // LanguagesSeeder::class,
-            // PaymentPlatformsSeeder::class,
-            // VoicesSeeder::class,
-            // SettingsSeeder::class,
+            PermissionsTableSeeder::class,
+            RolesTableSeeder::class,
+            VendorsSeeder::class,
+            LanguagesSeeder::class,
+            PaymentPlatformsSeeder::class,
+            VoicesSeeder::class,
+            SettingsSeeder::class,
             UserTableSeeder::class
         ]);
     }
