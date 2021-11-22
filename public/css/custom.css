@@ -1,0 +1,247 @@
+
+.top-nav-bar {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    height: 2.8125rem;
+    line-height: 2.8125rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid grey;
+}
+
+.logo-position{
+    display: inline;
+    height: 40px;
+    padding: 10px;
+}
+
+.right-menu{
+    padding-right: 15px;
+}
+
+.left-menu{
+    padding-left: 15px;
+}
+
+.editor-container{
+    height: 801px;
+    
+}
+
+
+.editor-top-row{
+    background-color: white;
+    height: 60%;
+    padding: 0px;
+    margin: 0px;
+    
+}
+
+.editor-top-row-left{
+    width: 60%;
+    min-height: 90%;
+    padding: 0px;
+    margin: 0px;
+    /* background-color: green; */
+}
+
+.editor-top-row-right{
+    width: 40%;
+    min-height: 90%;
+    padding: 0px;
+    margin: 0px;
+    /* background-color: blue; */
+}
+
+.editor-tools{
+    width: 100%;
+    min-height: 2.375rem !important;
+    border-top: 0.03125rem solid #e2e2e2;
+    margin-bottom: 0 !important;
+    /* background-color: orange; */
+
+}
+.editor-bottom-row{
+    /* background-color: brown; */
+    /* height: 40%; */
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    /* flex: 1 1;
+    flex-basis: content; */
+    position: relative;
+}
+
+#controls{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.controls-wrapper{
+    padding: 15px;
+    width: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.controls-btn{
+    width: 20px; 
+    height: 20px; 
+    margin-right: 4px; 
+    vertical-align: middle;
+    color: #555;
+    background-color: #888;
+    border: 0px;
+    padding: 5px 8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+}
+
+
+.timeline-time{
+    cursor: default; 
+    display: inline-block; 
+    vertical-align: middle; 
+    color: rgb(187, 187, 187); 
+    width: 60px; 
+    margin-left: 10px;
+}
+
+.timeline-speed{
+    cursor: default; 
+    display: inline-block; 
+    vertical-align: middle; 
+    color: rgb(153, 153, 153); 
+    margin-left: 8px;
+}
+
+.expand-btn{
+    
+    width: 20px; 
+    height: 20px; 
+    float: right; 
+    vertical-align: middle;
+}
+
+#timeline{
+    /* position: absolute; */
+    top: 0px;
+    left: 0px;
+    right: 300px;
+    min-height: 100%;
+    background-color: #1d1f42;
+    width: 100%;
+    padding: 0px !important;
+}
+
+#scroller{
+    /* position:absolute;  */
+    /* top:32px;  */
+    bottom:0px; 
+    width:100%; 
+    min-height: 130px;
+    overflow:auto;
+    padding-bottom: 40px;
+}
+
+#loop-mark{
+    position: absolute; 
+    top: 0; 
+    height: 100%; 
+    width: 0; 
+    background: rgba( 255, 255, 255, 0.1 );
+    pointer-events: none;
+    display: none;
+}
+
+#time-mark{
+    position: absolute;
+    left: -8px;
+    width: 16px;
+    cursor: pointer;
+    top: 0px;
+    min-height: 91%;
+    background: linear-gradient(90deg, transparent 8px, #797fae 8px, #797fae 9px, transparent 9px) 0% 0% / 16px 16px repeat-y;
+    pointer-events: none;
+    margin-top: 16px;
+}
+
+#timeline-canvas{
+    cursor: pointer;
+}
+#timeline-wrapper{
+    /* position: absolute; */
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    min-height: 168px;
+    overflow: hidden;
+}
+
+.clips-container{
+    display: flex; 
+    align-content: center; 
+    justify-content: center; 
+    border: 1px solid #dee2e6;
+    width: 7.6875rem;
+    height: 4.375rem;
+    margin-right: 0.625rem;
+    margin-bottom: 1.875rem;
+    cursor: pointer;
+}
+
+.block {
+    background-color: #88f;
+    border: 0px;
+    border-top: 1px solid #aaf;
+    border-left: 1px solid #aaf;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.layer-label-list{
+    display: flex;
+    justify-content: space-between;
+    height: 40px; 
+    text-align: center; 
+    padding: 4px; 
+    border: 1px solid #000;
+}
+
+.layer-label{
+    width: 80%;
+    height: 25px;
+    display: inline;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.layer-label-btn{
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    background: #D6DFFF; 
+    cursor: pointer;
+}
+
+.canvas-layers-container{
+    position: relative;
+}
+
+/* .canvas-layers-container > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+} */
+
+
+.long-col{
+    overflow: auto;
+}
