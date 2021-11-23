@@ -1090,6 +1090,10 @@ new Vue({
                 })
         },
         addPreviewToTimeLine(){
+            let audio = document.getElementById('listen-result');
+            audio.pause();
+            audio.src = "";
+
             this.addTranslatedAudioToLayer(this.prevSynthesizeAudioURL, this.prevSynthesizePath);
 
         },
