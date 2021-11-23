@@ -15,7 +15,7 @@ new Vue({
         player : {},
         signals: {},
         scale: 32,
-        duration: 100,
+        duration: 3600,
         prevScale:0,
         layers:[],
         scroller:{},
@@ -676,7 +676,7 @@ new Vue({
                     path: path,
                     duration: newAudio.duration,
                     start: this.player.currentTime,
-                    end: (seconds > 100)? 10 : seconds,
+                    end: seconds,
                     layerNumber: this.layers.length
     
                 }
@@ -710,7 +710,7 @@ new Vue({
                     path: path,
                     duration: seconds,
                     start: this.player.currentTime,
-                    end: (seconds > 100)? 10 : seconds,
+                    end: seconds,
                     layerNumber: this.layers.length
     
                 }
@@ -756,7 +756,7 @@ new Vue({
                     path: path,
                     duration: seconds,
                     start: this.player.currentTime,
-                    end: (seconds > 100)? 10 : seconds,
+                    end: seconds,
                     layerNumber: this.layers.length
     
                 }

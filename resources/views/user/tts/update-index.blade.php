@@ -464,7 +464,7 @@
             </div>
             <div class="timeline-wrap">
                 <div class="Panel" id="timeline">
-                    <div class="Panel" id="timeline-wrapper" @wheel="handleTimelineWrapperWheelEvent">
+                    <div class="Panel" id="timeline-wrapper" @wheel="handleTimelineWrapperWheelEvent" style="width: 5000%">
                         <canvas height="32" id="timeline-canvas"></canvas>
                         <div id="scroller">
                             <!-- <div id="layer-container" style="width:3000px;height: 100%; background: linear-gradient(blue 1px, transparent 1px) 0% 0% / 32px 32px repeat;">
