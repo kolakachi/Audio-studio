@@ -1,6 +1,11 @@
 from moviepy.editor import *
 import json
 import os
+import moviepy.editor as mpe
+import moviepy.audio.fx.all as afx
+from moviepy.editor import vfx
+from moviepy.decorators import audio_video_fx
+from moviepy.audio.fx.volumex import volumex
 
 from flask import *
 
@@ -18,18 +23,23 @@ def mixAudios():
         encodedMP3Path = layer["path"]
         if "webm" in layer["path"]: 
             encodedMP3Path = layer["path"].replace("webm", "mp3")
-            print(encodedMP3Path)
+
 
         stuff_in_string = "ffmpeg -i {} {} -y".format(layer["path"], encodedMP3Path)
-        print(encodedMP3Path)
         os.system(stuff_in_string)
-        clip = AudioFileClip(encodedMP3Path)
-        clip = clip.set_duration(10)
+        substr = ".mp3"
+        inserttxt = "volume-changed"
+        idx = encodedMP3Path.index(substr)
+        volumeEncodedMP3Path = encodedMP3Path[:idx] + inserttxt + encodedMP3Path[idx:]
+        reduceVolume = "ffmpeg -i {} -filter:a \"volume={}\" {} -y".format(encodedMP3Path, layer["volume"], volumeEncodedMP3Path)
+        print((reduceVolume))
+
+        os.system(reduceVolume)
+
+        clip = mpe.AudioFileClip(volumeEncodedMP3Path)
+        clip = clip.set_duration(layer["duration"])
         trimmedClip = clip.subclip(0, layer["end"] - layer["start"])
         audios.append(trimmedClip.set_start(layer["start"]))
-# #   print(i)
-# #     clip1 = AudioFileClip("audio-1.mp3")
-# #     clip2 = AudioFileClip("audio-2.mp3")
 
     mixed = CompositeAudioClip(audios)
     mixed.fps = 44100
