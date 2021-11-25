@@ -613,7 +613,8 @@ new Vue({
                     let path = response.data.path;
                     // console.log(response.data)
                     $("#recordModal").modal('hide');
-                    this.addAudioRecorderToLayer(this.audioBlob, path);
+                    let duration = this.rangeMaximum;
+                    this.addAudioRecorderToLayer(this.audioBlob, path, duration);
                     this.clearRecording();
                 
                     
@@ -677,6 +678,7 @@ new Vue({
                     duration: newAudio.duration,
                     start: this.player.currentTime,
                     end: seconds,
+                    volume: 1,
                     layerNumber: this.layers.length
     
                 }
@@ -689,7 +691,7 @@ new Vue({
             
             
         },
-        addAudioRecorderToLayer(file, path){
+        addAudioRecorderToLayer(file, path, duration){
             var objectUrl = URL.createObjectURL(file);
             var audioConatiner = document.getElementById("audio-container");
             var newAudio = document.createElement("AUDIO");
@@ -701,7 +703,7 @@ new Vue({
             audioConatiner.appendChild(newAudio);
             newAudio = document.getElementById(audioID);
             $("#"+audioID).on("loadedmetadata", (e) =>{
-                var seconds = e.currentTarget.duration;
+                var seconds = duration;//e.currentTarget.duration;
                 let layer = {
                     type : "audio",
                     name : "recording-" + audioID,
@@ -711,6 +713,7 @@ new Vue({
                     duration: seconds,
                     start: this.player.currentTime,
                     end: seconds,
+                    volume: 1,
                     layerNumber: this.layers.length
     
                 }
@@ -757,6 +760,7 @@ new Vue({
                     duration: seconds,
                     start: this.player.currentTime,
                     end: seconds,
+                    volume: 1,
                     layerNumber: this.layers.length
     
                 }
@@ -946,6 +950,14 @@ new Vue({
 
 		    // name.innerHTML = layer.name; //+ ' <span style="opacity:0.5">' + animation.effect.name + '</span>';
             
+
+        },
+
+        setAudioVolume(index){
+            let layer = this.layers[index];
+            let audioID  = layer.id;
+            console.log(layer.id);
+            $("#" + audioID).prop("volume", layer.volume);
 
         },
 

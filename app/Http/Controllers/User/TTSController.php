@@ -416,6 +416,8 @@ class TTSController extends Controller
         try{
             $fileName = $this->storeUserUploadedAudio();
             $message = "Audio added to timeline";
+            \Log::info($fileName);
+
             return response()->json([
                 'message' => $message,
                 'path' => Storage::path(Paths::AUDIO_PATH. $fileName),
@@ -437,8 +439,11 @@ class TTSController extends Controller
         if (request()->hasFile("uploaded_audio")) {
             $name = request()->file("uploaded_audio")->getClientOriginalName();
             ;
+            $name = str_replace(" ","_", $name);
+
             $path = Paths::AUDIO_PATH;
             $audioPath = "{$path}{$name}";
+            \Log::info($audioPath);
             Storage::put($audioPath, File::get(request()->file("uploaded_audio")));
 
             return $name;
