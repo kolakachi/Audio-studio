@@ -442,7 +442,7 @@
                             <div class="volume-slide" style="background-color: inherit">
                                 <div class="volume-progress" style="border-radius: 10px; background-color: inherit; height:100%">
                                 <div class="volume-slide-content" style="margin-bottom: -7px;">
-                                    <input type="range" orient="vertical" style="height: 130px; margin-bottom: -100px;" v-model="layer.volume" min='0' max='1' step="0.1" @change="setAudioVolume(index)"/>
+                                    <input type="range" orient="vertical" style="height: 130px; margin-bottom: -100px;" v-model="layer.volume" min='0' max='1' step="0.01" @change="setAudioVolume(index)"/>
                                     <div class="volume-handle" style="background-color: inherit;"></div>
                                 </div>
                                 </div>
@@ -683,7 +683,7 @@
 <script src="/js/libs/signals.min.js"></script>
 <script src="/js/app/utils.js"></script>
 <script src="/plugins/audio-player/green-audio-player.js"></script>
-<script src="/js/app/editor.js"></script>
+<script src="/js/app/editor.js?v=3"></script>
 <script>
     document.addEventListener( 'dragover', function ( event ) {
 
