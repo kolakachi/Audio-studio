@@ -440,6 +440,8 @@ class TTSController extends Controller
             $name = request()->file("uploaded_audio")->getClientOriginalName();
             ;
             $name = str_replace(" ","_", $name);
+            $name = str_replace("(","_", $name);
+            $name = str_replace(")","_", $name);
 
             $path = Paths::AUDIO_PATH;
             $audioPath = "{$path}{$name}";

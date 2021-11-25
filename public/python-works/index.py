@@ -31,6 +31,7 @@ def mixAudios():
         inserttxt = "volume-changed"
         idx = encodedMP3Path.index(substr)
         volumeEncodedMP3Path = encodedMP3Path[:idx] + inserttxt + encodedMP3Path[idx:]
+        os.system("cp {} {}".format(encodedMP3Path, volumeEncodedMP3Path))
         reduceVolume = "ffmpeg -i {} -filter:a \"volume={}\" {} -y".format(encodedMP3Path, layer["volume"], volumeEncodedMP3Path)
         print((reduceVolume))
 
