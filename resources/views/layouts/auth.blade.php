@@ -5,7 +5,9 @@
   <title>Login - Audiostudio</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="/assets/css/styles.css" rel="stylesheet">
-  <!--PROOF PIXEL--><script src="https://cdn.useproof.com/proof.js?acc=JmTNAeLbCZW41yShOVDnB2RcVsQ2" async></script><!--END PROOF PIXEL-->
+  <!-- Pixel Code for https://socialproofo.com/demo/ -->
+<script async src="https://socialproofo.com/demo/pixel/pep6tirgsba5vmp3qvfmjdrxfvvyz5re"></script>
+<!-- END Pixel Code -->
 </head>
 <body>
 <div class="auth-page">
