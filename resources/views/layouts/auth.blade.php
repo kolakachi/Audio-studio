@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <title>Login - Audiostudio</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="/assets/css/styles.css" rel="stylesheet"></head>
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <!--PROOF PIXEL--><script src="https://cdn.useproof.com/proof.js?acc=JmTNAeLbCZW41yShOVDnB2RcVsQ2" async></script><!--END PROOF PIXEL-->
+</head>
 <body>
 <div class="auth-page">
   <div class="auth-box">
