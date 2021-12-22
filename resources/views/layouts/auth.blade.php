@@ -6,6 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <!-- Pixel Code for https://socialproofo.com/demo/ -->
+  
 <script async src="https://socialproofo.com/demo/pixel/pep6tirgsba5vmp3qvfmjdrxfvvyz5re"></script>
 <!-- END Pixel Code -->
 </head>
