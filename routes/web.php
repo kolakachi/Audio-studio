@@ -303,6 +303,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::post('/tts/store-record', [TTSController::class, 'storeRecord'])->name('user.tts.store-record');
         Route::post('/tts/store-upload', [TTSController::class, 'storeUploadedAudio'])->name('user.tts.store-upload');
         Route::post('/tts/export-audio', [TTSController::class, 'exportAudio'])->name('user.tts.export-audio');
+        Route::post('/tts/save-config', [TTSController::class, 'storeAudioConfig'])->name('user.tts.save-config');
+
+        Route::get('/audio-books', [TTSController::class, 'listBooks'])->name('user.tts.list-books');  
 
         // USER BALANCE ROUTES
         Route::get('/balance', [BalanceController::class, 'index'])->name('user.balance');        

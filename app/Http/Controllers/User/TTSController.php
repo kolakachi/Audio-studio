@@ -22,8 +22,7 @@ use DataTables;
 use DB;
 
 use App\Helpers\Paths;
-
-
+use App\Models\AudioModel;
 use Exception, File, Log;
 
 
@@ -733,6 +732,39 @@ class TTSController extends Controller
                 'message' => "Unable to complete request.",
             ], 500);
         }
+    }
+
+    public function storeAudioConfig(Request $request){
+        try{
+            $audio = AudioModel::where('id', $request->edit_id)->where('user_id', Auth::id())->first();
+            if(!$audio){
+                $audio = new AudioModel();
+            }
+            $audio->user_id = Auth::id();
+            $audio->speech_text = $request->speech_text;
+            $audio->layers = json_decode($request->layers);
+            $audio->save();
+            return response()->json(['edit_id' => $audio->id]);
+
+        }catch(\Exception $error){
+            \Log::info($error->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unable to complete request.",
+            ], 500);
+        }
+    }
+
+    public function listBooks(){
+        $audios = AudioModel::where('user_id', Auth::id())->get();
+        $data = [
+            'audios' => $audios
+        ];
+
+        dd($audios);
+
+        return view('app.dashboard.list-books');
+
     }
 
 }
