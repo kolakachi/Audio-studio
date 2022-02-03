@@ -6,10 +6,18 @@
 <link href="/assets/css/styles.css" rel="stylesheet"></head>
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-
+<style>
+  .swal-modal{
+    background: rgb(29,31,66);
+  }
+  .swal-title, .swal-text{
+    color : #FFF;
+  }
+</style>
 @yield('style')
 <body>
-<div class="dashboard-page">
+  
+<div class="{{ $page ?? 'dashboard-page' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
   <div class="container">
     <a class="logo-type" href="{{route('user.dashboard')}}">Audiostudio.ai</a>

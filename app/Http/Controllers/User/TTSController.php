@@ -22,6 +22,7 @@ use DataTables;
 use DB;
 
 use App\Helpers\Paths;
+use App\Models\AudioBookModel;
 use App\Models\AudioModel;
 use Exception, File, Log;
 
@@ -154,7 +155,7 @@ class TTSController extends Controller
         return view('user.tts.index', compact('languages', 'voices', 'max_chars', 'config', 'userText'));
     }
 
-    public function indexUpdate(Request $request)
+    public function indexUpdate(Request $request, $uuid)
     {   
         $verify = $this->api->verify_license();
 
@@ -264,7 +265,12 @@ class TTSController extends Controller
         $max_chars = config('tts.max_chars_limit');
         $config = config('settings.vendor_logos');
 
-        return view('user.tts.update-index', compact('languages', 'voices', 'max_chars', 'config', 'userText'));
+        $audio = AudioBookModel::where('uuid', $uuid)->first();
+        if(!$audio){
+            abort(404, "Audio not found");
+        }
+
+        return view('user.tts.update-index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio'));
     }
 
 
@@ -381,9 +387,15 @@ class TTSController extends Controller
         try{
             $fileName = $this->storeRecordedAudio();
             $message = "Record added to timeline";
+            $audio = new AudioModel();
+            $audio->user_id = Auth::id();
+            $audio->uuid = \Str::uuid();
+            $audio->file_name = $fileName;
+            $audio->category = 'uploaded_audio';
+            $audio->save();
             return response()->json([
                 'message' => $message,
-                'path' => Storage::path(Paths::AUDIO_PATH. $fileName),
+                'path' => $audio->uuid, //Storage::path(Paths::AUDIO_PATH. $fileName),
             ]);
 
         }catch(\Exception $error){
@@ -415,11 +427,16 @@ class TTSController extends Controller
         try{
             $fileName = $this->storeUserUploadedAudio();
             $message = "Audio added to timeline";
-            \Log::info($fileName);
+            $audio = new AudioModel();
+            $audio->user_id = Auth::id();
+            $audio->uuid = \Str::uuid();
+            $audio->file_name = $fileName;
+            $audio->category = 'uploaded_audio';
+            $audio->save();
 
             return response()->json([
                 'message' => $message,
-                'path' => Storage::path(Paths::AUDIO_PATH. $fileName),
+                'path' => $audio->uuid//Storage::path(Paths::AUDIO_PATH. $fileName),
             ]);
 
         }catch(\Exception $error){
@@ -444,7 +461,6 @@ class TTSController extends Controller
 
             $path = Paths::AUDIO_PATH;
             $audioPath = "{$path}{$name}";
-            \Log::info($audioPath);
             Storage::put($audioPath, File::get(request()->file("uploaded_audio")));
 
             return $name;
@@ -573,8 +589,14 @@ class TTSController extends Controller
             else            
                 $data['url'] = $result_url; 
 
+            $audio = new AudioModel();
+            $audio->user_id = Auth::id();
+            $audio->uuid = \Str::uuid();
+            $audio->file_name = $file_name;
+            $audio->category = 'text_audio';
+            $audio->save();
             $result = Storage::disk('audio')->path($file_name);
-            $data['path'] = $result;
+            $data['path'] = $audio->uuid;
             
             return response()->json($data);
         // }
@@ -707,12 +729,16 @@ class TTSController extends Controller
     public function exportAudio(Request $request){
         try{
             $layers = json_Decode($request->layers);
-            $fileName = Paths::AUDIO_PATH. time().".mp3";
+            $file_name = time().".mp3";
+            $fileName = Paths::AUDIO_PATH. $file_name;
             $path = Storage::path($fileName);
             $client = new \GuzzleHttp\Client();
             $url = "http://127.0.0.1:5000/mix-music";
+            foreach($layers as $layer){
+                $layer->path = $this->getAudioPath($layer->path);
+            }
 
-            $request = $client->request('POST', $url, [
+            $GUZZLERequest = $client->request('POST', $url, [
 
                 'json' => [
                     "storePath" => $path,
@@ -720,9 +746,25 @@ class TTSController extends Controller
                 ]
             ]);
 
-            $contents = $request->getBody()->getContents();
+            $contents = $GUZZLERequest->getBody()->getContents();
 
-            $contents = json_decode($contents);            
+            $contents = json_decode($contents);   
+            $audio = new AudioModel();
+            $audio->user_id = Auth::id();
+            $audio->uuid = \Str::uuid();
+            $audio->file_name = $file_name;
+            $audio->category = 'export_audio';
+            $audio->save();
+
+            $book = AudioBookModel::where('uuid', $request->edit_id)->where('user_id', Auth::id())->first();
+            if(!$book){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unable to complete request. Audio not found",
+                ], 404);
+            }         
+            $book->audio_path = $audio->uuid;
+            $book->save();
             return \Response::download($path);
 
         }catch(\Exception $error){
@@ -733,18 +775,36 @@ class TTSController extends Controller
             ], 500);
         }
     }
+    public function getAudioPath($audioUUID){
+        $audio = AudioModel::where('uuid', $audioUUID)->first();
+        if(!$audio){
+            return '';
+        }
+        if($audio->category == 'text_audio'){
+            $path = \Storage::disk('audio')->path($audio->file_name);
+        }else{
+            $path = Storage::path(Paths::AUDIO_PATH. $audio->file_name);
+        }
+
+        return $path;
+    }
 
     public function storeAudioConfig(Request $request){
         try{
-            $audio = AudioModel::where('id', $request->edit_id)->where('user_id', Auth::id())->first();
+            $audio = AudioBookModel::where('uuid', $request->edit_id)->where('user_id', Auth::id())->first();
             if(!$audio){
-                $audio = new AudioModel();
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Unable to complete request. Audio not found",
+                ], 500);
             }
-            $audio->user_id = Auth::id();
             $audio->speech_text = $request->speech_text;
             $audio->layers = json_decode($request->layers);
             $audio->save();
-            return response()->json(['edit_id' => $audio->id]);
+            return response()->json([
+                'message' => 'Saved successfully',
+                'edit_id' => $audio->id
+            ]);
 
         }catch(\Exception $error){
             \Log::info($error->getMessage());
@@ -756,15 +816,51 @@ class TTSController extends Controller
     }
 
     public function listBooks(){
-        $audios = AudioModel::where('user_id', Auth::id())->get();
+        $audios = AudioBookModel::where('user_id', Auth::id())->get();
         $data = [
-            'audios' => $audios
+            'audios' => $audios,
+            'page' => 'audio-books-page'
         ];
 
-        dd($audios);
+        return view('app.dashboard.list-books', $data);
 
-        return view('app.dashboard.list-books');
+    }
 
+    public function deleteBook(Request $request){
+        try{    
+            $audio = AudioBookModel::where('user_id', Auth::id())
+            ->where('id', $request->id)
+            ->first();
+            if($audio){
+                if($audio->layers){
+                    $layers = $audio->layers;
+                    foreach($layers as $layer){
+                        $fullPath = $layer['path'];
+                        $path = explode("/app/public/", $fullPath);
+                        if(isset($path[1])){
+                            if(\Storage::exists($path[1])){
+                                \Storage::delete($path[1]);
+                            }
+                        }
+                    }
+                }
+                $audio->delete();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "Book deleted successfully",
+                ]);
+            }
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unable to complete request. Book not found",
+            ], 404);
+        }catch(\Exception $error){
+            \Log::info($error->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unable to complete request.",
+            ], 500);
+        }
     }
 
 }

@@ -45,6 +45,8 @@ use App\Http\Controllers\User\UserNotificationController;
 use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\WriterController;
+use App\Http\Controllers\ShareController;
+
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -291,7 +293,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::get('/tts/voices', [TTSVoicesController::class, 'index'])->name('user.tts.voices');
 
         // USER TTS ROUTES
-        Route::get('/update-tts', [TTSController::class, 'indexUpdate'])->name('user.update-tts');    
+        Route::get('/update-tts/{audioUUID?}', [TTSController::class, 'indexUpdate'])->name('user.update-tts');    
+        Route::delete('/delete-book', [TTSController::class, 'deleteBook'])->name('user.delete-book');    
+        Route::get('/audio/view/{audioUUID?}/embed', [ShareController::class, 'index'])->name('user.audios.embed.widget');    
 
         Route::get('/tts', [TTSController::class, 'index'])->name('user.tts');    
         Route::post('/tts', [TTSController::class, 'synthesize'])->name('user.tts.synthesize');    
@@ -379,6 +383,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
 Route::get('/', [DashboardController::class, 'index'])->name('user.index');
 Route::post('/upload-text', [DashboardController::class, 'uploadText'])->name('user.upload-text');
+Route::get('/new-tts', [DashboardController::class, 'newAudio'])->name('user.update-tts.new');    
+Route::get('/get-audio/{audioUUID?}', [DashboardController::class, 'getAudio'])->name('user.fetch-audio');    
+Route::get('/download-audio/{audioUUID?}', [DashboardController::class, 'downloadAudio'])->name('user.download-audio');    
 
 Route::get('/admin/writer', [WriterController::class, 'index'])->name('admin.writer');
 Route::post('/admin/writer/create', [WriterController::class,'create'])->name('admin.writer.create');

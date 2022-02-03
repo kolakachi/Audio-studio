@@ -1,3 +1,60 @@
+function Pdf2TextClass(){
+    var self = this;
+    this.complete = 0;
+
+    this.pdfToText = function(data, callbackPageDone, callbackAllDone){
+        console.assert( data  instanceof ArrayBuffer  || typeof data == 'string' );
+        var loadingTask = pdfjsLib.getDocument(data);
+        loadingTask.promise.then(function(pdf) {
+
+
+            var total = pdf._pdfInfo.numPages;
+            //callbackPageDone( 0, total );        
+            var layers = {};       
+            for (i = 1; i <= total; i++){
+                pdf.getPage(i).then( function(page){
+                    var n = page.pageNumber;
+                    page.getTextContent().then( function(textContent){
+                    
+                        //console.log(textContent.items[0]);0
+                        if( null != textContent.items ){
+                            var page_text = "";
+                            var last_block = null;
+                            for( var k = 0; k < textContent.items.length; k++ ){
+                                var block = textContent.items[k];
+                                if( last_block != null && last_block.str[last_block.str.length-1] != ' '){
+                                    if( block.x < last_block.x )
+                                        page_text += "\r\n"; 
+                                    else if ( last_block.y != block.y && ( last_block.str.match(/^(\s?[a-zA-Z])$|^(.+\s[a-zA-Z])$/) == null ))
+                                        page_text += ' ';
+                                }
+                                page_text += block.str;
+                                last_block = block;
+                            }
+
+                            // textContent != null && console.log("page " + n + " finished."); //" content: \n" + page_text);
+                            layers[n] =  page_text + "\n\n";
+                        }
+                        ++ self.complete;
+                        //callbackPageDone( self.complete, total );
+                        if (self.complete == total){
+                            callbackPageDone(layers);
+
+                        // window.setTimeout(function(){
+                        //     var full_text = "";
+                        //     var num_pages = Object.keys(layers).length;
+                        //     for( var j = 1; j <= num_pages; j++)
+                        //         full_text += layers[j] ;
+                        //     // console.log(full_text);
+                        // }, 1000);              
+                        }
+                    }); // end  of page.getTextContent().then
+                }); // end of page.then
+            } // of for
+        });
+    }; // end of pdfToText()
+};
+
 new Vue({
     el: '#audio-editor',
     data: {
@@ -6,12 +63,12 @@ new Vue({
         selectedLanguage: {},
         isLoading: false,
         loadingType: '',
-
+        edit_id:'',
         voices: [],
         selectedVoiceId: 0,
         selectedVoice: {},
         selectedFormat: 'mp3',
-
+        speech_text: '',
         player : {},
         signals: {},
         scale: 32,
@@ -49,14 +106,45 @@ new Vue({
             synthesize: '',
             storeRecord: '',
             storeAudioUpload: '',
-            export: ''
+            export: '',
+            save:'',
+            audioURL:''
         },
         aplayer :{
             isPlaying: false
         },
         voicePreviewIsPlaying: false,
         prevSynthesizeAudioURL: '',
-        prevSynthesizePath: ''
+        prevSynthesizePath: '',
+        teleprompter: {
+            currentStep:1,
+            step : 1,
+            scspeed : 20,
+            status :1,
+            spind :4,
+            fontSize: 14,
+            speedSize:1,
+            text: `At Railslove, we can look back on a long tradition of projects that have at least always had something to do with payment transactions. In addition to credit card payments, wallets and Bitcoin, direct bank integrations are also repeatedly requested. There are two standards that enable programmatic access to bank accounts: HBCI/FinTS and EBICS . To introduce a very rough distinction: the former is more popular in the area of ​​home banking software, while the latter is more tailored to the needs of business customers.
+
+            "Banking is hard"
+            
+            Random dude on the street
+            With EBICS, for example, account statements in different formats ( MT940 , CAMT) can be called up automatically, but the submission of SEPA direct debits and SEPA transfers is also made possible through EBICS access. Unfortunately, not all banks offer their customers EBICS access, and most banks also charge a one-time or monthly fee.
+            
+            Another point which, in our opinion, has made EBICS unattractive, especially for start-ups and smaller companies, is the integration of EBICS into new web applications, since the landscape of EBICS implementations is very much dominated by commercial offers and usually Java - and/or Windows systems served. Unfortunately, the existing libraries for Ruby are just as sparse, so two months ago we set ourselves the goal of developing THE EBICS implementation for Ruby. The entire standard is freely available, but there is no reliable reference implementation. With the exception of 350 pages of PDF and a few XML examples, you are largely on your own.
+            
+            Actually, I would have expected to be overwhelmed by strange proprietary solutions and idiosyncratic formats, but the opposite was actually the case :-). Sure, it seems as if the associated committee has once driven the shopping cart through a large standard shopping mall, but nevertheless everything fits together to form a thoroughly sensible overall picture. Among other things, AES encryption, RSA signature procedures and XMLSIG are used.
+            
+            So what remains is a lot of hard work and a lot of trial and error . The most difficult part proved to be the necessary signature of the order data: Although RSA is used for this, the OpenSSL implementation of Ruby does not (yet) support RSA-EMSA-PSS. This part still had to be implemented.
+            
+            The basic functions of the standard can already be addressed with our EPICS Gem , the next big item is the "distributed signature" on the program, which I think is a very interesting feature, in which order data must be digitally signed by several participants before they processed by the bank. Complex scenarios such as a "four-eyes principle" are thus built directly into the standard. Interestingly, a very similar function (both technically and conceptually) was included in the Bitcoin protocol in the form of multi signature addresses .
+            
+            Based on the EBICS client, we offer different solutions that make it even easier to connect an existing application to the EBICS system. Would you like to find out more? Talk to us!
+            
+            Take a look at: https://github.com/railslove/epics
+            
+            Railslove is a full-service Web Development Agency for all things Ruby and Rails, with a heavy focus on financial applications`
+        }
 
     },
     computed: {
@@ -85,10 +173,16 @@ new Vue({
         this.url.storeRecord = $("#store-record-url").val();
         this.url.storeAudioUpload = $("#store-upload-url").val();
         this.url.export = $("#export-audio-url").val();
+        this.url.save = $("#save-config-url").val();
+        this.url.audioURL = $("#audio-full-url").val() + "/";
         this.player = new Player();
         this.languages = JSON.parse($("#languages").val());
         this.voices = JSON.parse($("#voices").val());
-        this.selec
+        let audio = JSON.parse($("#audio-details").val());
+        this.edit_id = audio.uuid;
+        this.layers = audio.layers;
+        this.speech_text = audio.speech_text;
+
         this.signals = editorSignals;
         this.initTimeline();
         var range = document.getElementById("time-range");
@@ -96,7 +190,6 @@ new Vue({
         var listener = () => {
             window.requestAnimationFrame(() => {
                 this.audio.currentTime = range.value
-                // console.log(range.value);
             });
         };
 
@@ -114,7 +207,6 @@ new Vue({
         var prevAudioListener = () => {
             window.requestAnimationFrame(() => {
                 this.prevAudio.currentTime = previewRange.value
-                // console.log(range.value);
             });
         };
 
@@ -136,6 +228,7 @@ new Vue({
             showDownloadButton: false,
             showTooltips: true
         });
+        this.initLayers();
 
         
     },
@@ -362,7 +455,6 @@ new Vue({
                 var second = Math.floor( i % 60 );
         
                 var text = ( minute > 0 ? minute + ':' : '' ) + ( '0' + second ).slice( - 2 );
-        
                 context.fillText( text, i * this.scale, 13 );
         
             }
@@ -611,7 +703,6 @@ new Vue({
                     this.loadingType = ""
 
                     let path = response.data.path;
-                    // console.log(response.data)
                     $("#recordModal").modal('hide');
                     let duration = this.rangeMaximum;
                     this.addAudioRecorderToLayer(this.audioBlob, path, duration);
@@ -706,6 +797,7 @@ new Vue({
                 var seconds = duration;//e.currentTarget.duration;
                 let layer = {
                     type : "audio",
+                    htmlType: file.type,
                     name : "recording-" + audioID,
                     url: objectUrl,
                     id: audioID,
@@ -753,6 +845,7 @@ new Vue({
                 var seconds = e.currentTarget.duration;
                 let layer = {
                     type : "audio",
+                    htmlType: file.type,
                     name : (file.name == 0)? "recording-" : file.name,
                     id: audioID,
                     url: objectUrl,
@@ -956,7 +1049,6 @@ new Vue({
         setAudioVolume(index){
             let layer = this.layers[index];
             let audioID  = layer.id;
-            console.log(layer.id);
             $("#" + audioID).prop("volume", layer.volume);
 
         },
@@ -1112,6 +1204,8 @@ new Vue({
         exportAudio(){
             if(this.layers.length > 0){
                 const formData = new FormData();
+                formData.append('edit_id', this.edit_id);
+
                 formData.append('_token', $('input[name=_token]').val());
                 formData.append('layers', JSON.stringify(this.layers));
                 this.isLoading = true;
@@ -1132,7 +1226,6 @@ new Vue({
                         this.isLoading = false;
                         this.loadingType = "";
 
-                        console.log(error);
                         this.$notify.error({
                             title: 'Error',
                             message: error.response.data.message
@@ -1142,6 +1235,248 @@ new Vue({
 
             
             
+        },
+        storeEditorState(){
+            const formData = new FormData();
+            formData.append('_token', $('input[name=_token]').val());
+            formData.append('layers', JSON.stringify(this.layers));
+            formData.append('edit_id', this.edit_id);
+            formData.append('speech_text', this.speech_text);
+            this.isLoading = true;
+            this.loadingType = "save";
+            axios.post(this.url.save, formData, {responseType: 'blob'})
+                .then((response) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+                    this.$notify({
+                        title: 'Success',
+                        message: response.data.message,
+                        type: 'success'
+                    });
+                    
+
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+
+                    this.$notify.error({
+                        title: 'Error',
+                        message: error.response.data.message
+                    });
+                })
+        },
+        deleteLayer(index){
+            this.layers.splice(index, 1);
+        },
+        cloneLayer(index){
+            let layer = Object.assign({},this.layers[index]);
+            var audioConatiner = document.getElementById("audio-container");
+            var newAudio = document.createElement("AUDIO");
+            var audioID = 'audio-'+ this.layers.length;
+            newAudio.id       = audioID;
+            newAudio.src      = layer.url;
+            newAudio.type     = layer.htmlType;
+            newAudio.controls = 'controls';
+            audioConatiner.appendChild(newAudio);
+            newAudio = document.getElementById(audioID);
+            $("#"+audioID).on("loadedmetadata", (e) =>{
+                layer.layerNumber = this.layers.length;
+                this.layers.push(layer);
+                this.addLayerToTimeLine(layer.layerNumber);
+                
+            });
+        },
+        initLayers(){
+            for(key in this.layers){
+                let layer = this.layers[key];
+                layer.url = this.url.audioURL + layer.path;
+                var audioConatiner = document.getElementById("audio-container");
+                var newAudio = document.createElement("AUDIO");
+                var audioID = 'audio-'+ layer.layerNumber;
+                console.log(layer.url);
+                newAudio.id       = audioID;
+                newAudio.src      = layer.url;
+                newAudio.type     = layer.htmlType;
+                newAudio.controls = 'controls';
+                audioConatiner.appendChild(newAudio);
+                newAudio = document.getElementById(audioID);
+                $("#"+audioID).on("loadedmetadata", (e) =>{
+                    this.addLayerToTimeLine(layer.layerNumber);
+                });
+            }
+        },
+
+        teleprompterScrolldown() {
+	        this.teleprompter.status = 2
+            var contentobj = document.getElementById("prompter-content");
+	        var contentheight = contentobj.offsetHeight;
+            if(window.scrolltimerup){
+                clearTimeout(scrolltimerup)
+            }
+            if(parseInt(contentobj.style.top)>=(contentheight*(-1)+100)){
+                
+                let prompterTop =parseInt(contentobj.style.top) - this.teleprompter.step;
+                contentobj.style.top = prompterTop + 'px';
+            }
+            scrolltimerdown = setTimeout(this.teleprompterScrolldown, this.teleprompter.scspeed)
+        },
+        setspeed() {
+
+            if (this.teleprompter.speedSize<1) this.teleprompter.speedSize = 1;
+            if (this.teleprompter.speedSize>16) this.teleprompter.speedSize = 16;
+        
+            switch (parseInt(this.teleprompter.speedSize))	{
+                case 1 : this.teleprompter.step = 1; this.teleprompter.scspeed = 50; console.log(this.teleprompter.speedSize);
+                break;
+                case 2 : this.teleprompter.step = 2; this.teleprompter.scspeed = 40; console.log(this.teleprompter.speedSize);
+                break;
+                case 3 : this.teleprompter.step = 2; this.teleprompter.scspeed = 30; console.log(this.teleprompter.speedSize);
+                break;
+                case 4 : this.teleprompter.step = 2; this.teleprompter.scspeed = 25; console.log(this.teleprompter.speedSize);
+                break;	
+                case 5 : this.teleprompter.step = 2; this.teleprompter.scspeed = 20; console.log(this.teleprompter.speedSize);
+                break;	
+                case 6 : this.teleprompter.step = 3; this.teleprompter.scspeed = 40; console.log(this.teleprompter.speedSize);
+                break;	
+                case 7 : this.teleprompter.step = 3; this.teleprompter.scspeed = 30; console.log(this.teleprompter.speedSize);
+                break;
+                case 8 : this.teleprompter.step = 3; this.teleprompter.scspeed = 22; console.log(this.teleprompter.speedSize);
+                break;
+                case 9 : this.teleprompter.step = 3; this.teleprompter.scspeed = 15; console.log(this.teleprompter.speedSize);
+                break;
+                case 10 : this.teleprompter.step = 3; this.teleprompter.scspeed = 10; console.log(this.teleprompter.speedSize);
+                break;
+                case 11 : this.teleprompter.step = 4; this.teleprompter.scspeed = 15; console.log(this.teleprompter.speedSize);
+                break;
+                case 12 : this.teleprompter.step = 5; this.teleprompter.scspeed = 10; console.log(this.teleprompter.speedSize);
+                break;	
+                case 13 : this.teleprompter.step = 5; this.teleprompter.scspeed = 5; console.log(this.teleprompter.speedSize);
+                break;
+                case 14 : this.teleprompter.step = 7; this.teleprompter.scspeed = 5; console.log(this.teleprompter.speedSize);
+                break;
+                case 15 : this.teleprompter.step = 10; this.teleprompter.scspeed = 5; console.log(this.teleprompter.speedSize);
+                break;	
+                case 16 : this.teleprompter.step = 10; this.teleprompter.scspeed = 2; console.log(this.teleprompter.speedSize);
+                break;
+            }
+        },
+        teleprompterStop() {
+            this.teleprompter.status = 1
+            if(window.scrolltimerup){
+                clearTimeout(scrolltimerup)
+            }
+            if(window.scrolltimerdown){
+                clearTimeout(scrolltimerdown)
+            }
+        },
+        resetTeleprompter(){
+            this.teleprompter.speedSize = 1;
+            this.teleprompter.fontSize =14;
+            this.setspeed();
+        },
+        openFileExplorer(){
+            $("#doc-upload").click();
+        },
+
+        fileonUpload(event){
+            var file = event.currentTarget.files[0];
+            this.objectUrl = URL.createObjectURL(file);
+            this.fileType = file.type;
+        },
+
+        uploadFile(){
+            this.isLoading = true;
+            var ext = $("#doc-upload").val().split('.').pop();
+            if(this.fileType.includes("text")){
+                this.readTextFile();
+            }
+
+            if(this.fileType.includes("pdf")){
+                this.readPDFFile();
+            }
+
+            if(ext == 'doc' || ext == 'docx'){
+                this.generateDocxText();
+            }
+        },
+
+        readTextFile() {
+            var rawFile = new XMLHttpRequest();
+            let vueInstance = this
+            rawFile.open("GET", this.objectUrl, false);
+            rawFile.onreadystatechange = function ()
+            {
+                if(rawFile.readyState === 4)
+                {
+                    if(rawFile.status === 200 || rawFile.status == 0)
+                    {
+                        var allText = rawFile.responseText;
+                        vueInstance.teleprompter.currentStep = 2;
+                        vueInstance.teleprompter.text = allText;
+                    }
+                }
+            }
+            rawFile.send(null);
+        },
+
+        readPDFFile() {
+            var pdff = new Pdf2TextClass();
+            pdff.pdfToText(this.objectUrl, this.getPDFText);
+        },
+
+        getPDFText(layers){
+            var full_text = "";
+            var num_pages = Object.keys(layers).length;
+            for( var j = 1; j <= num_pages; j++){
+                full_text += layers[j] ;
+            }
+            this.teleprompter.currentStep = 2;
+            this.teleprompter.text = full_text;
+            // for( var j = 1; j <= num_pages; j++)
+                
+            
+        },
+        loadFile(url,callback){
+            PizZipUtils.getBinaryContent(url,callback);
+        },
+        generateDocxText() {
+            let vueInstance = this
+            this.loadFile(this.objectUrl,function(error,content){
+                if (error) { throw error };
+    
+                // The error object contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
+                function replaceErrors(key, value) {
+                    if (value instanceof Error) {
+                        return Object.getOwnPropertyNames(value).reduce(function(error, key) {
+                            error[key] = value[key];
+                            return error;
+                        }, {});
+                    }
+                    return value;
+                }
+    
+                function errorHandler(error) {
+                    console.log(JSON.stringify({error: error}, replaceErrors));
+    
+                    if (error.properties && error.properties.errors instanceof Array) {
+                        const errorMessages = error.properties.errors.map(function (error) {
+                            return error.properties.explanation;
+                        }).join("\n");
+                        console.log('errorMessages', errorMessages);
+                        // errorMessages is a humanly readable message looking like this:
+                        // 'The tag beginning with "foobar" is unopened'
+                    }
+                    throw error;
+                }
+    
+                var zip = new PizZip(content);
+                var doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+                var text= doc.getFullText();
+
+                vueInstance.teleprompter.currentStep = 2;
+                vueInstance.teleprompter.text = text;
+            })
         },
     },
 

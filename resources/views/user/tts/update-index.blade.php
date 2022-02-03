@@ -135,6 +135,16 @@
             margin-left: 15px !important;
             transform: translate3d(74px, -145px, 0px) !important;
         }
+        .dropdown .dropdown-menu{
+            color: #FFF;
+            background: #1d1f42;
+        }
+        .dropdown .dropdown-item{
+            color: #FFF !important;
+        }
+        .dropdown .dropdown-item:hover{
+            color: #000 !important;
+        }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
 
@@ -234,7 +244,7 @@
             <h6>Audio Text</h6>
             <div class="col-box">
             <div class="editor-wrap">
-                <div class="editor-buttons">
+                <div class="editor-buttons" style="width: 68%;">
                     {{-- <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" id="m-voiceEffects" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Voice Effects') }}
@@ -249,7 +259,7 @@
                         </div>
                     </div> --}}
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="sayAs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button style="color: #7456FE" class="btn dropdown-toggle" type="button" id="sayAs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ __('Say as') }}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="sayAs">
@@ -279,7 +289,7 @@
                         </div>
                     </div> --}}
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="volume" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button style="color: #FFB800" class="btn dropdown-toggle" type="button" id="volume" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Volume') }}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="volume">
@@ -292,7 +302,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="speed" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button style="color: #FF005C" class="btn dropdown-toggle" type="button" id="speed" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Speed') }}
                         </button>
                             <div class="dropdown-menu" aria-labelledby="speed">
@@ -304,7 +314,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="pitch" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button style="color: #23A617" class="btn dropdown-toggle" type="button" id="pitch" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Pitch') }}
                         </button>
                             <div class="dropdown-menu" aria-labelledby="pitch">
@@ -316,7 +326,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="pause" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button style="color: #00E0FF" class="btn dropdown-toggle" type="button" id="pause" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ __('Pauses') }}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="pause">
@@ -628,15 +638,85 @@
 
   <!-- Record Modal -->
   <div class="modal fade" id="recordModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="recordModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered bd-example-modal-lg" style="max-width: 750px;">
+      <div class="modal-content modal-lg">
         <button class="btn close-btn" data-bs-dismiss="modal">
             <span class="icon"><svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M1.35 21C1.19 21 1.04 20.94 0.9 20.82C0.78 20.7 0.72 20.56 0.72 20.4C0.72 20.26 0.76 20.13 0.84 20.01L7.71 10.32L1.17 0.989998C1.11 0.889998 1.08 0.759999 1.08 0.6C1.08 0.439999 1.14 0.299999 1.26 0.18C1.38 0.059999 1.52 -1.43051e-06 1.68 -1.43051e-06H3.48C3.78 -1.43051e-06 4.05 0.169999 4.29 0.509999L9.57 8.01L14.82 0.509999C15.02 0.169999 15.28 -1.43051e-06 15.6 -1.43051e-06H17.31C17.47 -1.43051e-06 17.61 0.059999 17.73 0.18C17.85 0.299999 17.91 0.439999 17.91 0.6C17.91 0.78 17.87 0.909999 17.79 0.989998L11.34 10.35L18.18 20.01C18.26 20.13 18.3 20.26 18.3 20.4C18.3 20.56 18.24 20.7 18.12 20.82C18 20.94 17.85 21 17.67 21H15.84C15.54 21 15.27 20.83 15.03 20.49L9.45 12.72L3.9 20.49C3.7 20.83 3.44 21 3.12 21H1.35Z"></path></svg></span>        
         </button>
         <div class="modal-body">
           <div class="record-audio-wrap">
             <div class="record-audio-content">
-              <div class="record-audio-label">Record Your Audio</div>
+              <div class="record-audio-label" style="margin-bottom: 10px;">Record Your Audio</div>
+              <div v-if="!recordingDone || !isRecording" class="recording-wrap" style="width: 100%; margin-bottom: 10px;">
+                <div style="width: 100%; text-align: center;width: 100%;" class="upload-file-content" v-if="teleprompter.currentStep == 1">
+                    <div class="upload-file-content" style="display: flex; flex-flow: column; align-items: center;">
+                        <div class="upload-file-box" style="width: 80%; padding: 20px; border-radius: 10px; border: 2px dotted #c4c4c4;">
+                            <span class="upload-file-icon icon" style="    font-size: 3.5rem; color: #c4c4c4;">
+                                <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
+                                    <path
+                                        d="M27.7688 49.9839H8.33065C7.59417 49.9839 6.88786 49.6913 6.3671 49.1706C5.84633 48.6498 5.55377 47.9435 5.55377 47.207V8.33065C5.55377 7.59417 5.84633 6.88786 6.3671 6.3671C6.88786 5.84633 7.59417 5.55377 8.33065 5.55377H22.2151V13.8844C22.2151 16.0938 23.0928 18.2128 24.6551 19.7751C26.2174 21.3374 28.3363 22.2151 30.5457 22.2151H38.8764V27.7688C38.8764 28.5053 39.1689 29.2116 39.6897 29.7324C40.2105 30.2532 40.9168 30.5457 41.6533 30.5457C42.3897 30.5457 43.096 30.2532 43.6168 29.7324C44.1376 29.2116 44.4301 28.5053 44.4301 27.7688V19.2716C44.4012 19.0165 44.3454 18.7652 44.2635 18.5218V18.2719C44.13 17.9864 43.9519 17.7239 43.7359 17.4944L27.0746 0.833065C26.8451 0.617068 26.5826 0.438972 26.2971 0.305457C26.2142 0.293683 26.1301 0.293683 26.0472 0.305457C25.7651 0.143679 25.4535 0.0398322 25.1308 0H8.33065C6.12122 0 4.00229 0.877691 2.43999 2.43999C0.877691 4.00229 0 6.12122 0 8.33065V47.207C0 49.4164 0.877691 51.5354 2.43999 53.0977C4.00229 54.66 6.12122 55.5377 8.33065 55.5377H27.7688C28.5053 55.5377 29.2116 55.2451 29.7324 54.7243C30.2532 54.2036 30.5457 53.4973 30.5457 52.7608C30.5457 52.0243 30.2532 51.318 29.7324 50.7972C29.2116 50.2765 28.5053 49.9839 27.7688 49.9839ZM27.7688 9.46917L34.961 16.6613H30.5457C29.8092 16.6613 29.1029 16.3687 28.5822 15.848C28.0614 15.3272 27.7688 14.6209 27.7688 13.8844V9.46917ZM13.8844 16.6613C13.1479 16.6613 12.4416 16.9539 11.9209 17.4746C11.4001 17.9954 11.1075 18.7017 11.1075 19.4382C11.1075 20.1747 11.4001 20.881 11.9209 21.4017C12.4416 21.9225 13.1479 22.2151 13.8844 22.2151H16.6613C17.3978 22.2151 18.1041 21.9225 18.6249 21.4017C19.1456 20.881 19.4382 20.1747 19.4382 19.4382C19.4382 18.7017 19.1456 17.9954 18.6249 17.4746C18.1041 16.9539 17.3978 16.6613 16.6613 16.6613H13.8844ZM30.5457 27.7688H13.8844C13.1479 27.7688 12.4416 28.0614 11.9209 28.5822C11.4001 29.1029 11.1075 29.8092 11.1075 30.5457C11.1075 31.2822 11.4001 31.9885 11.9209 32.5093C12.4416 33.03 13.1479 33.3226 13.8844 33.3226H30.5457C31.2822 33.3226 31.9885 33.03 32.5093 32.5093C33.03 31.9885 33.3226 31.2822 33.3226 30.5457C33.3226 29.8092 33.03 29.1029 32.5093 28.5822C31.9885 28.0614 31.2822 27.7688 30.5457 27.7688ZM49.1786 42.4585L43.6248 36.9048C43.3607 36.652 43.0493 36.4538 42.7085 36.3216C42.0324 36.0439 41.2741 36.0439 40.598 36.3216C40.2572 36.4538 39.9458 36.652 39.6817 36.9048L34.1279 42.4585C33.605 42.9814 33.3112 43.6906 33.3112 44.4301C33.3112 45.1696 33.605 45.8788 34.1279 46.4017C34.6508 46.9246 35.36 47.2184 36.0995 47.2184C36.839 47.2184 37.5482 46.9246 38.0711 46.4017L38.8764 45.5687V52.7608C38.8764 53.4973 39.1689 54.2036 39.6897 54.7243C40.2105 55.2451 40.9168 55.5377 41.6533 55.5377C42.3897 55.5377 43.096 55.2451 43.6168 54.7243C44.1376 54.2036 44.4301 53.4973 44.4301 52.7608V45.5687L45.2354 46.4017C45.4936 46.662 45.8007 46.8686 46.1391 47.0096C46.4775 47.1505 46.8404 47.2231 47.207 47.2231C47.5736 47.2231 47.9366 47.1505 48.2749 47.0096C48.6133 46.8686 48.9205 46.662 49.1786 46.4017C49.4389 46.1436 49.6455 45.8364 49.7864 45.4981C49.9274 45.1597 50 44.7967 50 44.4301C50 44.0636 49.9274 43.7006 49.7864 43.3622C49.6455 43.0238 49.4389 42.7167 49.1786 42.4585ZM24.992 44.4301C25.7284 44.4301 26.4347 44.1376 26.9555 43.6168C27.4763 43.096 27.7688 42.3897 27.7688 41.6533C27.7688 40.9168 27.4763 40.2105 26.9555 39.6897C26.4347 39.1689 25.7284 38.8764 24.992 38.8764H13.8844C13.1479 38.8764 12.4416 39.1689 11.9209 39.6897C11.4001 40.2105 11.1075 40.9168 11.1075 41.6533C11.1075 42.3897 11.4001 43.096 11.9209 43.6168C12.4416 44.1376 13.1479 44.4301 13.8844 44.4301H24.992Z"
+                                    ></path>
+                                </svg>
+                            </span>
+                            <div class="upload-file-description" style="margin-top: 10px;
+                            color: #fff;">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
+                            <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">
+
+                        </div>
+                        <div class="upload-file-buttons mt-4">
+                            <button v-if="!isLoading" @click="uploadFile()" class="btn btn-primary btn-upload">
+                                Upload
+                            </button>
+                            <button v-if="isLoading" disabled class="btn btn-primary btn-upload" style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                "><span role="status" class="spinner-border text-light" style="
+                                    width: 15px;
+                                    height: 15px;
+                                    margin-right: 5px;
+                                "><span class="visually-hidden">Loading...</span></span>
+                                Loading
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%" v-if="teleprompter.currentStep == 2">
+                    <div class="audio-textarea form-control" style="position:relative;overflow:hidden;max-height:300px; min-height:300px">
+                        <div class="" style="resize: none; position:relative;left:0;top:0" id="prompter-content" :style="{fontSize: teleprompter.fontSize + 'px'}">
+                            @{{ teleprompter.text }}
+                        </div>
+                    </div>
+                    <div style="width: 100%" class="container">
+                        <div class="row">
+                            <div style="width: 70px; height: 28px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; display: flex; justify-content: space-around; margin-top: 10px; padding: 5px;">
+                                <img src="/assets/img/play-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterScrolldown">
+                                <img src="/assets/img/pause-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterStop">
+        
+                            </div>
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-12" style="font-size: 13px;">Speed</label>
+                                        <span style="font-size: 13px;">Slow</span> <input type="range" min="1" max="16" @change="setspeed" v-model="teleprompter.speedSize" name="" id=""><span style="font-size: 13px;">Fast</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="col-12" style="font-size: 13px;">Font size</label>
+                                        <span style="font-size: 13px;">Small</span><input type="range" min="14" max="50" name="" id="" v-model="teleprompter.fontSize"><span style="font-size: 13px;">Large</span>
+                                    </div>
+                                    <div class="col-2">
+                                        <button style="width: 128px; height: 31px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; background: transparent; color: #FFF; margin-top: 10px;" @click="resetTeleprompter">Reset Default</button>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                  {{-- <textarea name="" id="" cols="30" rows="10" class="col-12 form-control"></textarea> --}}
+              </div>
               
               <div class="record-audio-wave-wrap">
                 {{-- <div class="slider">
@@ -700,12 +780,20 @@
 <textarea style="display:none" id="store-upload-url" cols="30" rows="10">{{ route('user.tts.store-upload') }}</textarea>
 <textarea style="display:none" id="export-audio-url" cols="30" rows="10">{{ route('user.tts.export-audio') }}</textarea>
 <textarea style="display:none" id="save-config-url" cols="30" rows="10">{{ route('user.tts.save-config') }}</textarea>
+<textarea style="display:none" id="audio-full-url" cols="30" rows="10">{{ route('user.fetch-audio') }}</textarea>
+<textarea style="display:none" id="audio-details">{!! json_encode($audio) !!}</textarea>
 
 			
 
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.25.3/docxtemplater.js"></script>
+<script src="https://unpkg.com/pizzip@3.0.6/dist/pizzip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+<script src="https://unpkg.com/pizzip@3.0.6/dist/pizzip-utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.9.359/build/pdf.min.js"></script>
+
 <script src="{{ asset('js/app/vendors/vue.js') }}"></script>
 <script src="{{ asset('js/app/vendors/axios.js') }}"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
