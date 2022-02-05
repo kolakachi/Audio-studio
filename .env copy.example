@@ -13,8 +13,8 @@ DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=cloudpolly
-DB_USERNAME=homestead
-DB_PASSWORD=homesteadpassword
+DB_USERNAME=audio-studio
+DB_PASSWORD=audiostudiopassword12345
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
