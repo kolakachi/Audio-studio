@@ -64,6 +64,7 @@ new Vue({
         isLoading: false,
         loadingType: '',
         edit_id:'',
+        edit_name: '',
         voices: [],
         selectedVoiceId: 0,
         selectedVoice: {},
@@ -180,6 +181,7 @@ new Vue({
         this.voices = JSON.parse($("#voices").val());
         let audio = JSON.parse($("#audio-details").val());
         this.edit_id = audio.uuid;
+        this.edit_name = audio.audio_name;
         this.layers = audio.layers;
         this.speech_text = audio.speech_text;
 
@@ -1205,6 +1207,7 @@ new Vue({
             if(this.layers.length > 0){
                 const formData = new FormData();
                 formData.append('edit_id', this.edit_id);
+                formData.append('edit_name', this.edit_name);
 
                 formData.append('_token', $('input[name=_token]').val());
                 formData.append('layers', JSON.stringify(this.layers));
@@ -1241,6 +1244,7 @@ new Vue({
             formData.append('_token', $('input[name=_token]').val());
             formData.append('layers', JSON.stringify(this.layers));
             formData.append('edit_id', this.edit_id);
+            formData.append('edit_name', this.edit_name);
             formData.append('speech_text', this.speech_text);
             this.isLoading = true;
             this.loadingType = "save";
