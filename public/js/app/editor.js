@@ -1271,6 +1271,10 @@ new Vue({
                 })
         },
         deleteLayer(index){
+            let layer = this.layers[index];
+            let layerId = "layer-container-"+ layer.layerNumber;
+            $( layer.id ).remove();
+            $( layerId ).remove();
             this.layers.splice(index, 1);
         },
         cloneLayer(index){
