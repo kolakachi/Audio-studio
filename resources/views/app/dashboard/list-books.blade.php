@@ -80,7 +80,7 @@
                   <input class="form-check-input" type="checkbox" value="">
                 </div>
               </td>
-              <td>Marketing Audio Book</td>
+              <td>@{{ book.audio_name }}</td>
               <td>Hindi (India)</td>
               <td>Arunima</td>
               <td>Female</td>

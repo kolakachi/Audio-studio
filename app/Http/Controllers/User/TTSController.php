@@ -764,6 +764,7 @@ class TTSController extends Controller
                 ], 404);
             }         
             $book->audio_path = $audio->uuid;
+            $book->audio_name = $request->edit_name;
             $book->save();
             return \Response::download($path);
 
@@ -799,6 +800,8 @@ class TTSController extends Controller
                 ], 500);
             }
             $audio->speech_text = $request->speech_text;
+            $audio->audio_name = $request->edit_name;
+
             $audio->layers = json_decode($request->layers);
             $audio->save();
             return response()->json([
