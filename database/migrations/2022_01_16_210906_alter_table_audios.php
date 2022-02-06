@@ -13,7 +13,7 @@ class AlterTableAudios extends Migration
      */
     public function up()
     {
-        Schema::table('audios', function (Blueprint $table) {
+        Schema::table('audio_books', function (Blueprint $table) {
             $table->string('uuid')->nullable();
             $table->string('audio_path')->nullable();
         });
@@ -26,7 +26,7 @@ class AlterTableAudios extends Migration
      */
     public function down()
     {
-        Schema::table('audios', function (Blueprint $table) {
+        Schema::table('audio_books', function (Blueprint $table) {
             $table->dropColumn('uuid');
             $table->dropColumn('audio_path');
 

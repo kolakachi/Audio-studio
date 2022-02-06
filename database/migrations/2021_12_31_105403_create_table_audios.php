@@ -13,7 +13,7 @@ class CreateTableAudios extends Migration
      */
     public function up()
     {
-        Schema::create('audios', function (Blueprint $table) {
+        Schema::create('audio_books', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->string('speech_text')->nullable();
@@ -33,6 +33,6 @@ class CreateTableAudios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('audios');
+        Schema::dropIfExists('audio_books');
     }
 }
