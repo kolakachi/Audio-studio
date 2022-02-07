@@ -48,7 +48,7 @@
       </button>
     </div>
 </form>
-        <p class="auth-tip">Don’t have an account yet? <a href="{{ route('register') }}">{{ route('register') }}</a></p>
+        {{-- <p class="auth-tip">Don’t have an account yet? <a href="{{ route('register') }}">{{ route('register') }}</a></p> --}}
 
 @endsection
 
