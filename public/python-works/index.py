@@ -1,6 +1,7 @@
 from moviepy.editor import *
 import json
 import os
+from random import randint
 import moviepy.editor as mpe
 import moviepy.audio.fx.all as afx
 from moviepy.editor import vfx
@@ -21,19 +22,21 @@ def mixAudios():
     audios = []
     for layer in request.json["layers"]:
         encodedMP3Path = layer["path"]
+        value = randint(0, 10)
         if "webm" in layer["path"]: 
-            encodedMP3Path = layer["path"].replace("webm", "mp3")
-
+           
+            encodedMP3Path = layer["path"].replace(".webm",str(value)+ ".mp3")
+        else:
+            encodedMP3Path = layer["path"].replace(".mp3",str(value)+ ".mp3")
 
         stuff_in_string = "ffmpeg -i {} {} -y".format(layer["path"], encodedMP3Path)
         os.system(stuff_in_string)
         substr = ".mp3"
-        inserttxt = "volume-changed"
+        inserttxt = str(value)+ "-volume-changed"
         idx = encodedMP3Path.index(substr)
         volumeEncodedMP3Path = encodedMP3Path[:idx] + inserttxt + encodedMP3Path[idx:]
         os.system("cp {} {}".format(encodedMP3Path, volumeEncodedMP3Path))
         reduceVolume = "ffmpeg -i {} -filter:a \"volume={}\" {} -y".format(encodedMP3Path, layer["volume"], volumeEncodedMP3Path)
-        print((reduceVolume))
 
         os.system(reduceVolume)
 

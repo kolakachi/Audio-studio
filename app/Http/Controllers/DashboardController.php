@@ -70,7 +70,7 @@ class DashboardController extends Controller
 
         $mime_type = "audio/mp3";
         $headers = array(
-            'Accept-Ranges: 0-' . (filesize($file) -1) ,
+            'Accept-Ranges: bytes',
     
             'Content-Length:'.filesize($file),
             'Content-Type:' . $mime_type,
@@ -79,7 +79,8 @@ class DashboardController extends Controller
         );
         // dd($file);
         $fileContents = File::get($file);
-        return \Response::make($fileContents, 200)->header('Content-Type', 'audio/mp3');
+        return response()->file($file, $headers);
+        return \Response::make($fileContents, 200)->header('Content-Type', 'audio/mp3',);
         
     }
 

@@ -16,7 +16,7 @@ class CreateTableAudios extends Migration
         Schema::create('audios', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('speech_text')->nullable();
+            $table->text('speech_text')->nullable();
             $table->text('layers')->nullable();
             $table->string('audio_name')->nullable();
             $table->string('language')->nullable();

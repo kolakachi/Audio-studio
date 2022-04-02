@@ -145,6 +145,9 @@
         .dropdown .dropdown-item:hover{
             color: #000 !important;
         }
+        wave{
+            position: unset !important;
+        }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
 
@@ -413,6 +416,16 @@
         </div>
         <div class="long-col">
             <div class="project-actions player-wrap">
+                <button class="btn play-project" @click="zoomOut()" v-if="!aplayer.isPlaying">
+                    <span class="icon">
+                        -
+                    </span>            
+                </button>
+                <button class="btn play-project" @click="zoomIn()" v-if="!aplayer.isPlaying">
+                    <span class="icon">
+                        +
+                    </span>            
+                </button>
                 <button class="btn play-project" @click="play()" v-if="!aplayer.isPlaying">
                     <span class="icon">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
@@ -796,6 +809,8 @@
 @endsection
 
 @section('js')
+<script src="https://unpkg.com/wavesurfer.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.25.3/docxtemplater.js"></script>
 <script src="https://unpkg.com/pizzip@3.0.6/dist/pizzip.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>

@@ -47,11 +47,11 @@ function Player() {
 			loop = value;
 		},
 		play: function () {
-			if ( audio ) audio.play();
+			// if ( audio ) audio.play();
 			isPlaying = true;
 		},
 		pause: function () {
-			if ( audio ) audio.pause();
+			// if ( audio ) audio.pause();
 			isPlaying = false;
 		},
 		tick: function ( delta ) {
