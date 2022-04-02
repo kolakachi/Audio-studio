@@ -197,10 +197,11 @@
 }
 
 .block {
-    background-color: #88f;
+    background-color: #797fae;
     border: 0px;
-    border-top: 1px solid #aaf;
-    border-left: 1px solid #aaf;
+    border-top: 1px solid #797fae;
+    border-left: 1px solid #797fae;
+    color: #797fae;
     border-radius: 2px;
     overflow: hidden;
 }

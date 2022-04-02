@@ -410,5 +410,8 @@ Route::delete('/admin/writer/tags/delete', [WriterController::class,'tagDelete']
 
 
 
+Route::get('/dashboard-test', function(){
+    return view('tester');
+})->name('user.dashboardx');
 
 
