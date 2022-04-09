@@ -1553,6 +1553,7 @@ new Vue({
             if(ext == 'doc' || ext == 'docx'){
                 this.generateDocxText();
             }
+            this.isLoading = false;
         },
 
         readTextFile() {
