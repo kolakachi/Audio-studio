@@ -148,8 +148,14 @@
         wave{
             position: unset !important;
         }
+        .audio-editor-page .controls-wrap .editor-col .editor-wrap .audio-textarea-wrap .audio-textarea-buttons {
+            left: 0px !important;
+            right: 0px !important;
+            padding-left: 10px !important;
+        }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
+
 
 @endsection
 
