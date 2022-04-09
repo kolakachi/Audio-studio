@@ -53,11 +53,14 @@ function Pdf2TextClass(){
         });
     }; // end of pdfToText()
 };
+Vue.use(VeeValidate, {events: 'change|blur'});
 
 new Vue({
     el: '#audio-editor',
     data: {
         languages: [],
+        languageIdError:"",
+        voiceIdError:"",
         selectedLanguageId: 0,
         selectedLanguage: {},
         isLoading: false,
@@ -71,7 +74,7 @@ new Vue({
         speech_text: '',
         player : {},
         signals: {},
-        scale: 4,
+        scale: 12,
         duration: 100,
         prevScale:0,
         layers:[],
@@ -1237,6 +1240,26 @@ new Vue({
             var replacement = openTag + selectedText + closeTag;
             textarea.val(textarea.val().substring(0, start) + replacement + textarea.val().substring(end, length));
         },
+        submitSynthesizeRequest() {
+            this.$validator.validate()
+                .then(isValid => {
+                    if (isValid) {
+                        let error = false;
+                        if(this.selectedVoiceId == 0){
+                            error = true;
+                            this.voiceIdError = "Voice is required";
+                        }
+                        if(this.selectedLanguageId == 0){
+                            error = true;
+                            this.languageIdError = "Language is required";
+                        }
+                        if(!error){
+                            this.synthesize();
+                        }
+                        
+                    }
+                });
+        },
         synthesize(type){
             const formData = new FormData();
 
@@ -1293,6 +1316,15 @@ new Vue({
             this.addTranslatedAudioToLayer(this.prevSynthesizeAudioURL, this.prevSynthesizePath);
 
         },
+        makeExportRequest() {
+            this.$validator.validate()
+                .then(isValid => {
+                    if (isValid) {
+                        this.exportAudio();
+                        
+                    }
+                });
+        },
         exportAudio(){
             if(this.layers.length > 0){
                 const formData = new FormData();
@@ -1328,6 +1360,16 @@ new Vue({
 
             
             
+        },
+        
+        makeSaveRequest() {
+            this.$validator.validate()
+                .then(isValid => {
+                    if (isValid) {
+                        this.storeEditorState();
+                        
+                    }
+                });
         },
         storeEditorState(){
             const formData = new FormData();
