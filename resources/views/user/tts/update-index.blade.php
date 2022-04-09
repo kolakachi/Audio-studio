@@ -169,7 +169,14 @@
                 <div class="row mb-4">
                     <label for="language" class="col-sm-3 col-form-label">Audio Name</label>
                     <div class="col-sm-9">
-                        <input type="text" v-model="edit_name" class="form-control" id="">
+                        <input type="text" 
+                        v-validate="'required'" name="edit_name" data-vv-as="Name"
+                        v-model="edit_name" class="form-control" id="">
+                        <template v-if="errors.has('edit_name')">
+                            <span class="small text-danger">
+                                @{{ errors.first('edit_name') }}
+                            </span>
+                        </template>
                     </div>
                 </div>
             <div class="row mb-4">
@@ -177,11 +184,18 @@
                 <div class="col-sm-9">
                 <div class="form-select-wrap">
                     <img v-if="selectedLanguageId != 0" :src="selectedLanguage.language_flag" alt="US" class="form-select-icon">
-                    <select id="language" class="form-select" v-model="selectedLanguageId" @change="setSelectedLanguage">
+                    <select id="language" class="form-select" 
+                    v-validate="'required'" name="selectedLanguageId" data-vv-as="Language"
+                    v-model="selectedLanguageId" @change="setSelectedLanguage">
                         <option value="0" disabled selected>Select Language</option>
                         <option v-for="(language, index) in languages" :value="language.id">@{{language.language}}</option>
                         {{-- <option value="1">English [US]</option> --}}
                     </select>
+                    <template v-if="languageIdError != '' ">
+                        <span class="small text-danger">
+                            @{{ languageIdError }}
+                        </span>
+                    </template>
                 </div>
                 </div>
             </div>
@@ -192,10 +206,17 @@
                 <div class="form-select-wrap">
                     <img v-if="selectedLanguageId != 0" :src="selectedLanguage.language_flag" alt="US" class="form-select-icon">
                     {{-- <img src="/assets/img/flags/us.png" alt="US" class="form-select-icon"> --}}
-                    <select id="voice" class="form-select" v-model="selectedVoiceId" @change="setVoice()">
+                    <select id="voice" class="form-select" 
+                    v-validate="'required'" name="selectedVoiceId" data-vv-as="Voice"
+                    v-model="selectedVoiceId" @change="setVoice()">
                         <option value="0" disabled selected>Select Voice</option>
                         <option v-for="(voice, index) in getVoices" :value="voice.voice_id">@{{voice.voice}} [@{{ voice.gender }}]</option>
                     </select>
+                    <template v-if="voiceIdError != '' ">
+                        <span class="small text-danger">
+                            @{{ voiceIdError }}
+                        </span>
+                    </template>
                 </div>
                 </div>
             </div>
@@ -375,14 +396,14 @@
                 </div>
 
                 <div class="text-center mt-3">
-                    <button class="btn btn-primary listen-btn" @click="synthesize('listen')" :disabled="isLoading">
+                    <button class="btn btn-primary listen-btn" @click="submitSynthesizeRequest('listen')" :disabled="isLoading">
                         <span class="spinner-border text-light" role="status" v-if="loadingType == 'listen'" style="width: 12px; height:12px">
                             <span class="visually-hidden">Loading...</span>
                         </span>
                         <span class="icon" v-if="loadingType != 'listen'"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>                    
                         Listen
                     </button>
-                    <button class="btn btn-success add-timeline-btn" @click="synthesize('add_to_timeline')" :disabled="isLoading">
+                    <button class="btn btn-success add-timeline-btn" @click="submitSynthesizeRequest('add_to_timeline')" :disabled="isLoading">
                         <span class="spinner-border text-light" role="status" v-if="loadingType == 'add_to_timeline'" style="width: 12px; height:12px">
                             <span class="visually-hidden">Loading...</span>
                         </span>
@@ -443,14 +464,14 @@
                 
                 {{-- <span class="icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M7.07143 16.5C6.86305 16.5 6.6632 16.4172 6.51585 16.2699C6.3685 16.1225 6.28572 15.9227 6.28572 15.7143V6.28571C6.28579 6.15183 6.32007 6.02019 6.3853 5.90328C6.45054 5.78637 6.54456 5.68807 6.65846 5.6177C6.77235 5.54734 6.90234 5.50724 7.03608 5.50121C7.16982 5.49519 7.30289 5.52344 7.42265 5.58328L16.8512 10.2976C16.9816 10.3629 17.0911 10.4632 17.1677 10.5872C17.2443 10.7113 17.2849 10.8542 17.2849 11C17.2849 11.1458 17.2443 11.2887 17.1677 11.4128C17.0911 11.5368 16.9816 11.6371 16.8512 11.7024L7.42265 16.4167C7.31361 16.4713 7.19338 16.4998 7.07143 16.5ZM7.85715 7.557V14.443L14.7431 11L7.85715 7.557Z"></path><path d="M11 1.57143C12.8648 1.57143 14.6877 2.1244 16.2382 3.16043C17.7888 4.19645 18.9972 5.66899 19.7109 7.39184C20.4245 9.11469 20.6112 11.0105 20.2474 12.8394C19.8836 14.6684 18.9856 16.3484 17.667 17.667C16.3484 18.9856 14.6684 19.8836 12.8394 20.2474C11.0105 20.6112 9.11469 20.4245 7.39185 19.7109C5.669 18.9972 4.19646 17.7888 3.16043 16.2382C2.12441 14.6877 1.57143 12.8648 1.57143 11C1.57143 8.49939 2.5648 6.10119 4.333 4.33299C6.1012 2.56479 8.49939 1.57143 11 1.57143ZM11 0C8.82441 0 6.69767 0.645139 4.88873 1.85383C3.07979 3.06253 1.66989 4.78049 0.83733 6.79048C0.00476611 8.80047 -0.213071 11.0122 0.211367 13.146C0.635804 15.2798 1.68345 17.2398 3.22183 18.7782C4.76021 20.3165 6.72022 21.3642 8.85401 21.7886C10.9878 22.2131 13.1995 21.9952 15.2095 21.1627C17.2195 20.3301 18.9375 18.9202 20.1462 17.1113C21.3549 15.3023 22 13.1756 22 11C22 8.08262 20.8411 5.28472 18.7782 3.22182C16.7153 1.15892 13.9174 0 11 0Z"></path></svg></span>             --}}
             {{-- </button> --}}
-            <button class="btn save-project" @click="storeEditorState" :disabled="isLoading">
+            <button class="btn save-project" @click="makeSaveRequest" :disabled="isLoading">
                 <span class="spinner-border text-light" role="status" v-if="loadingType == 'save'" style="width: 12px; height:12px">
                     <span class="visually-hidden">Loading...</span>
                 </span>
                 <span class="icon" v-if="loadingType != 'save'"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M19.5325 4.5325L15.4675 0.4675C15.1675 0.1675 14.76 0 14.335 0H0.8C0.3575 0 0 0.3575 0 0.8V19.2C0 19.6425 0.3575 20 0.8 20H19.2C19.6425 20 20 19.6425 20 19.2V5.6625C20 5.2375 19.8325 4.8325 19.5325 4.5325ZM6.8 1.6H13.2V4.4H6.8V1.6ZM10 15.45C8.0125 15.45 6.4 13.8375 6.4 11.85C6.4 9.8625 8.0125 8.25 10 8.25C11.9875 8.25 13.6 9.8625 13.6 11.85C13.6 13.8375 11.9875 15.45 10 15.45ZM10 9.85C8.895 9.85 8 10.745 8 11.85C8 12.955 8.895 13.85 10 13.85C11.105 13.85 12 12.955 12 11.85C12 10.745 11.105 9.85 10 9.85Z" fill="white"></path></svg></span>                
                 Save
             </button>
-            <button class="btn export-project" @click="exportAudio" :disabled="isLoading">
+            <button class="btn export-project" @click="makeExportRequest" :disabled="isLoading">
                 <span class="spinner-border text-light" role="status" v-if="loadingType == 'export'" style="width: 12px; height:12px">
                     <span class="visually-hidden">Loading...</span>
                 </span>
@@ -818,6 +839,8 @@
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.9.359/build/pdf.min.js"></script>
 
 <script src="{{ asset('js/app/vendors/vue.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vee-validate@2.2.15/dist/vee-validate.min.js"></script>
+
 <script src="{{ asset('js/app/vendors/axios.js') }}"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="/js/libs/signals.min.js"></script>
