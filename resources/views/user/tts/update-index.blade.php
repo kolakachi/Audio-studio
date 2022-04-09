@@ -725,7 +725,7 @@
                 </div>
                 <div style="width: 100%" v-if="teleprompter.currentStep == 2">
                     <div class="audio-textarea form-control" style="position:relative;overflow:hidden;max-height:300px; min-height:300px">
-                        <div class="" style="resize: none; position:relative;left:0;top:0" id="prompter-content" :style="{fontSize: teleprompter.fontSize + 'px'}">
+                        <div contentEditable="true" class="" style="resize: none; position:relative;left:0;top:0" id="prompter-content" :style="{fontSize: teleprompter.fontSize + 'px'}">
                             @{{ teleprompter.text }}
                         </div>
                     </div>
