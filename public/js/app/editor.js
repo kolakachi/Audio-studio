@@ -1240,7 +1240,7 @@ new Vue({
             var replacement = openTag + selectedText + closeTag;
             textarea.val(textarea.val().substring(0, start) + replacement + textarea.val().substring(end, length));
         },
-        submitSynthesizeRequest() {
+        submitSynthesizeRequest(type) {
             this.$validator.validate()
                 .then(isValid => {
                     if (isValid) {
@@ -1254,7 +1254,7 @@ new Vue({
                             this.languageIdError = "Language is required";
                         }
                         if(!error){
-                            this.synthesize();
+                            this.synthesize(type);
                         }
                         
                     }
