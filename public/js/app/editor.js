@@ -31,7 +31,6 @@ function Pdf2TextClass(){
                                 last_block = block;
                             }
 
-                            // textContent != null && console.log("page " + n + " finished."); //" content: \n" + page_text);
                             layers[n] =  page_text + "\n\n";
                         }
                         ++ self.complete;
@@ -44,7 +43,6 @@ function Pdf2TextClass(){
                         //     var num_pages = Object.keys(layers).length;
                         //     for( var j = 1; j <= num_pages; j++)
                         //         full_text += layers[j] ;
-                        //     // console.log(full_text);
                         // }, 1000);              
                         }
                     }); // end  of page.getTextContent().then
@@ -235,6 +233,39 @@ new Vue({
         });
         this.initLayers();
 
+        const target = document.querySelector('#audio-textarea');
+
+        target.addEventListener('paste', (event) => {
+            event.preventDefault();
+            let parsedText = "";
+            let pastedData = "";
+            var sel, range;
+            let types = event.clipboardData.types;
+            if (((types instanceof DOMStringList) && types.contains("text/html")) || (types.indexOf && types.indexOf('text/html') !== -1)) {
+            // Extract data and pass it to callback
+                pastedData = event.clipboardData.getData('text/html');
+            }else{
+                pastedData = (event.clipboardData || window.clipboardData).getData('text');
+                // var text = paste;//document.createTextNode(paste);
+                // document.getElementById('audio-textarea').appendChild(text);
+            }
+            parsedText = this.cleanTextEditor(pastedData);
+
+
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode( document.createTextNode(parsedText) );
+                }
+            } else if (document.selection && document.selection.createRange) {
+                document.selection.createRange().text = parsedText;
+            }
+
+            
+        });
+
         
     },
     methods: {
@@ -360,7 +391,6 @@ new Vue({
                         highestLayerDuration = layer.end;
                     }
                 }
-                console.log(this.duration, highestLayerDuration);
                 this.duration = highestLayerDuration;
             }
         },
@@ -549,7 +579,6 @@ new Vue({
             this.signals.playingChanged.add( ( isPlaying ) => {
                 
                 this.playBtn.style.background = isPlaying ? 'url(files/pause.svg)' : 'url(files/play.svg)';
-                console.log(this.player.isPlaying);
 
                 if(!isPlaying){
                     this.stopAllPlays();
@@ -895,7 +924,6 @@ new Vue({
         },
         addLayerToTimeLine(layerNumber){
             var layer = this.layers[layerNumber];
-            console.log(layer);
             let vueInstance = this;
             
             var layerContainer = document.createElement( 'div' );
@@ -916,7 +944,6 @@ new Vue({
             dom.style.height = '25px';
             dom.style.cursor = 'pointer';
             let scale = this.scale;
-            console.log(dom);
 
             // dom.addEventListener( 'click', function ( event ) {
 
@@ -1090,7 +1117,6 @@ new Vue({
 
         setAudioVolume(index){
             let layer = this.layers[index];
-            console.log(layer)
             let audioID  = layer.id;
             $("#" + audioID).prop("volume", layer.volume);
 
@@ -1148,14 +1174,12 @@ new Vue({
                     if(audioTime < 0){
                         audio.currentTime = 0;
                     }
-                    console.log([audio.currentTime, audioTime, this.player.currentTime, layer.start])
                     if(layer.start <= this.player.currentTime && layer.end >= this.player.currentTime){
                         
                        
                         audioTime =parseFloat(parseFloat(audioTime).toFixed(7));
                         if(parseFloat(parseFloat(audio.currentTime).toFixed(3)) != parseFloat(parseFloat(audioTime).toFixed(3))){
                             audio.currentTime = audioTime;
-                            console.log([audio.currentTime, audioTime])
                         }
                         // if(audio && (audioTime > -1)){
                         //     audioTime =parseFloat(parseFloat(audioTime).toFixed(7));
@@ -1163,7 +1187,6 @@ new Vue({
                         //         audio.currentTime = audioTime;
                         //         // let audioHandler = function() {
                         //         //     audio.currentTime = audioTime;
-                        //         //     console.log(audioTime);
                         //         // };
                         //         // audio.addEventListener('canplay',audioHandler);
 
@@ -1172,14 +1195,11 @@ new Vue({
                         //     }
 
                             
-                        //     // console.log(audio.get(0).currentTime);
-                        //     // console.log($("#" + layer.id).prop("currentTime"));
                         //     // if($("#" + layer.id).prop("currentTime") > 0){
                         //     //     if(audioTime != $("#" + layer.id).prop("currentTime")){
                         //     //         audio.pause();
                         //     //         // audio.currentTime = audioTime;
                         //     //         $("#" + layer.id).prop("currentTime",audioTime);
-                        //     //         console.log($("#" + layer.id).prop("currentTime"), audioTime);
                         //     //         // audio.currentTime = audioTime;
                                    
                         //     //     }
@@ -1231,14 +1251,72 @@ new Vue({
         ssmlText(openTag, closeTag) {
 
             "use strict";
-        
-            var textarea = $('#audio-textarea');
-            var length = textarea.val().length;
-            var start = textarea[0].selectionStart;
-            var end = textarea[0].selectionEnd;
-            var selectedText = textarea.val().substring(start, end);
+             // "use strict";
+            var selection = window.getSelection();
+            
+            for (var i = 0; i < 0; i += 1) {
+              selection.modify('extend', 'backward', 'character');
+            }
+            let selectedText = selection.baseNode.data.substring(selection.baseOffset,selection.extentOffset);
             var replacement = openTag + selectedText + closeTag;
-            textarea.val(textarea.val().substring(0, start) + replacement + textarea.val().substring(end, length));
+            document.execCommand('insertHTML', false, replacement);
+            window.getSelection().removeAllRanges()
+
+        
+            // var textarea = $('#audio-textarea');
+            // var length = textarea.val().length;
+            // var start = textarea[0].selectionStart;
+            // var end = textarea[0].selectionEnd;
+            // var selectedText = textarea.val().substring(start, end);
+            // var replacement = openTag + selectedText + closeTag;
+            // textarea.val(textarea.val().substring(0, start) + replacement + textarea.val().substring(end, length));
+        },
+        cleanTextEditor(textToClean = null) {
+            let text = $("#audio-textarea").html();
+
+            if(textToClean){
+                text = textToClean;
+            }
+
+            let find = '<say-as';
+            let re = new RegExp(find, 'g');
+            text = text.replace(re, '<sayas');
+            find = 'say-as>';
+            re = new RegExp(find, 'g');
+            text = text.replace(re, 'sayas>');
+
+            let findInt = 'interpret-as';
+            re = new RegExp(findInt, 'g');
+            text = text.replace(re, 'interpretas');
+
+            
+            let newText = this.stripTags(text, "<prosody><break><sayas>");
+            find = '<sayas';
+            re = new RegExp(find, 'g');
+            newText = newText.replace(re, '<say-as');
+
+            find = 'sayas>';
+            re = new RegExp(find, 'g');
+            newText = newText.replace(re, 'say-as>');
+
+            findInt = 'interpretas';
+            re = new RegExp(findInt, 'g');
+            newText = newText.replace(re, 'interpret-as');
+            return newText;
+
+        },
+
+        stripTags(input, allowed){
+            allowed = (((allowed || '') + '')
+                .toLowerCase()
+                .match(/<[a-z][a-z0-9]*>/g) || [])
+                .join('');
+            var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+                commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+            return input.replace(commentsAndPhpTags, '')
+                .replace(tags, function($0, $1) {
+                    return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+            });
         },
         submitSynthesizeRequest(type) {
             this.$validator.validate()
@@ -1262,9 +1340,11 @@ new Vue({
         },
         synthesize(type){
             const formData = new FormData();
+            let textarea = this.cleanTextEditor();
 
             formData.append('_token', $('input[name=_token]').val());
-            formData.append('textarea', $("#audio-textarea").val());
+            // formData.append('textarea', $("#audio-textarea").val());
+            formData.append('textarea', textarea);
             formData.append('title', "new-title");
             formData.append('voice', this.selectedVoice.voice_id);
             formData.append('format', this.selectedFormat);
@@ -1612,13 +1692,11 @@ new Vue({
                 }
     
                 function errorHandler(error) {
-                    console.log(JSON.stringify({error: error}, replaceErrors));
     
                     if (error.properties && error.properties.errors instanceof Array) {
                         const errorMessages = error.properties.errors.map(function (error) {
                             return error.properties.explanation;
                         }).join("\n");
-                        console.log('errorMessages', errorMessages);
                         // errorMessages is a humanly readable message looking like this:
                         // 'The tag beginning with "foobar" is unopened'
                     }
