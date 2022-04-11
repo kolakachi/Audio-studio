@@ -153,6 +153,19 @@
             right: 0px !important;
             padding-left: 10px !important;
         }
+        say-as {color: rgb(116, 86, 254);}
+        prosody[volume] {
+            color: #FFB800;
+        }
+        prosody[rate] {
+            color: #FF005C;
+        }
+        prosody[pitch] {
+            color: #23A617;
+        }
+        break[time] {
+            color: #00E0FF;
+        }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
 
@@ -354,11 +367,11 @@
                         {{ __('Pitch') }}
                         </button>
                             <div class="dropdown-menu" aria-labelledby="pitch">
-                            <button class="dropdown-item" type="button" id="x_low_pitch" @click="setSpeed('x-low')">x-Low</button>
-                            <button class="dropdown-item" type="button" id="low_pitch" @click="setSpeed('low')">Low</button>
-                            <button class="dropdown-item" type="button" id="medium_pitch" @click="setSpeed('medium')">Medium</button>
-                            <button class="dropdown-item" type="button" id="high_pitch" @click="setSpeed('high')">High</button>
-                            <button class="dropdown-item" type="button" id="x_high_pitch" @click="setSpeed('x-high')">x-High</button>
+                            <button class="dropdown-item" type="button" id="x_low_pitch" @click="setPitch('x-low')">x-Low</button>
+                            <button class="dropdown-item" type="button" id="low_pitch" @click="setPitch('low')">Low</button>
+                            <button class="dropdown-item" type="button" id="medium_pitch" @click="setPitch('medium')">Medium</button>
+                            <button class="dropdown-item" type="button" id="high_pitch" @click="setPitch('high')">High</button>
+                            <button class="dropdown-item" type="button" id="x_high_pitch" @click="setPitch('x-high')">x-High</button>
                         </div>
                     </div>
                     <div class="dropdown">
@@ -389,7 +402,8 @@
                 <button type="button" class="btn">Language</button>
                 </div>
                 <div class="audio-textarea-wrap">
-                <textarea class="audio-textarea form-control" id="audio-textarea">{{ Session::get('user_text') }}</textarea>
+                <div class="audio-textarea form-control" id="audio-textarea" contenteditable="true">{{ Session::get('user_text') }}</div>
+                
 
                 <div class="audio-textarea-buttons">
                     <button type="button" class="btn api-btn">
