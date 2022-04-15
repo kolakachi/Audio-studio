@@ -50,6 +50,9 @@ use App\Http\Controllers\ShareController;
 
 use Illuminate\Support\Facades\Artisan;
 
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -308,6 +311,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::post('/tts/store-upload', [TTSController::class, 'storeUploadedAudio'])->name('user.tts.store-upload');
         Route::post('/tts/export-audio', [TTSController::class, 'exportAudio'])->name('user.tts.export-audio');
         Route::post('/tts/save-config', [TTSController::class, 'storeAudioConfig'])->name('user.tts.save-config');
+        Route::post('/tts/store-library-audio', [TTSController::class, 'storeLibraryAudio'])->name('user.store-music');
+
 
         Route::get('/audio-books', [TTSController::class, 'listBooks'])->name('user.tts.list-books');  
 
@@ -411,7 +416,129 @@ Route::delete('/admin/writer/tags/delete', [WriterController::class,'tagDelete']
 
 
 Route::get('/dashboard-test', function(){
-    return view('tester');
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
+    $blobClient = BlobRestProxy::createBlobService($connectionString);
+
+    try {
+        // List blobs.
+        $listBlobsOptions = new ListBlobsOptions();
+        // $listBlobsOptions->setPrefix("myblob");
+
+        // Setting max result to 1 is just to demonstrate the continuation token.
+        // It is not the recommended value in a product environment.
+        $listBlobsOptions->setMaxResults(5);
+        $files = [];
+
+        do {
+            // global $myContainer;
+            $blob_list = $blobClient->listBlobs('sounds', $listBlobsOptions);
+            foreach ($blob_list->getBlobs() as $blob) {
+                $files[] = [
+                    'name' => $blob->getName(),
+                    'src' => $blob->getUrl()
+                ];
+                // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
+            }
+
+            $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
+        } while ($blob_list->getContinuationToken());
+
+        return response()->json([
+            'files' => $files
+        ]);
+
+    } catch (ServiceException $e) {
+        $code = $e->getCode();
+        $error_message = $e->getMessage();
+        echo $code.": ".$error_message.PHP_EOL;
+    }
+
+    // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
+    // return view('tester');
 })->name('user.dashboardx');
+
+Route::get('/get-sounds', function(){
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
+    $blobClient = BlobRestProxy::createBlobService($connectionString);
+
+    try {
+        // List blobs.
+        $listBlobsOptions = new ListBlobsOptions();
+        // $listBlobsOptions->setPrefix("myblob");
+
+        // Setting max result to 1 is just to demonstrate the continuation token.
+        // It is not the recommended value in a product environment.
+        $listBlobsOptions->setMaxResults(5);
+        $files = [];
+
+        do {
+            // global $myContainer;
+            $blob_list = $blobClient->listBlobs('sounds', $listBlobsOptions);
+            foreach ($blob_list->getBlobs() as $blob) {
+                $files[] = [
+                    'name' => $blob->getName(),
+                    'src' => $blob->getUrl()
+                ];
+                // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
+            }
+
+            $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
+        } while ($blob_list->getContinuationToken());
+
+        return response()->json([
+            'files' => $files
+        ]);
+
+    } catch (ServiceException $e) {
+        $code = $e->getCode();
+        $error_message = $e->getMessage();
+        echo $code.": ".$error_message.PHP_EOL;
+    }
+
+    // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
+    // return view('tester');
+})->name('user.get-sounds');
+
+Route::get('/get-music', function(){
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
+    $blobClient = BlobRestProxy::createBlobService($connectionString);
+
+    try {
+        // List blobs.
+        $listBlobsOptions = new ListBlobsOptions();
+        // $listBlobsOptions->setPrefix("myblob");
+
+        // Setting max result to 1 is just to demonstrate the continuation token.
+        // It is not the recommended value in a product environment.
+        $listBlobsOptions->setMaxResults(5);
+        $files = [];
+
+        do {
+            // global $myContainer;
+            $blob_list = $blobClient->listBlobs('musics', $listBlobsOptions);
+            foreach ($blob_list->getBlobs() as $blob) {
+                $files[] = [
+                    'name' => $blob->getName(),
+                    'src' => $blob->getUrl()
+                ];
+                // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
+            }
+
+            $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
+        } while ($blob_list->getContinuationToken());
+
+        return response()->json([
+            'files' => $files
+        ]);
+
+    } catch (ServiceException $e) {
+        $code = $e->getCode();
+        $error_message = $e->getMessage();
+        echo $code.": ".$error_message.PHP_EOL;
+    }
+
+    // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
+    // return view('tester');
+})->name('user.get-music');
 
 
