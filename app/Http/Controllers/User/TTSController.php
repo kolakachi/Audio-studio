@@ -469,6 +469,63 @@ class TTSController extends Controller
         return '';
     }
 
+    private function storeUserUploadedLibraryAudio($request)
+    {
+        $contents = file_get_contents($request->sound_src, true);
+        $fileinfo=getimagesizefromstring($contents);
+        $extention = "mp3";
+        if(isset($fileinfo["mime"])){
+            if(isset(explode('/', $fileinfo["mime"])[1])){
+                $fileType = explode('/', $fileinfo["mime"])[0];
+                $extention = explode('/', $fileinfo["mime"])[1];
+                $name = "audio-studio-".$this->randomFileNameString(). "." .$extention;
+
+                if(!in_array($extention, ['mp3'])){
+                    return [
+                        'error' => true,
+                        'type' => '',
+                        'name' => "",
+                        'message' => "file extension not valid"
+                    ];
+                }
+
+                $path = Paths::AUDIO_PATH;
+                $audioPath = "{$path}{$name}";
+                Storage::put($audioPath, $contents);
+    
+                return $name;
+                
+
+            }
+        }
+        return '';
+    }
+
+    public function storeLibraryAudio(Request $request){
+        try{
+            $fileName = $this->storeUserUploadedLibraryAudio($request);
+            $message = "Audio added to timeline";
+            $audio = new AudioModel();
+            $audio->user_id = Auth::id();
+            $audio->uuid = \Str::uuid();
+            $audio->file_name = $fileName;
+            $audio->category = 'uploaded_audio';
+            $audio->save();
+
+            return response()->json([
+                'message' => $message,
+                'path' => $audio->uuid//Storage::path(Paths::AUDIO_PATH. $fileName),
+            ]);
+
+        }catch(\Exception $error){
+            \Log::info($error->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => "Unable to complete request.",
+            ], 500);
+        }
+    }
+
 
     /**
      * Process listen synthesize request.
@@ -865,5 +922,23 @@ class TTSController extends Controller
             ], 500);
         }
     }
+    
+    public function randomFileNameString($cnt = 8)
+    {
+	    $alphabet = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+	    $pass = array(); //remember to declare $pass as an array
+	    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+
+	    for ($i = 0; $i < $cnt; $i++) {
+
+	        $n = rand(0, $alphaLength);
+
+	        $pass[] = $alphabet[$n];
+	    }
+
+	    $pass = implode($pass);
+
+	    return $pass;//turn the array into a string
+	}
 
 }

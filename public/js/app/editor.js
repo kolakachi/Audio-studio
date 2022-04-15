@@ -103,13 +103,23 @@ new Vue({
         currentPreviewRange: 0,
         previewRangeMaximum: 0,
         prevAudio:{},
+        backgroundMusic: [],
+        backgroundSounds:[],
+        trackType: "0",
+        trackName: '',
+        trackisLoading:false,
+        libraryPreviewAudio: {},
+        libraryPreviewAudioIsPlaying: false,
         url: {
             synthesize: '',
             storeRecord: '',
             storeAudioUpload: '',
             export: '',
             save:'',
-            audioURL:''
+            audioURL:'',
+            backgroundMusicURL: '',
+            backgroundSoundsURL:'',
+            storeLibraryAudio: ''
         },
         aplayer :{
             isPlaying: false
@@ -176,6 +186,10 @@ new Vue({
         this.url.export = $("#export-audio-url").val();
         this.url.save = $("#save-config-url").val();
         this.url.audioURL = $("#audio-full-url").val() + "/";
+        this.url.backgroundSoundsURL = $("#get-audio-sounds-url").val();
+        this.url.backgroundMusicURL = $("#get-audio-music-url").val();
+        this.url.storeLibraryAudio = $("#store-audio-music-url").val();
+
         this.player = new Player();
         this.languages = JSON.parse($("#languages").val());
         this.voices = JSON.parse($("#voices").val());
@@ -189,6 +203,14 @@ new Vue({
         this.resetDuration();
         this.initTimeline();
         var range = document.getElementById("time-range");
+
+        var modal = document.getElementById('addMusicTrackModal')
+        modal.addEventListener('hidden.bs.modal',  (event) => {
+            this.libraryPreviewAudioIsPlaying = false;
+            if(this.libraryPreviewAudio){
+                this.libraryPreviewAudio.pause();
+            }
+        });
 
         var listener = () => {
             window.requestAnimationFrame(() => {
@@ -269,6 +291,111 @@ new Vue({
         
     },
     methods: {
+        getfiles(){
+            if(this.trackType == 'music'){
+                if(this.backgroundMusic.length < 1){
+                    this.getBackgroundMusic();
+                }
+            }
+            if(this.trackType == 'sounds'){
+                if(this.backgroundSounds.length < 1){
+                    this.getBackgroundSounds();
+                }
+            }
+        },
+        getBackgroundMusic(){
+            this.isLoading = true;
+            this.loadingType = "background_music";
+            axios.get(this.url.backgroundMusicURL)
+                .then((response) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+                    this.backgroundMusic = response.data.files;
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+                })
+        },
+        getBackgroundSounds(){
+            this.isLoading = true;
+            this.loadingType = "background_sounds";
+            axios.get(this.url.backgroundSoundsURL)
+                .then((response) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+                    this.backgroundSounds = response.data.files;
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+                })
+        },
+        playSoundPreview(sound){
+           
+            if(sound.name != this.trackName){
+                this.trackName = sound.name;
+                this.trackisLoading = true;
+                if(this.libraryPreviewAudioIsPlaying && this.libraryPreviewAudio){
+                    this.libraryPreviewAudioIsPlaying = false;
+                    this.libraryPreviewAudio.pause();
+                }
+                this.libraryPreviewAudio = new Audio(sound.src);
+                this.libraryPreviewAudio.addEventListener('loadeddata', () => {
+                    this.trackisLoading = false;
+                    this.libraryPreviewAudio.play();
+                    this.libraryPreviewAudioIsPlaying = true;
+                    // The duration variable now holds the duration (in seconds) of the audio clip
+                });
+                this.libraryPreviewAudio.addEventListener("ended", function(){
+                    this.libraryPreviewAudioIsPlaying = false;
+               });
+                
+            }else{
+                if(this.libraryPreviewAudioIsPlaying){
+                    this.libraryPreviewAudioIsPlaying = false;
+                    this.libraryPreviewAudio.pause();
+                }else{
+                    this.libraryPreviewAudioIsPlaying = true;
+                    this.libraryPreviewAudio.play();
+                }
+            
+                
+            }
+            let container = document.getElementById("library");
+
+
+        },
+        addLibraryAudioToTimeline(sound){
+            const formData = new FormData();
+            formData.append('_token', $('input[name=_token]').val());
+            formData.append('sound_src', sound.src);
+            this.isLoading = true;
+            this.loadingType = "libraryAudioUpload";
+            axios.post(this.url.storeLibraryAudio, formData)
+                .then((response) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+
+                    let path = response.data.path;
+                    this.addTranslatedAudioToLayer(sound.src, path);
+                    $("#addMusicTrackModal").modal('hide');
+                    this.$notify({
+                        title: 'Success',
+                        message: response.data.message,
+                        type: 'success'
+                    });
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+                    this.loadingType = "";
+
+                    this.$notify.error({
+                        title: 'Error',
+                        message: error.response.data.message
+                    });
+                })
+        },
         setFormat(type){
             this.selectedFormat = type;
         },
