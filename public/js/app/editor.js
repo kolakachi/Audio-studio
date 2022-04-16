@@ -378,7 +378,7 @@ new Vue({
                     this.loadingType = "";
 
                     let path = response.data.path;
-                    this.addTranslatedAudioToLayer(sound.src, path);
+                    this.addTranslatedAudioToLayer(this.url.audioURL + path, path);
                     $("#addMusicTrackModal").modal('hide');
                     this.$notify({
                         title: 'Success',
