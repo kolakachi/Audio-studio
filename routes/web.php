@@ -468,7 +468,7 @@ Route::get('/get-sounds', function(){
 
         // Setting max result to 1 is just to demonstrate the continuation token.
         // It is not the recommended value in a product environment.
-        $listBlobsOptions->setMaxResults(5);
+        $listBlobsOptions->setMaxResults(15);
         $files = [];
 
         do {
@@ -510,12 +510,12 @@ Route::get('/get-music', function(){
 
         // Setting max result to 1 is just to demonstrate the continuation token.
         // It is not the recommended value in a product environment.
-        $listBlobsOptions->setMaxResults(5);
+        $listBlobsOptions->setMaxResults(15);
         $files = [];
 
         do {
             // global $myContainer;
-            $blob_list = $blobClient->listBlobs('musics', $listBlobsOptions);
+            $blob_list = $blobClient->listBlobs('music', $listBlobsOptions);
             foreach ($blob_list->getBlobs() as $blob) {
                 $files[] = [
                     'name' => $blob->getName(),

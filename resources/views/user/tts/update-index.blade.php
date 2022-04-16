@@ -639,19 +639,24 @@
                     </div>
                     <div class="track-list-wrap" v-if="trackType == 'music'">
                         <div class="track-list">
-                        <div v-for="num in 8" :key="num" class="track-item" :class="{ active: num === 4 }">
-                            <div class="icon-wrap">
-                            <span class="icon" v-if="num === 4"><svg width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M4.6875 0C5.9307 0 7.12299 0.49386 8.00206 1.37294C8.88114 2.25201 9.375 3.4443 9.375 4.6875V23.4375C9.375 24.6807 8.88114 25.873 8.00206 26.7521C7.12299 27.6311 5.9307 28.125 4.6875 28.125C3.4443 28.125 2.25201 27.6311 1.37294 26.7521C0.49386 25.873 2.61985e-08 24.6807 0 23.4375V4.6875C0 3.4443 0.49386 2.25201 1.37294 1.37294C2.25201 0.49386 3.4443 0 4.6875 0ZM20.3125 0C21.5557 0 22.748 0.49386 23.6271 1.37294C24.5061 2.25201 25 3.4443 25 4.6875V23.4375C25 24.6807 24.5061 25.873 23.6271 26.7521C22.748 27.6311 21.5557 28.125 20.3125 28.125C19.0693 28.125 17.877 27.6311 16.9979 26.7521C16.1189 25.873 15.625 24.6807 15.625 23.4375V4.6875C15.625 3.4443 16.1189 2.25201 16.9979 1.37294C17.877 0.49386 19.0693 0 20.3125 0Z" fill="white"></path></svg></span>
-                            <span class="icon" v-else ><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>
-                            
+                            <div v-for="(music, index) in backgroundMusic" :key="index" class="track-item">
+                                <div class="icon-wrap" @click="playSoundPreview(music)">
+                                    <span class="icon" v-if="trackName == music.name && libraryPreviewAudioIsPlaying">
+                                        <svg width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M4.6875 0C5.9307 0 7.12299 0.49386 8.00206 1.37294C8.88114 2.25201 9.375 3.4443 9.375 4.6875V23.4375C9.375 24.6807 8.88114 25.873 8.00206 26.7521C7.12299 27.6311 5.9307 28.125 4.6875 28.125C3.4443 28.125 2.25201 27.6311 1.37294 26.7521C0.49386 25.873 2.61985e-08 24.6807 0 23.4375V4.6875C0 3.4443 0.49386 2.25201 1.37294 1.37294C2.25201 0.49386 3.4443 0 4.6875 0ZM20.3125 0C21.5557 0 22.748 0.49386 23.6271 1.37294C24.5061 2.25201 25 3.4443 25 4.6875V23.4375C25 24.6807 24.5061 25.873 23.6271 26.7521C22.748 27.6311 21.5557 28.125 20.3125 28.125C19.0693 28.125 17.877 27.6311 16.9979 26.7521C16.1189 25.873 15.625 24.6807 15.625 23.4375V4.6875C15.625 3.4443 16.1189 2.25201 16.9979 1.37294C17.877 0.49386 19.0693 0 20.3125 0Z" fill="white"></path></svg>
+                                    </span>
+                                    <span class="icon" v-else>
+                                        <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg>
+                                    </span>
+                                    
+                                </div>
+                                <a href="#" class="track-title" @click="playSoundPreview(music)">
+                                    @{{music.name}}
+                                </a>
+                                <div class="track-duration">
+                                    <span v-if="trackisLoading && trackName == music.name"><i>please wait..</i></span>
+                                    <span v-else style="cursor: pointer;" @click="addLibraryAudioToTimeline(music)">Use</span>
+                                </div>
                             </div>
-                            <a href="#" class="track-title" @click.prevent>
-                            On The Form Track
-                            </a>
-                            <div class="track-duration">
-                            03:25
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
