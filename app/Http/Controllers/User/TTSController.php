@@ -471,34 +471,14 @@ class TTSController extends Controller
 
     private function storeUserUploadedLibraryAudio($request)
     {
-        $contents = file_get_contents($request->sound_src, true);
-        $fileinfo=getimagesizefromstring($contents);
+        $contents = $this->download_content($request->sound_src);
         $extention = "mp3";
-        if(isset($fileinfo["mime"])){
-            if(isset(explode('/', $fileinfo["mime"])[1])){
-                $fileType = explode('/', $fileinfo["mime"])[0];
-                $extention = explode('/', $fileinfo["mime"])[1];
-                $name = "audio-studio-".$this->randomFileNameString(). "." .$extention;
+        $name = "audio-studio-".$this->randomFileNameString(). "." .$extention;
 
-                if(!in_array($extention, ['mp3'])){
-                    return [
-                        'error' => true,
-                        'type' => '',
-                        'name' => "",
-                        'message' => "file extension not valid"
-                    ];
-                }
-
-                $path = Paths::AUDIO_PATH;
-                $audioPath = "{$path}{$name}";
-                Storage::put($audioPath, $contents);
-    
-                return $name;
-                
-
-            }
-        }
-        return '';
+        $path = Paths::AUDIO_PATH;
+        $audioPath = "{$path}{$name}";
+        Storage::put($audioPath, $contents);
+        return $name;
     }
 
     public function storeLibraryAudio(Request $request){
@@ -524,6 +504,19 @@ class TTSController extends Controller
                 'message' => "Unable to complete request.",
             ], 500);
         }
+    }
+
+    private function download_content($url) {
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Firefox 32.0");
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 
 
