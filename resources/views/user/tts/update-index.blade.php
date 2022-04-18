@@ -166,6 +166,10 @@
         break[time] {
             color: #00E0FF;
         }
+        .track-list{
+            height: 250px;
+            overflow-y: scroll;
+        }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
 
