@@ -49,43 +49,43 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::min(8)],
-            'country' => 'required',
-            'agreement' => 'required',
+            'password' => ['required', 'confirmed', Rules\Password::min(6)],
+            // 'country' => 'required',
+            // 'agreement' => 'required',
         ]);
 
-        if (config('services.google.recaptcha.enable') == 'on') {
+        // if (config('services.google.recaptcha.enable') == 'on') {
 
-            $recaptchaResult = $this->reCaptchaCheck(request('recaptcha'));
+        //     $recaptchaResult = $this->reCaptchaCheck(request('recaptcha'));
 
-            if ($recaptchaResult->success != true) {
-                return redirect()->back()->with('error', 'Google reCaptcha Validation has Failed');
-            }
+        //     if ($recaptchaResult->success != true) {
+        //         return redirect()->back()->with('error', 'Google reCaptcha Validation has Failed');
+        //     }
 
-            if ($recaptchaResult->score >= 0.5) {
+        //     if ($recaptchaResult->score >= 0.5) {
 
-                $this->createNewUser($request);
+        //         $this->createNewUser($request);
 
-                if (config('settings.email_verification') == 'enabled') {
-                    return redirect()->route('login')->with('success', 'Final step! Email verification link has been sent to you');
-                } else {
-                    return redirect()->route('login')->with('success', 'Congratulation! You can now proceed to login with your email');
-                }
+        //         if (config('settings.email_verification') == 'enabled') {
+        //             return redirect()->route('login')->with('success', 'Final step! Email verification link has been sent to you');
+        //         } else {
+        //             return redirect()->route('login')->with('success', 'Congratulation! You can now proceed to login with your email');
+        //         }
 
-            } else {
-                return redirect()->back()->with('error', 'Google reCaptcha Validation has Failed');
-            }
+        //     } else {
+        //         return redirect()->back()->with('error', 'Google reCaptcha Validation has Failed');
+        //     }
 
-        } else {
+        // } else {
 
             $this->createNewUser($request);
 
-            if (config('settings.email_verification') == 'enabled') {
-                return redirect()->route('login')->with('success', 'Final step! Email verification link has been sent to you');
-            } else {
+            // if (config('settings.email_verification') == 'enabled') {
+            //     return redirect()->route('login')->with('success', 'Final step! Email verification link has been sent to you');
+            // } else {
                 return redirect()->route('login')->with('success', 'Congratulation! You can now proceed to login with your email');
-            }
-        }               
+            // }
+        // }               
 
     }
 
@@ -99,7 +99,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'country' => $request->country
+            'country' => 'United States'//$request->country
         ]);
         
         event(new Registered($user));
