@@ -1285,6 +1285,9 @@ new Vue({
 		    // dom.style.width = ( ( layer.end - layer.start ) * scale ) + 'px';
 
 		    // name.innerHTML = layer.name; //+ ' <span style="opacity:0.5">' + animation.effect.name + '</span>';
+            this.resetDuration();
+            this.initTimeline();
+            this.updateTimeMark();
             
 
         },
