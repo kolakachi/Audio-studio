@@ -1,0 +1,56 @@
+{
+    "options": [{
+            "tick": false,
+            "title": "Niche",
+            "desc": "Please select your niche"
+        },
+        {
+            "tick": false,
+            "title": "Objective",
+            "desc": "Please select  your marketing objective."
+        },
+        {
+            "tick": false,
+            "title": "Keyword",
+            "desc": "Please enter a keyword that best describes your business."
+        },
+        {
+            "tick": false,
+            "title": "Language",
+            "desc": "What language would you prefer me to write your script?"
+        },
+        {
+            "tick": false,
+            "title": "Template",
+            "desc": "Please select your preferred script template."
+        }
+    ],
+    "intro": [
+        {
+            "text": "Hey There! I’m <b>Lizzy</b> and I am your Script Assistant."
+        },
+        {
+            "text": "Please answer the following questions and I will assist you write your audio script."
+        }
+    ],
+    "questions": [{
+            "id": 1,
+            "hasOptions": true,
+            "text": "Please answer the following questions and I will assist you write your audio script.",
+            "optionTitle": "Select Niche",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 2,
+            "hasOptions": true,
+            "text": "Please select your marketing objective.",
+            "optionTitle": "Select Objective",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 3,
+            "hasOptions": false,
+            "text":"Enter your business keywords (if more than one, separate each word by comma)"
+        }
+    ]
+}

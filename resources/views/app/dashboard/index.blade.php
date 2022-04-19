@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')	
+<link href="/assets/css/ai-popup.css" rel="stylesheet">
 <div>
 			
   <div class="main-col-content" id="app-id">
@@ -20,7 +21,7 @@
         </p>
       </a>
 
-      <a href="#" class="create-card" data-bs-toggle="modal" data-bs-target="#scriptAiModal" id="scriptAiModalButton">
+      <a href="#" class="create-card" @click="openModal" id="scriptAiModalButton">
         <span class="card-icon icon"><svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M59.5332 54.1817C59.5244 54.1979 59.5095 54.2222 59.4999 54.238C58.6919 56.3549 56.6573 57.8907 54.256 57.8907H5.48898C5.30605 57.8907 5.13613 57.7735 4.95754 57.7735H4.88664C4.86824 57.7735 4.85348 57.7645 4.83508 57.7623C3.66027 57.624 2.60277 57.1422 1.76406 56.3941C1.74836 56.3801 1.7275 56.3735 1.71168 56.3595L1.72164 56.352C1.52383 56.1717 1.31863 55.9984 1.14801 55.7913C0.744191 55.3014 0.426402 54.7465 0.208164 54.1503C0.205063 54.1461 0.202394 54.1415 0.200195 54.1367L0.210508 54.1324C0.20043 54.1049 0.234414 54.0368 0.351602 53.9326V22.5712C0.35141 21.8855 0.47721 21.2057 0.722734 20.5654L0.676211 20.5289C0.676211 20.5289 1.17977 19.0347 1.9259 18.3718C2.67203 17.7089 4.08437 17.103 5.28074 16.9759L54.4805 16.9741C55.6804 17.103 56.6632 16.9741 57.8389 18.3718C59.0144 19.7695 59.0998 20.5603 59.0998 20.5603L59.0542 20.596C59.2924 21.2273 59.4144 21.8964 59.4142 22.5711V53.9661L59.3312 53.9029C59.4599 54.0374 59.5295 54.1241 59.5175 54.1565L59.5332 54.1817Z" fill="white"></path><path d="M55.729 26.4372H45.0708V20.3018H55.729V26.4372Z" fill="#F4F3EF"></path><path d="M46.7151 34.2112H13.0601C12.5747 34.2112 12.1812 33.8178 12.1812 33.3323C12.1812 32.8468 12.5747 32.4534 13.0601 32.4534H46.715C47.2005 32.4534 47.5939 32.8468 47.5939 33.3323C47.5939 33.8178 47.2005 34.2112 46.7151 34.2112ZM47.594 40.2367C47.594 39.7512 47.2006 39.3578 46.7151 39.3578H13.0601C12.5747 39.3578 12.1812 39.7512 12.1812 40.2367C12.1812 40.7222 12.5747 41.1156 13.0601 41.1156H46.715C46.8304 41.1157 46.9448 41.0929 47.0514 41.0488C47.158 41.0046 47.2549 40.9399 47.3366 40.8583C47.4182 40.7766 47.4829 40.6797 47.5271 40.5731C47.5713 40.4665 47.594 40.3522 47.594 40.2367ZM47.594 47.1414C47.594 46.6559 47.2006 46.2625 46.7151 46.2625H13.0601C12.5747 46.2625 12.1812 46.6559 12.1812 47.1414C12.1812 47.6269 12.5747 48.0203 13.0601 48.0203H46.715C46.8304 48.0203 46.9448 47.9976 47.0514 47.9535C47.158 47.9093 47.2549 47.8446 47.3366 47.7629C47.4182 47.6813 47.4829 47.5844 47.5271 47.4778C47.5713 47.3711 47.594 47.2568 47.594 47.1414Z" fill="#597B91"></path><path d="M56.3486 21.5224C56.3498 21.6045 56.3346 21.6859 56.304 21.7621C56.2734 21.8382 56.2279 21.9075 56.1703 21.9659C56.1126 22.0243 56.044 22.0707 55.9683 22.1024C55.8926 22.1341 55.8113 22.1504 55.7293 22.1504C55.6472 22.1504 55.5659 22.1341 55.4902 22.1024C55.4145 22.0707 55.3459 22.0243 55.2882 21.9659C55.2306 21.9075 55.1852 21.8382 55.1545 21.7621C55.1239 21.6859 55.1087 21.6045 55.1099 21.5224C55.1121 21.3596 55.1783 21.2042 55.2943 21.0899C55.4102 20.9756 55.5664 20.9115 55.7293 20.9115C55.8921 20.9115 56.0483 20.9756 56.1643 21.0899C56.2802 21.2042 56.3464 21.3596 56.3486 21.5224ZM55.7292 24.6725C55.6471 24.6714 55.5657 24.6866 55.4895 24.7172C55.4134 24.7478 55.3441 24.7933 55.2857 24.8509C55.2273 24.9085 55.1809 24.9772 55.1492 25.0529C55.1175 25.1286 55.1012 25.2099 55.1012 25.2919C55.1012 25.374 55.1175 25.4552 55.1492 25.5309C55.1809 25.6066 55.2273 25.6753 55.2857 25.7329C55.3441 25.7906 55.4134 25.836 55.4895 25.8666C55.5657 25.8973 55.6471 25.9124 55.7292 25.9113C55.892 25.9091 56.0474 25.8428 56.1617 25.7269C56.276 25.611 56.3401 25.4547 56.3401 25.2919C56.3401 25.1291 56.276 24.9728 56.1617 24.8569C56.0474 24.741 55.892 24.6748 55.7292 24.6725ZM55.7292 22.7499C55.5649 22.7499 55.4073 22.8152 55.2912 22.9314C55.175 23.0475 55.1097 23.2051 55.1097 23.3694C55.1097 23.5337 55.175 23.6912 55.2912 23.8074C55.4073 23.9236 55.5649 23.9888 55.7292 23.9888C55.8935 23.9888 56.051 23.9236 56.1672 23.8074C56.2834 23.6912 56.3486 23.5337 56.3486 23.3694C56.3486 23.2051 56.2834 23.0475 56.1672 22.9314C56.051 22.8152 55.8935 22.7499 55.7292 22.7499ZM45.0711 20.9029C44.9888 20.9014 44.907 20.9162 44.8304 20.9466C44.7539 20.977 44.6842 21.0224 44.6254 21.0801C44.5666 21.1377 44.5199 21.2066 44.488 21.2825C44.4561 21.3584 44.4397 21.44 44.4397 21.5223C44.4397 21.6047 44.4561 21.6862 44.488 21.7622C44.5199 21.8381 44.5666 21.9069 44.6255 21.9646C44.6843 22.0223 44.754 22.0676 44.8305 22.098C44.9071 22.1284 44.9889 22.1432 45.0713 22.1416C45.2334 22.1385 45.3879 22.0718 45.5014 21.956C45.615 21.8402 45.6786 21.6844 45.6786 21.5222C45.6786 21.36 45.615 21.2043 45.5014 21.0885C45.3878 20.9727 45.2333 20.9061 45.0711 20.9029ZM45.0711 24.6725C44.9888 24.6709 44.907 24.6858 44.8304 24.7162C44.7539 24.7466 44.6842 24.792 44.6254 24.8496C44.5666 24.9073 44.5199 24.9761 44.488 25.0521C44.4561 25.128 44.4397 25.2096 44.4397 25.2919C44.4397 25.3743 44.4561 25.4558 44.488 25.5317C44.5199 25.6077 44.5666 25.6765 44.6255 25.7342C44.6843 25.7918 44.754 25.8372 44.8305 25.8676C44.9071 25.898 44.9889 25.9128 45.0713 25.9112C45.2334 25.908 45.3879 25.8414 45.5014 25.7256C45.615 25.6097 45.6786 25.454 45.6786 25.2918C45.6786 25.1296 45.615 24.9739 45.5014 24.8581C45.3878 24.7423 45.2333 24.6757 45.0711 24.6725ZM45.0711 22.7499C44.9069 22.7499 44.7493 22.8152 44.6332 22.9314C44.517 23.0475 44.4517 23.2051 44.4517 23.3693C44.4517 23.5336 44.517 23.6912 44.6332 23.8073C44.7493 23.9235 44.9069 23.9887 45.0711 23.9887C45.1532 23.9899 45.2347 23.9747 45.3108 23.9441C45.3869 23.9134 45.4562 23.868 45.5147 23.8104C45.5731 23.7527 45.6195 23.6841 45.6511 23.6084C45.6828 23.5326 45.6991 23.4514 45.6991 23.3693C45.6991 23.2873 45.6828 23.206 45.6511 23.1303C45.6195 23.0546 45.5731 22.9859 45.5147 22.9283C45.4562 22.8707 45.3869 22.8252 45.3108 22.7946C45.2347 22.764 45.1532 22.7488 45.0711 22.7499Z" fill="#545454"></path><path d="M22.8559 28.8233L18.1873 21.616L19.039 19.7294L19.0304 19.7209L19.0486 19.7027C19.0518 19.6939 19.0569 19.6858 19.0635 19.6792C19.0702 19.6726 19.0782 19.6675 19.087 19.6643L20.031 18.7203C20.0341 18.7115 20.0392 18.7034 20.0459 18.6968C20.0525 18.6901 20.0606 18.6851 20.0694 18.6819L20.154 18.5973L20.1937 18.637L21.9826 17.8206L29.1899 22.4892C29.2335 22.5148 29.2716 22.5489 29.3021 22.5893C29.3325 22.6298 29.3546 22.6758 29.3672 22.7249L31.0849 29.4115C31.1251 29.5678 30.9333 29.6772 30.8191 29.5631L26.7038 25.4477C26.5198 25.2637 26.4335 24.9992 26.4881 24.7448C26.6118 24.1691 26.45 23.5443 26.0026 23.0969C25.2714 22.3657 24.0662 22.3971 23.3756 23.1913C22.7981 23.8555 22.7931 24.8594 23.3646 25.5289C23.8113 26.052 24.4789 26.2508 25.0936 26.1253C25.3549 26.072 25.6256 26.1485 25.8142 26.337L29.9296 30.4524C30.0437 30.5666 29.9343 30.7584 29.7779 30.7182L23.0913 29.0005C23.0423 28.9879 22.9963 28.9658 22.9559 28.9354C22.9155 28.905 22.8815 28.8669 22.8559 28.8233Z" fill="#545454"></path><path d="M21.0639 20.7002C19.501 22.2631 17.8217 23.1555 17.1583 22.8094L17.1417 22.8261L16.1314 21.8158L1.16316 6.84743C1.01242 6.69667 0.927734 6.49221 0.927734 6.27901C0.927734 6.06582 1.01242 5.86135 1.16316 5.71059L6.07742 0.79622C6.22818 0.645477 6.43264 0.560791 6.64584 0.560791C6.85903 0.560791 7.0635 0.645477 7.21426 0.79622L19.8948 13.4767L22.1825 15.7645L23.1928 16.7747L23.1731 16.7944C23.5193 17.4579 22.6269 19.1372 21.0639 20.7002Z" fill="#445056"></path><path d="M6.85595 0.511444C7.13438 0.789882 6.01384 2.36195 4.35306 4.02273C2.69227 5.68352 1.12032 6.80406 0.841767 6.52562C0.563329 6.24719 1.68388 4.67512 3.34466 3.01434C5.00544 1.35355 6.57751 0.233007 6.85595 0.511444ZM13.539 7.12047L7.48782 13.1717L8.58012 14.264L14.6313 8.21277L13.539 7.12047Z" fill="#A1AAAD"></path></svg></span>
         <div class="card-title">Use our Script AI</div>
         <p class="card-description">
@@ -89,172 +90,221 @@
 	  </div>
 	
 	
-		<div id="scriptAiModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="scriptAiModalLabel" aria-hidden="true" class="modal fade">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<button data-bs-dismiss="modal" class="btn close-btn">
-						<span class="icon">
-							<svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-								<path
-									d="M1.35 21C1.19 21 1.04 20.94 0.9 20.82C0.78 20.7 0.72 20.56 0.72 20.4C0.72 20.26 0.76 20.13 0.84 20.01L7.71 10.32L1.17 0.989998C1.11 0.889998 1.08 0.759999 1.08 0.6C1.08 0.439999 1.14 0.299999 1.26 0.18C1.38 0.059999 1.52 -1.43051e-06 1.68 -1.43051e-06H3.48C3.78 -1.43051e-06 4.05 0.169999 4.29 0.509999L9.57 8.01L14.82 0.509999C15.02 0.169999 15.28 -1.43051e-06 15.6 -1.43051e-06H17.31C17.47 -1.43051e-06 17.61 0.059999 17.73 0.18C17.85 0.299999 17.91 0.439999 17.91 0.6C17.91 0.78 17.87 0.909999 17.79 0.989998L11.34 10.35L18.18 20.01C18.26 20.13 18.3 20.26 18.3 20.4C18.3 20.56 18.24 20.7 18.12 20.82C18 20.94 17.85 21 17.67 21H15.84C15.54 21 15.27 20.83 15.03 20.49L9.45 12.72L3.9 20.49C3.7 20.83 3.44 21 3.12 21H1.35Z"
-								></path>
-							</svg>
-						</span>
-					</button>
-					<div class="modal-body">
-						<div class="scriptai-row">
-							<div class="chat-col" style="width: 100%;">
-								<div class="chat-box">
-									<div class="chat-body" >
-										<div class="chat-list" id="thread-main-container">
-											<div class="chat-item">
-												<div class="chat-head">
-													<span class="icon">
-														<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-															<path
-																d="M0.810929 8.88671C0.15587 8.66836 0.149596 8.31573 0.823478 8.09111L24.7758 0.107424C25.4396 -0.113438 25.8199 0.258012 25.6341 0.908051L18.7899 24.8591C18.6017 25.5229 18.2189 25.5455 17.9378 24.9156L13.4277 14.7659L20.9571 4.72672L10.9179 12.2561L0.810929 8.88671Z"
-																fill="white"
-															></path>
-														</svg>
-													</span>
-												</div>
-												<div class="chat-bubble">
-													Hey There! Welcome to Audiostudio AI Script Assistant
-												</div>
-											</div>
-											<div class="chat-item">
-												<div class="chat-head">
-													<span class="icon">
-														<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-															<path
-																d="M0.810929 8.88671C0.15587 8.66836 0.149596 8.31573 0.823478 8.09111L24.7758 0.107424C25.4396 -0.113438 25.8199 0.258012 25.6341 0.908051L18.7899 24.8591C18.6017 25.5229 18.2189 25.5455 17.9378 24.9156L13.4277 14.7659L20.9571 4.72672L10.9179 12.2561L0.810929 8.88671Z"
-																fill="white"
-															></path>
-														</svg>
-													</span>
-												</div>
-												<div class="chat-bubble">
-													Please answer the following questions and allow me to assist you create your audio script.
-												</div>
-											</div>
-											<div class="chat-item">
-												<div class="chat-head">
-													<span class="icon">
-														<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-															<path
-																d="M0.810929 8.88671C0.15587 8.66836 0.149596 8.31573 0.823478 8.09111L24.7758 0.107424C25.4396 -0.113438 25.8199 0.258012 25.6341 0.908051L18.7899 24.8591C18.6017 25.5229 18.2189 25.5455 17.9378 24.9156L13.4277 14.7659L20.9571 4.72672L10.9179 12.2561L0.810929 8.88671Z"
-																fill="white"
-															></path>
-														</svg>
-													</span>
-												</div>
-												<div class="chat-bubble">
-													What is your business niche?
-												</div>
-											</div>
-											<div class="chat-item me">
-												<select class="form-select">
-													<option selected="selected">Select Niche</option>
-													<option>Niche 1</option>
-													<option>Niche 2</option>
-												</select>
-											</div>
+	  <div class="modal fade" id="scriptAiModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="scriptAiModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+		  <div class="modal-content">
+			<button class="btn close-btn" data-bs-dismiss="modal">
+			  {{-- <svg-icon name="x"></svg-icon> --}}
+			</button>
+			<div class="modal-body">
+			  <div class="scriptai-row">
+				<div class="chat-col">
+				  <div class="chat-box">
+					<div class="chat-body">
+					  <div class="chat-list">
+						<div class="chat-item">
+						  <div class="chat-head">
+							{{-- <svg-icon name="send"></svg-icon> --}}
+						  </div>
+						  <div class="chat-bubble">
+							Hey There! Welcome to Audiostudio AI Script Assistant
+						  </div>
+						</div>
+						<div class="chat-item">
+						  <div class="chat-head">
+							{{-- <svg-icon name="send"></svg-icon> --}}
+						  </div>
+						  <div class="chat-bubble">
+							Please answer the following questions and allow me to assist you create your audio script.
+						  </div>
+						</div>
+						<div class="chat-item">
+						  <div class="chat-head">
+							{{-- <svg-icon name="send"></svg-icon> --}}
+						  </div>
+						  <div class="chat-bubble">
+							What is your business niche?
+						  </div>
+						</div>
+	  
+						<div class="chat-item me">
+						  <select class="form-select">
+							<option selected>Select Niche</option>
+							<option>Niche 1</option>
+							<option>Niche 2</option>
+						  </select>
+						</div>
+					  </div>
+					</div>
+					<div class="chat-footer">
+					  <div class="footer-content">
+						<textarea id="chat-input" class="form-control" placeholder="Type your answer here..."></textarea>
+	  
+						<button class="btn chat-send-button">
+						  {{-- <svg-icon name="send"></svg-icon> --}}
+						</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				<div class="params-col">
+				  <div class="params-list">
+					<div class="param-item done">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="check"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Niche</div>
+						<p>Please select your niche</p>
+					  </div>
+					</div>
+					<div class="param-item current">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="line"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Objective</div>
+						<p class="param-desc">Please select your marketing objective</p>
+					  </div>
+					</div>
+					<div class="param-item">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="line"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Objective Name</div>
+						<p class="param-desc">Please enter the name of your marketing objective.</p>
+					  </div>
+					</div>
+					<div class="param-item">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="line"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Objective Description</div>
+						<p class="param-desc">What language would you prefer me to write your ebook?</p>
+					  </div>
+					</div>
+					<div class="param-item">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="line"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Language</div>
+						<p class="param-desc">What language would you prefer me to write your script?</p>
+					  </div>
+					</div>
+					<div class="param-item">
+					  <div class="param-icon-wrap">
+						{{-- <svg-icon name="line"></svg-icon> --}}
+					  </div>
+					  <div class="param-details">
+						<div class="param-title">Template</div>
+						<p class="param-desc">Please select your preferred script template.</p>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	    <!-- AI POPUP MODAL START -->
+		<div class="popup-holder"  ref="modal" id="chatModal" style="display:none">
+			<div class="popup-content">
+
+				<!-- Left Box -->
+				<div class="left-chat-box">
+					<div class="chat-conversations" ref="conversation">
+						<div v-for="(item, index) in conversation">
+
+							<div class="chat-holder" v-bind:class="[item.isAnswer == true && 'reply']">
+								<div v-show="item.isAnswer == false" class="avatar-circle">
+									<div class="circle-status"></div>
+								</div>
+	
+								<div v-show="item.isAnswer == false" class="with-options">
+									<div class="chat-text" v-html="item.text">
+									</div>
+									<div v-if="item.hasOptions" class="option-holder">
+										<select class="chat-options" v-on:change="selectOption">
+											<option selected="true" disabled value="null" v-cloak>@{{ item.optionTitle }}</option>
+											<option v-for="(types, idx) in item.options" v-bind:value="types" v-cloak>@{{ types }}</option>
+										</select>
+									</div>
+								</div>
+
+								<div v-show="item.isAnswer == true" class="without-options">
+									<div class="chat-holder">
+										<div class="chat-text" v-cloak>
+											@{{ item.text }}
 										</div>
 									</div>
-									{{-- <div class="chat-footer">
-										<div class="footer-content">
-											<textarea id="chat-input" placeholder="Type your answer here..." class="form-control"></textarea>
-											<button class="btn chat-send-button">
-												<span class="icon">
-													<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-														<path
-															d="M0.810929 8.88671C0.15587 8.66836 0.149596 8.31573 0.823478 8.09111L24.7758 0.107424C25.4396 -0.113438 25.8199 0.258012 25.6341 0.908051L18.7899 24.8591C18.6017 25.5229 18.2189 25.5455 17.9378 24.9156L13.4277 14.7659L20.9571 4.72672L10.9179 12.2561L0.810929 8.88671Z"
-															fill="white"
-														></path>
-													</svg>
-												</span>
-											</button>
-										</div>
-									</div> --}}
+								</div>
+
+							</div>
+						</div>
+
+						<div class="chat-holder" v-show="isTyping">
+							<div class="avatar-circle">
+								<div class="circle-status"></div>
+							</div>
+
+							<div class="with-options">
+								<div class="chat-text">
+									<i>
+										is typing...
+									</i>
 								</div>
 							</div>
-							{{-- <div class="params-col">
-								<div class="params-list">
-									<div class="param-item done">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-													<path d="M2 11L11 20L26 2" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-												</svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Niche</div>
-											<p>Please select your niche</p>
-										</div>
-									</div>
-									<div class="param-item current">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="25" height="2" viewBox="0 0 25 2" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><line y1="1" x2="25" y2="1" stroke="#797FAE" stroke-width="2"></line></svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Objective</div>
-											<p class="param-desc">Please select your marketing objective</p>
-										</div>
-									</div>
-									<div class="param-item">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="25" height="2" viewBox="0 0 25 2" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><line y1="1" x2="25" y2="1" stroke="#797FAE" stroke-width="2"></line></svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Objective Name</div>
-											<p class="param-desc">Please enter the name of your marketing objective.</p>
-										</div>
-									</div>
-									<div class="param-item">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="25" height="2" viewBox="0 0 25 2" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><line y1="1" x2="25" y2="1" stroke="#797FAE" stroke-width="2"></line></svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Objective Description</div>
-											<p class="param-desc">What language would you prefer me to write your ebook?</p>
-										</div>
-									</div>
-									<div class="param-item">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="25" height="2" viewBox="0 0 25 2" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><line y1="1" x2="25" y2="1" stroke="#797FAE" stroke-width="2"></line></svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Language</div>
-											<p class="param-desc">What language would you prefer me to write your script?</p>
-										</div>
-									</div>
-									<div class="param-item">
-										<div class="param-icon-wrap">
-											<span class="icon">
-												<svg width="25" height="2" viewBox="0 0 25 2" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><line y1="1" x2="25" y2="1" stroke="#797FAE" stroke-width="2"></line></svg>
-											</span>
-										</div>
-										<div class="param-details">
-											<div class="param-title">Template</div>
-											<p class="param-desc">Please select your preferred script template.</p>
-										</div>
-									</div>
-								</div>
-							</div> --}}
 						</div>
+
+					</div>
+					<div class="chat-box-holder">
+						<input type="text" class="chat-box-field" :disabled="!canType" placeholder="Type your answer here..." ref="answer">
+						<div class="send-button" v-on:click="sendMessage"></div>
+					</div>
+				</div>
+
+				<!-- Right Box -->
+				<div class="right-option-box">
+					<div class="close" id="closeX" v-on:click="closeModal">X</div>
+					<div class="header">
+						<div class="avatar-square">
+
+						</div>
+						<div class="meta-info">
+							<div>
+								<b>Lizzy</b> from Audiostudio
+							</div>
+							<div class="status-holder">
+								<div class="circle-status-small"></div>
+								<div class="status-text">Online</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-steps" id="form-step">
+						 <div class="step-holder" v-for="(item, index) in stepOptions">
+							<div class="step-tick" v-bind:class="[item.tick ? 'tick' : 'untick']"></div>
+							<div class="step-info">
+								<div class="step-title"><b v-cloak>@{{item.title}}</b></div>
+								<div class="step-desc">
+									<span v-cloak>
+										@{{item.desc}}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rewrite" v-on:click="resetEveryThing">
+						<b>Rewrite</b>
 					</div>
 				</div>
 			</div>
 		</div>
+	<!-- AI POPUP MODAL END -->
   </div>
   <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
 
@@ -281,9 +331,67 @@
 <script>
 	var placeholders = [];
 	var userImage = "";
+	var data = {
+    "options": [{
+            "tick": false,
+            "title": "Niche",
+            "desc": "Please select your niche"
+        },
+        {
+            "tick": false,
+            "title": "Objective",
+            "desc": "Please select  your marketing objective."
+        },
+        {
+            "tick": false,
+            "title": "Keyword",
+            "desc": "Please enter a keyword that best describes your business."
+        },
+        {
+            "tick": false,
+            "title": "Language",
+            "desc": "What language would you prefer me to write your script?"
+        },
+        {
+            "tick": false,
+            "title": "Template",
+            "desc": "Please select your preferred script template."
+        }
+    ],
+    "intro": [
+        {
+            "text": "Hey There! I’m <b>Lizzy</b> and I am your Script Assistant."
+        },
+        {
+            "text": "Please answer the following questions and I will assist you write your audio script."
+        }
+    ],
+    "questions": [{
+            "id": 1,
+            "hasOptions": true,
+            "text": "Please answer the following questions and I will assist you write your audio script.",
+            "optionTitle": "Select Niche",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 2,
+            "hasOptions": true,
+            "text": "Please select your marketing objective.",
+            "optionTitle": "Select Objective",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 3,
+            "hasOptions": false,
+            "text":"Enter your business keywords (if more than one, separate each word by comma)"
+        }
+    ]
+}
 </script>
     <script type="module" src="{{ asset('js/Interactor/ThreadViewModel.js')}}"> </script>
 
-<script src="{{ asset('js/app/dashboard.js') }}"></script>
+
+<script src="{{ asset('js/app/dashboard.js') }}?v=2"></script>
+{{-- <script type="module" src="{{ asset('assets/js/ai-popup.js') }}"></script> --}}
 	
 @endsection
