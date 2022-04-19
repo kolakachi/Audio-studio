@@ -209,7 +209,6 @@ new Vue({
         var modal = document.getElementById('addMusicTrackModal')
         modal.addEventListener('hidden.bs.modal',  (event) => {
             this.libraryPreviewAudioIsPlaying = false;
-            Object.keys(obj).length === 0;
             if(Object.keys(this.libraryPreviewAudio).length != 0){
                 this.libraryPreviewAudio.pause();
             }
