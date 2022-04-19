@@ -1306,9 +1306,8 @@ new Vue({
                 this.timeMark.style.height = document.getElementById("timeline").offsetHeight - 18 + "px";
         },
         playAudios(){
-            let highestLayerDuration = this.duration;
+            let highestLayerDuration = 0;
             for(let i in this.layers){
-                console.log([this.player.currentTime , highestLayerDuration]);
 
                 let layer = this.layers[i];
                 if(layer.end > highestLayerDuration){
