@@ -167,8 +167,8 @@
             color: #00E0FF;
         }
         .track-list{
-            height: 250px;
-            overflow-y: scroll;
+            /* height: 250px;
+            overflow-y: scroll; */
         }
     </style>
         <link rel="stylesheet" href="/css/custom.css">
@@ -600,16 +600,16 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-pills nav-fill" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="library-tab" data-bs-toggle="tab" data-bs-target="#library" type="button" role="tab" aria-controls="library" aria-selected="true">Music Library</button>
+                <button class="nav-link active" id="library-tab" data-bs-toggle="tab" @click="setActiveTab('library')" data-bs-target="#library" type="button" role="tab" aria-controls="library" aria-selected="true">Music Library</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                <button class="nav-link" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab" aria-controls="upload" aria-selected="false">Upload</button>
+                <button class="nav-link" id="upload-tab" data-bs-toggle="tab" @click="setActiveTab('upload')" data-bs-target="#upload" type="button" role="tab" aria-controls="upload" aria-selected="false">Upload</button>
                 </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane active" id="library" role="tabpanel" aria-labelledby="library-tab">
+                <div class="tab-pane active" id="library" role="tabpanel" aria-labelledby="library-tab" style="height: 500px; overflow-y:scroll">
                     <select class="form-select category-select" v-model="trackType" @change="getfiles()">
                         <option selected value="0">Music Category</option>
                         <option value="music">Music</option>
@@ -689,7 +689,7 @@
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary me-4" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-success" @click="addUploadedAudioToTimeline" :disabled="audioUploadName == '' || isLoading">
+            <button type="button" class="btn btn-success" v-if="activeTab != 'library'" @click="addUploadedAudioToTimeline" :disabled="audioUploadName == '' || isLoading">
                 <span class="spinner-border text-light" role="status" v-if="loadingType == 'audioUpload'" style="width: 12px; height:12px">
                     <span class="visually-hidden">Loading...</span>
                 </span>
@@ -904,7 +904,7 @@
 <script src="/js/libs/signals.min.js"></script>
 <script src="/js/app/utils.js"></script>
 <script src="/plugins/audio-player/green-audio-player.js"></script>
-<script src="/js/app/editor.js?v=5.6"></script>
+<script src="/js/app/editor.js?v=7.9"></script>
 <script>
     document.addEventListener( 'dragover', function ( event ) {
 

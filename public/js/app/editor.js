@@ -127,6 +127,7 @@ new Vue({
         voicePreviewIsPlaying: false,
         prevSynthesizeAudioURL: '',
         prevSynthesizePath: '',
+        activeTab: 'library',
         teleprompter: {
             currentStep:1,
             step : 1,
@@ -291,6 +292,9 @@ new Vue({
         
     },
     methods: {
+        setActiveTab(type){
+            this.activeTab = type;
+        },
         getfiles(){
             if(this.trackType == 'music'){
                 if(this.backgroundMusic.length < 1){
@@ -1174,6 +1178,7 @@ new Vue({
 	        var name = document.createElement( 'div' );
 	        name.className = 'name';
             name.id = "name-"+layerNumber;
+            name.style.flexGrow = 1;
 
             
             
@@ -1226,11 +1231,15 @@ new Vue({
             this.scroller.appendChild(layerContainer); 
             this.updateLayerSize(layer.layerNumber);
             var wavesurfer = WaveSurfer.create({
-                container: "#"+ dom.id,
-                barWidth: 3,
-                barHeight: 1, 
+                container: "#"+ "name-"+layerNumber,
+                // barWidth: 3,
+                // barHeight: 1, 
                 waveColor: '#FFF',
-                progressColor: '#FFF'
+                progressColor: '#FFF',
+                fillParent:true,
+                minPxPerSec: 50,
+                pixelRatio: 1,
+                autocenter: true
             });
             wavesurfer.load(layer.url);
             // dom.style.left = ( layer.start * scale ) + 'px';
