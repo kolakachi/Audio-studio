@@ -209,7 +209,8 @@ new Vue({
         var modal = document.getElementById('addMusicTrackModal')
         modal.addEventListener('hidden.bs.modal',  (event) => {
             this.libraryPreviewAudioIsPlaying = false;
-            if(this.libraryPreviewAudio){
+            Object.keys(obj).length === 0;
+            if(Object.keys(this.libraryPreviewAudio).length != 0){
                 this.libraryPreviewAudio.pause();
             }
         });
@@ -814,12 +815,15 @@ new Vue({
             this.scale = this.scale - 0.5;
             this.prevScale = this.scale;
             this.initTimeline();
+            this.updateTimeMark();
             this.initLayers();
+            
         },
         zoomIn(){
             this.scale =  this.scale + 0.5;
             this.prevScale = this.scale;
             this.initTimeline();
+            this.updateTimeMark();
             this.initLayers();
         },
         
