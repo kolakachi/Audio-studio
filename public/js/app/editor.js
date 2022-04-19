@@ -811,13 +811,15 @@ new Vue({
         
         },
         zoomOut(){
-            this.scale = this.scale - 4;
-            this.prevScale = this.scale;
-            this.initTimeline();
-            this.initLayers();
+            if(this.scale > 12){
+                this.scale = this.scale - 0.5;
+                this.prevScale = this.scale;
+                this.initTimeline();
+                this.initLayers();
+            }
         },
         zoomIn(){
-            this.scale =  this.scale + 4;
+            this.scale =  this.scale + 0.5;
             this.prevScale = this.scale;
             this.initTimeline();
             this.initLayers();
@@ -1332,7 +1334,11 @@ new Vue({
                     }
                 }
             }
+<<<<<<< Updated upstream
             console.log([this.player.currentTime , highestLayerDuration]);
+=======
+
+>>>>>>> Stashed changes
             if(this.player.currentTime > highestLayerDuration){
                 this.stop();
             }
