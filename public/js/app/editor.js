@@ -811,12 +811,10 @@ new Vue({
         
         },
         zoomOut(){
-            if(this.scale > 12){
-                this.scale = this.scale - 0.5;
-                this.prevScale = this.scale;
-                this.initTimeline();
-                this.initLayers();
-            }
+            this.scale = this.scale - 0.5;
+            this.prevScale = this.scale;
+            this.initTimeline();
+            this.initLayers();
         },
         zoomIn(){
             this.scale =  this.scale + 0.5;
@@ -1310,6 +1308,8 @@ new Vue({
         playAudios(){
             let highestLayerDuration = this.duration;
             for(let i in this.layers){
+                console.log([this.player.currentTime , highestLayerDuration]);
+
                 let layer = this.layers[i];
                 if(layer.end > highestLayerDuration){
                     highestLayerDuration = layer.end;
@@ -1334,12 +1334,7 @@ new Vue({
                     }
                 }
             }
-<<<<<<< Updated upstream
-            console.log([this.player.currentTime , highestLayerDuration]);
-=======
-
->>>>>>> Stashed changes
-            if(this.player.currentTime > highestLayerDuration){
+            if(this.player.currentTime > highestLayerDuration || this.player.currentTime == highestLayerDuration){
                 this.stop();
             }
         },

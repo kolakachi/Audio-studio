@@ -8,8 +8,103 @@
 <link href="/assets/css/ai-popup.css" rel="stylesheet">
 <div>
 			
-  <div class="main-col-content" id="app-id">
+  <div class="main-col-content" id="app-id" style="position: relative;">
 	  @csrf
+
+	    <!-- AI POPUP MODAL START -->
+		<div class="popup-holder"  ref="modal" id="chatModal" style="display:none">
+			<div class="popup-content">
+
+				<!-- Left Box -->
+				<div class="left-chat-box">
+					<div class="chat-conversations" ref="conversation">
+						<div v-for="(item, index) in conversation">
+
+							<div class="chat-holder" v-bind:class="[item.isAnswer == true && 'reply']">
+								<div v-show="item.isAnswer == false" class="avatar-circle">
+									<div class="circle-status"></div>
+								</div>
+	
+								<div v-show="item.isAnswer == false" class="with-options">
+									<div class="chat-text" v-html="item.text">
+									</div>
+									<div v-if="item.hasOptions" class="option-holder">
+										<select class="chat-options" v-on:change="selectOption">
+											<option selected="true" disabled value="null" v-cloak>@{{ item.optionTitle }}</option>
+											<option v-for="(types, idx) in item.options" v-bind:value="types" v-cloak>@{{ types }}</option>
+										</select>
+									</div>
+								</div>
+
+								<div v-show="item.isAnswer == true" class="without-options">
+									<div class="chat-holder">
+										<div class="chat-text" v-cloak>
+											@{{ item.text }}
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="chat-holder" v-show="isTyping">
+							<div class="avatar-circle">
+								<div class="circle-status"></div>
+							</div>
+
+							<div class="with-options">
+								<div class="chat-text">
+									<i>
+										is typing...
+									</i>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="chat-box-holder">
+						<input type="text" class="chat-box-field" :disabled="!canType" placeholder="Type your answer here..." ref="answer">
+						<div class="send-button" v-on:click="sendMessage"></div>
+					</div>
+				</div>
+
+				<!-- Right Box -->
+				<div class="right-option-box">
+					<div class="close" id="closeX" v-on:click="closeModal">X</div>
+					<div class="header">
+						<div class="avatar-square">
+
+						</div>
+						<div class="meta-info">
+							<div>
+								<b>Lizzy</b> from Audiostudio
+							</div>
+							<div class="status-holder">
+								<div class="circle-status-small"></div>
+								<div class="status-text">Online</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-steps" id="form-step">
+						 <div class="step-holder" v-for="(item, index) in stepOptions">
+							<div class="step-tick" v-bind:class="[item.tick ? 'tick' : 'untick']"></div>
+							<div class="step-info">
+								<div class="step-title"><b v-cloak>@{{item.title}}</b></div>
+								<div class="step-desc">
+									<span v-cloak>
+										@{{item.desc}}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rewrite" v-on:click="resetEveryThing">
+						<b>Rewrite</b>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- AI POPUP MODAL END -->
     <h1 class="create-card-label">Select One of these options</h1>
 
     <div class="create-cards">
@@ -211,100 +306,6 @@
 		</div>
 	  </div>
 
-	    <!-- AI POPUP MODAL START -->
-		<div class="popup-holder"  ref="modal" id="chatModal" style="display:none">
-			<div class="popup-content">
-
-				<!-- Left Box -->
-				<div class="left-chat-box">
-					<div class="chat-conversations" ref="conversation">
-						<div v-for="(item, index) in conversation">
-
-							<div class="chat-holder" v-bind:class="[item.isAnswer == true && 'reply']">
-								<div v-show="item.isAnswer == false" class="avatar-circle">
-									<div class="circle-status"></div>
-								</div>
-	
-								<div v-show="item.isAnswer == false" class="with-options">
-									<div class="chat-text" v-html="item.text">
-									</div>
-									<div v-if="item.hasOptions" class="option-holder">
-										<select class="chat-options" v-on:change="selectOption">
-											<option selected="true" disabled value="null" v-cloak>@{{ item.optionTitle }}</option>
-											<option v-for="(types, idx) in item.options" v-bind:value="types" v-cloak>@{{ types }}</option>
-										</select>
-									</div>
-								</div>
-
-								<div v-show="item.isAnswer == true" class="without-options">
-									<div class="chat-holder">
-										<div class="chat-text" v-cloak>
-											@{{ item.text }}
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						<div class="chat-holder" v-show="isTyping">
-							<div class="avatar-circle">
-								<div class="circle-status"></div>
-							</div>
-
-							<div class="with-options">
-								<div class="chat-text">
-									<i>
-										is typing...
-									</i>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="chat-box-holder">
-						<input type="text" class="chat-box-field" :disabled="!canType" placeholder="Type your answer here..." ref="answer">
-						<div class="send-button" v-on:click="sendMessage"></div>
-					</div>
-				</div>
-
-				<!-- Right Box -->
-				<div class="right-option-box">
-					<div class="close" id="closeX" v-on:click="closeModal">X</div>
-					<div class="header">
-						<div class="avatar-square">
-
-						</div>
-						<div class="meta-info">
-							<div>
-								<b>Lizzy</b> from Audiostudio
-							</div>
-							<div class="status-holder">
-								<div class="circle-status-small"></div>
-								<div class="status-text">Online</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-steps" id="form-step">
-						 <div class="step-holder" v-for="(item, index) in stepOptions">
-							<div class="step-tick" v-bind:class="[item.tick ? 'tick' : 'untick']"></div>
-							<div class="step-info">
-								<div class="step-title"><b v-cloak>@{{item.title}}</b></div>
-								<div class="step-desc">
-									<span v-cloak>
-										@{{item.desc}}
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="rewrite" v-on:click="resetEveryThing">
-						<b>Rewrite</b>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- AI POPUP MODAL END -->
   </div>
   <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
 
