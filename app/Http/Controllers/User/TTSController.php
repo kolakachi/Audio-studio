@@ -869,7 +869,7 @@ class TTSController extends Controller
     }
 
     public function listBooks(){
-        $audios = AudioBookModel::where('user_id', Auth::id())->get();
+        $audios = AudioBookModel::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
         $data = [
             'audios' => $audios,
             'page' => 'audio-books-page'
