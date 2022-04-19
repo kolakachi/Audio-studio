@@ -1308,6 +1308,8 @@ new Vue({
         playAudios(){
             let highestLayerDuration = this.duration;
             for(let i in this.layers){
+                console.log([this.player.currentTime , highestLayerDuration]);
+
                 let layer = this.layers[i];
                 if(layer.end > highestLayerDuration){
                     highestLayerDuration = layer.end;
@@ -1332,8 +1334,7 @@ new Vue({
                     }
                 }
             }
-            console.log([this.player.currentTime , highestLayerDuration]);
-            if(this.player.currentTime > highestLayerDuration){
+            if(this.player.currentTime > highestLayerDuration || this.player.currentTime == highestLayerDuration){
                 this.stop();
             }
         },
