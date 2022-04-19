@@ -904,7 +904,7 @@
 <script src="/js/libs/signals.min.js"></script>
 <script src="/js/app/utils.js"></script>
 <script src="/plugins/audio-player/green-audio-player.js"></script>
-<script src="/js/app/editor.js?v=7.9"></script>
+<script src="/js/app/editor.js?v=8.0"></script>
 <script>
     document.addEventListener( 'dragover', function ( event ) {
 

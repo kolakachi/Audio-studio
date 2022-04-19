@@ -110,6 +110,7 @@ new Vue({
         trackisLoading:false,
         libraryPreviewAudio: {},
         libraryPreviewAudioIsPlaying: false,
+        prevKey:'',
         url: {
             synthesize: '',
             storeRecord: '',
@@ -213,6 +214,20 @@ new Vue({
             }
         });
 
+        var modal = document.getElementById('listenModal')
+        modal.addEventListener('hidden.bs.modal',  (event) => {
+            var audio = document.getElementById('listen-result');
+            if(audio){
+                audio.pause();
+            }
+        });
+
+        var modal = document.getElementById('recordModal')
+        modal.addEventListener('hidden.bs.modal',  (event) => {
+
+            this.audio.pause();
+        });
+
         var listener = () => {
             window.requestAnimationFrame(() => {
                 this.audio.currentTime = range.value
@@ -273,20 +288,40 @@ new Vue({
                 // document.getElementById('audio-textarea').appendChild(text);
             }
             parsedText = this.cleanTextEditor(pastedData);
-
+            var div = document.createElement('div');
+            div.innerHTML = parsedText.trim();
 
             if (window.getSelection) {
                 sel = window.getSelection();
                 if (sel.getRangeAt && sel.rangeCount) {
                     range = sel.getRangeAt(0);
                     range.deleteContents();
-                    range.insertNode( document.createTextNode(parsedText) );
+                   
+
+                    // Change this to div.childNodes to support multiple top-level nodes.
+                    // return div.firstChild;
+                    range.insertNode( div.firstChild );
                 }
             } else if (document.selection && document.selection.createRange) {
-                document.selection.createRange().text = parsedText;
+                document.selection.createRange().insertNode( div.firstChild );
             }
 
             
+        });
+
+        document.addEventListener('keyup', (event) => {
+            let keyCode = window.event.keyCode;
+            if(this.prevKey == 39 && keyCode == 39){
+                // console.log("right two times")
+                this.prevKey = "";
+            }else if (this.prevKey == 37 && keyCode == 37) {
+                // console.log("left two times")
+                this.prevKey = "";
+            }else{
+                this.prevKey = keyCode;
+            }
+            
+            // console.log(this.prevKey, keyCode);
         });
 
         
@@ -1297,6 +1332,7 @@ new Vue({
                     }
                 }
             }
+            console.log([this.player.currentTime , highestLayerDuration]);
             if(this.player.currentTime > highestLayerDuration){
                 this.stop();
             }
@@ -1396,7 +1432,7 @@ new Vue({
             let selectedText = selection.baseNode.data.substring(selection.baseOffset,selection.extentOffset);
             var replacement = openTag + selectedText + closeTag;
             document.execCommand('insertHTML', false, replacement);
-            window.getSelection().removeAllRanges()
+            // window.getSelection().removeAllRanges()
 
         
             // var textarea = $('#audio-textarea');
@@ -1476,7 +1512,7 @@ new Vue({
         },
         synthesize(type){
             const formData = new FormData();
-            let textarea = this.cleanTextEditor();
+            let textarea = this.cleanTextEditor().replaceAll('&nbsp;', ' ');
 
             formData.append('_token', $('input[name=_token]').val());
             // formData.append('textarea', $("#audio-textarea").val());
