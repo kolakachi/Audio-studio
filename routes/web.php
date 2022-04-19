@@ -476,7 +476,7 @@ Route::get('/get-sounds', function(){
             $blob_list = $blobClient->listBlobs('sounds', $listBlobsOptions);
             foreach ($blob_list->getBlobs() as $blob) {
                 $files[] = [
-                    'name' => $blob->getName(),
+                    'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
                     'src' => $blob->getUrl()
                 ];
                 // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
@@ -518,7 +518,7 @@ Route::get('/get-music', function(){
             $blob_list = $blobClient->listBlobs('music', $listBlobsOptions);
             foreach ($blob_list->getBlobs() as $blob) {
                 $files[] = [
-                    'name' => $blob->getName(),
+                    'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
                     'src' => $blob->getUrl()
                 ];
                 // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
