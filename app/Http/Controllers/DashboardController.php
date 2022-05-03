@@ -20,6 +20,9 @@ class DashboardController extends Controller
         $audios = AudioBookModel::where('user_id', Auth::id())->orderBy('id', 'desc')->take(4)->get();
         $data = [
             'audios' => $audios,
+            'page' => 'dashboard',
+            'pageClass' => 'dashboard-page'
+
         ];
         return view('app.dashboard.index', $data);
 

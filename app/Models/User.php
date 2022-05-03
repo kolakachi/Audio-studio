@@ -73,6 +73,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'first_name',
+        'last_name',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -118,6 +123,32 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasActiveSubscription()
     {
         return optional($this->subscription)->isActive() ?? false;
+    }
+
+    public function getFirstNameAttribute()
+    {
+        $names = $this->splitFullname($this->name);
+
+        return $names['firstname'];
+    }
+
+    public function getLastNameAttribute()
+    {
+        $names = $this->splitFullname($this->name);
+
+        return $names['lastname'];
+    }
+
+    public function splitFullname($fullname)
+	{
+		$parts = explode(' ', $fullname);
+		$lastname = array_pop($parts);
+		$firstname = implode(' ', $parts);
+
+		$data['firstname'] = $firstname;
+		$data['lastname']  = $lastname;
+
+		return $data;
     }
 
 }

@@ -7,6 +7,9 @@
 <link href="/plugins/audio-player/green-audio-player.css" rel="stylesheet">
 
 <style>
+  	.main-col-content{
+		padding: 30px;
+	}
   .upload-file-content{
     justify-content: inherit !important;
   }

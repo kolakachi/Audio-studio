@@ -17,7 +17,7 @@
 @yield('style')
 <body>
   
-<div class="{{ $page ?? 'dashboard-page' }}">
+<div class="{{ $pageClass ?? 'dashboard-page' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
   <div class="container">
     <a class="logo-type" href="{{route('user.dashboard')}}">Audiostudio.ai</a>

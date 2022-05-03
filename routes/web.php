@@ -45,9 +45,9 @@ use App\Http\Controllers\User\UserNotificationController;
 use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\WriterController;
+use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
-
-
+use App\Http\Controllers\WhiteLabelController;
 use Illuminate\Support\Facades\Artisan;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -412,6 +412,37 @@ Route::post('/admin/writer/tags/create', [WriterController::class,'tagCreate'])-
 Route::post('/admin/writer/tags/update', [WriterController::class,'tagUpdate'])->name('admin.writer.tags.update');
 Route::delete('/admin/writer/tags/delete', [WriterController::class,'tagDelete'])->name('admin.writer.tags.delete');
 
+Route::get('/whitelabel', [WhiteLabelController::class, 'index'])->name('user.whitelabel');
+Route::get('/whitelabel-users', [WhiteLabelController::class, 'users'])->name('user.whitelabel.users');
+
+Route::post('/whitelabel-update-details', [WhiteLabelController::class, 'updateConfigDetails'])->name('user.whitelabel.update-details');
+Route::post('/whitelabel-update-smtp-details', [WhiteLabelController::class, 'updateSMTPConfigDetails'])->name('user.whitelabel.update-smtp-details');
+Route::post('/whitelabel-welcome-email', [WhiteLabelController::class, 'updateWelcomeEmail'])->name('user.whitelabel.update-welcome-email');
+Route::post('/whitelabel-update-logo', [WhiteLabelController::class, 'updateLogo'])->name('user.whitelabel.update-logo');
+
+Route::get('/agency', [ AgencyController::class, 'index'])->name('user.agency');
+Route::get('/agency-teams', [AgencyController::class, 'teams'])->name('user.agency.teams');
+Route::post('/agency-teams/add', [AgencyController::class,'addAccount'])->name('user.agency.account.add');
+Route::delete('/agency-teams/delete', [AgencyController::class,'deleteAccount'])->name('user.agency.account.delete');
+
+Route::post('/agency-teams/update/details', [AgencyController::class,'updateAccount'])
+    ->name('user.agency.account.update.details');
+Route::post('/agency-teams/update/subscriptions', [AgencyController::class,'updateSubscriptions'])
+    ->name('user.agency.account.update.subscriptions');
+Route::post('/agency-teams/update/password', [AgencyController::class,'updatePassword'])
+    ->name('user.agency.account.update.password');
+
+
+
+Route::post('/white-label/add', [WhiteLabelController::class,'addAccount'])->name('user.whitelabel.account.add');
+Route::delete('/white-label/delete', [WhiteLabelController::class,'deleteAccount'])->name('user.whitelabel.account.delete');
+
+Route::post('/white-label/update/details', [WhiteLabelController::class,'updateAccount'])
+    ->name('user.whitelabel.account.update.details');
+Route::post('/white-label/update/subscriptions', [WhiteLabelController::class,'updateSubscriptions'])
+    ->name('user.whitelabel.account.update.subscriptions');
+Route::post('/white-label/update/password', [WhiteLabelController::class,'updatePassword'])
+    ->name('user.whitelabel.account.update.password');
 
 
 

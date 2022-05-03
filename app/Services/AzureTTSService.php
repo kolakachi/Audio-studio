@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Paths;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Statistics\UserService;
@@ -75,6 +76,7 @@ class AzureTTSService
         }
         curl_close($ch);
         Storage::disk('audio')->put("test.wav", $audio_stream); 
+        $file_name = Paths::SPEECH_PATH. $file_name;
         if (config('tts.default_storage') === 's3') {
             Storage::disk('s3')->put('azure/' . $file_name, $audio_stream);
             $result = Storage::disk('s3')->url('azure/' . $file_name);    
@@ -82,7 +84,7 @@ class AzureTTSService
             Storage::disk('wasabi')->put('azure/' . $file_name, $audio_stream);
             $result = Storage::disk('wasabi')->url('azure/' . $file_name);                
         } else {                
-            Storage::disk('audio')->put($file_name, $audio_stream); 
+            Storage::put($file_name, $audio_stream); 
             $result = Storage::url($file_name);                
         }
 

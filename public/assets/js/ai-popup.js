@@ -171,8 +171,9 @@ Vue.createApp({
 
         // WHEN OPTION IS SELECTED
         selectOption(e) {
-            e.preventDefault();
+
             let option = e.target.value;
+            this.replyQuestion(option);
             [...e.target].forEach((element,ind) => {
                 if (ind != e.target.selectedIndex) {
                   element.setAttribute("disabled", "disabled");
@@ -181,7 +182,9 @@ Vue.createApp({
             this.answeredQuestions.push({
                 answer: option
             });
-            this.nextQuestion();
+            this.wait(()=>{
+                this.nextQuestion();
+            },1.5)
         },
 
         // WHEN TEXT IS SENT

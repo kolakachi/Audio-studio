@@ -32,7 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('app'),
         ],
 
         'db_backup' => [
@@ -97,7 +97,9 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public/user/synthesize'),
+        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('app/public/user/synthesize'),
+
     ],
 
 ];

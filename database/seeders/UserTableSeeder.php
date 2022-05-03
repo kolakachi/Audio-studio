@@ -26,6 +26,7 @@ class UserTableSeeder extends Seeder
         $user->available_chars = config('tts.free_chars');
         $user->email_verified_at = now();
         $user->job_role = 'Administrator';
+        $user->role = 'admin';
         $user->save();
     }
 }

@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')	
+<style>
+	.main-col-content{
+		padding: 30px;
+	}
+</style>
+<link href="/plugins/audio-player/green-audio-player.css" rel="stylesheet">
+
 <link href="/assets/css/ai-popup.css" rel="stylesheet">
 <div>
 			
@@ -512,6 +519,7 @@
 </script>
     <script type="module" src="{{ asset('js/Interactor/ThreadViewModel.js')}}"> </script>
 
+	<script src="/plugins/audio-player/green-audio-player.js"></script>
 
 <script src="{{ asset('js/app/dashboard.js') }}?v=2"></script>
 {{-- <script type="module" src="{{ asset('assets/js/ai-popup.js') }}"></script> --}}

@@ -270,7 +270,11 @@ class TTSController extends Controller
             abort(404, "Audio not found");
         }
 
-        return view('user.tts.update-index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio'));
+        $page = 'editor';
+        $pageClass = 'audio-editor-page';
+
+
+        return view('user.tts.update-index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio', 'page', 'pageClass'));
     }
 
 
@@ -872,7 +876,9 @@ class TTSController extends Controller
         $audios = AudioBookModel::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
         $data = [
             'audios' => $audios,
-            'page' => 'audio-books-page'
+            'page' => 'audios',
+            $pageClass = 'audio-books-page'
+
         ];
 
         return view('app.dashboard.list-books', $data);
