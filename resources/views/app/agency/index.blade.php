@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')	
-<div class="main-col-content">
+<div class="main-col-content" id="agency-index">
     <h1 class="page-title">Agency</h1>
 
     <div class="page-tab-nav">
@@ -21,7 +21,7 @@
         <div class="asset-image-wrap"></div>
         <div class="asset-header">
           <h4 class="asset-title">@{{ asset.title }}</h4>
-          <svg-icon name="five-star" class="asset-rating"></svg-icon>
+          <span class="asset-rating icon"><svg width="125" height="23" viewBox="0 0 125 23" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M12.5 0L15.3064 8.63729H24.3882L17.0409 13.9754L19.8473 22.6127L12.5 17.2746L5.15271 22.6127L7.95913 13.9754L0.611816 8.63729H9.6936L12.5 0Z" fill="#FFB800"></path><path d="M37.5 0L40.3064 8.63729H49.3882L42.0409 13.9754L44.8473 22.6127L37.5 17.2746L30.1527 22.6127L32.9591 13.9754L25.6118 8.63729H34.6936L37.5 0Z" fill="#FFB800"></path><path d="M62.5 0L65.3064 8.63729H74.3882L67.0409 13.9754L69.8473 22.6127L62.5 17.2746L55.1527 22.6127L57.9591 13.9754L50.6118 8.63729H59.6936L62.5 0Z" fill="#FFB800"></path><path d="M87.5 0L90.3064 8.63729H99.3882L92.0409 13.9754L94.8473 22.6127L87.5 17.2746L80.1527 22.6127L82.9591 13.9754L75.6118 8.63729H84.6936L87.5 0Z" fill="#FFB800"></path><path d="M112.5 0L115.306 8.63729H124.388L117.041 13.9754L119.847 22.6127L112.5 17.2746L105.153 22.6127L107.959 13.9754L100.612 8.63729H109.694L112.5 0Z" fill="#FFB800"></path></svg></span>
         </div>
         <div class="asset-description">
           We have created an editable high converting Agency website for you by our team of experts designers and writers, so you’ll no longer have to pay or hire a web designer any more. All you need to do is to add your logo and contact information to suit your marketing goals. This Agency website is rated 5 start by our early users.
@@ -68,4 +68,15 @@
       </div>
     </div>
   </div>
+@endsection
+@section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+<script src="{{ asset('js/app/vendors/vue.js') }}"></script>
+<script src="{{ asset('js/app/vendors/axios.js') }}"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+<script src="{{ asset('js/app/agency-index.js') }}"></script>
 @endsection
