@@ -32,16 +32,121 @@
 
 @section('content')	
 
-					
-  <div class="main-col-content" id="app-id">
+<link href="/assets/css/ai-popup.css" rel="stylesheet">
+ 
+
+  <div class="main-col-content" id="app-id" style="position: relative;">
       @csrf
+      <!-- AI POPUP MODAL START -->
+        <div class="popup-holder"  ref="modal" id="chatModal" style="display:none">
+          <div class="popup-content">
+
+            <!-- Left Box -->
+            <div class="left-chat-box">
+              <div class="chat-conversations" ref="conversation">
+                <div v-for="(item, index) in conversation">
+
+                  <div class="chat-holder" v-bind:class="[item.isAnswer == true && 'reply']">
+                    <div v-show="item.isAnswer == false" class="avatar-circle">
+                      <div class="circle-status"></div>
+                    </div>
+
+                    <div v-show="item.isAnswer == false" class="with-options">
+                      <div class="chat-text" v-html="item.text">
+                      </div>
+                      <div v-if="item.hasOptions" class="option-holder">
+                        <select class="chat-options" v-on:change="selectOption">
+                          <option selected="true" disabled value="null" v-cloak>@{{ item.optionTitle }}</option>
+                          <option v-for="(types, idx) in item.options" v-bind:value="types" v-cloak>@{{ types }}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div v-show="item.isAnswer == true" class="without-options">
+                      <div class="chat-holder">
+                        <div class="chat-text" v-cloak>
+                          @{{ item.text }}
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="chat-holder" v-show="isTyping">
+                  <div class="avatar-circle">
+                    <div class="circle-status"></div>
+                  </div>
+
+                  <div class="with-options">
+                    <div class="chat-text">
+                      <i>
+                        is typing...
+                      </i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="chat-box-holder">
+                <input type="text" class="chat-box-field" :disabled="!canType" placeholder="Type your answer here..." ref="answer">
+                <div class="send-button" v-on:click="sendMessage"></div>
+              </div>
+            </div>
+
+            <!-- Right Box -->
+            <div class="right-option-box">
+              <div class="close" id="closeX" v-on:click="closeModal">X</div>
+              <div class="header">
+                <div class="avatar-square">
+
+                </div>
+                <div class="meta-info">
+                  <div>
+                    <b>Lizzy</b> from Audiostudio
+                  </div>
+                  <div class="status-holder">
+                    <div class="circle-status-small"></div>
+                    <div class="status-text">Online</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-steps" id="form-step">
+                <div class="step-holder" v-for="(item, index) in stepOptions">
+                  <div class="step-tick" v-bind:class="[item.tick ? 'tick' : 'untick']"></div>
+                  <div class="step-info">
+                    <div class="step-title"><b v-cloak>@{{item.title}}</b></div>
+                    <div class="step-desc">
+                      <span v-cloak>
+                        @{{item.desc}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rewrite" v-on:click="resetEveryThing">
+                <b>Rewrite</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- AI POPUP MODAL END -->
     <div class="recent-audio-books">
       <div class="d-flex justify-content-between align-items-center mb-5">
         <h4>Recent Audio books</h4>
 
-        <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#newAudioModal">
-          + Create New
-        </button>
+   
+        <div class="dropdown show">
+          <button class="btn btn-primary px-4 dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            + Create New
+          </button>
+        
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="{{ route('user.update-tts.new') }}">Start from scratch</a>
+            <a class="dropdown-item" href="#" @click="openModal" id="scriptAiModalButton">Use our Script AI</a>
+            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#uploadTextModal">Upload Document</a>
+          </div>
+        </div>
       </div>
 
       <div class="table-actions">
@@ -174,6 +279,51 @@
         </div>
       </div>
     </div>
+
+    <div id="uploadTextModal" tabindex="-1" aria-labelledby="uploadTextModalLabel" aria-hidden="true" class="modal fade upload-file-modal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="upload-file-wrap">
+              <div class="upload-file-content">
+                <div class="upload-file-label">Upload PDF/Word/Text File</div>
+                <div class="upload-file-box">
+                  <span class="upload-file-icon icon">
+                    <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
+                      <path
+                        d="M27.7688 49.9839H8.33065C7.59417 49.9839 6.88786 49.6913 6.3671 49.1706C5.84633 48.6498 5.55377 47.9435 5.55377 47.207V8.33065C5.55377 7.59417 5.84633 6.88786 6.3671 6.3671C6.88786 5.84633 7.59417 5.55377 8.33065 5.55377H22.2151V13.8844C22.2151 16.0938 23.0928 18.2128 24.6551 19.7751C26.2174 21.3374 28.3363 22.2151 30.5457 22.2151H38.8764V27.7688C38.8764 28.5053 39.1689 29.2116 39.6897 29.7324C40.2105 30.2532 40.9168 30.5457 41.6533 30.5457C42.3897 30.5457 43.096 30.2532 43.6168 29.7324C44.1376 29.2116 44.4301 28.5053 44.4301 27.7688V19.2716C44.4012 19.0165 44.3454 18.7652 44.2635 18.5218V18.2719C44.13 17.9864 43.9519 17.7239 43.7359 17.4944L27.0746 0.833065C26.8451 0.617068 26.5826 0.438972 26.2971 0.305457C26.2142 0.293683 26.1301 0.293683 26.0472 0.305457C25.7651 0.143679 25.4535 0.0398322 25.1308 0H8.33065C6.12122 0 4.00229 0.877691 2.43999 2.43999C0.877691 4.00229 0 6.12122 0 8.33065V47.207C0 49.4164 0.877691 51.5354 2.43999 53.0977C4.00229 54.66 6.12122 55.5377 8.33065 55.5377H27.7688C28.5053 55.5377 29.2116 55.2451 29.7324 54.7243C30.2532 54.2036 30.5457 53.4973 30.5457 52.7608C30.5457 52.0243 30.2532 51.318 29.7324 50.7972C29.2116 50.2765 28.5053 49.9839 27.7688 49.9839ZM27.7688 9.46917L34.961 16.6613H30.5457C29.8092 16.6613 29.1029 16.3687 28.5822 15.848C28.0614 15.3272 27.7688 14.6209 27.7688 13.8844V9.46917ZM13.8844 16.6613C13.1479 16.6613 12.4416 16.9539 11.9209 17.4746C11.4001 17.9954 11.1075 18.7017 11.1075 19.4382C11.1075 20.1747 11.4001 20.881 11.9209 21.4017C12.4416 21.9225 13.1479 22.2151 13.8844 22.2151H16.6613C17.3978 22.2151 18.1041 21.9225 18.6249 21.4017C19.1456 20.881 19.4382 20.1747 19.4382 19.4382C19.4382 18.7017 19.1456 17.9954 18.6249 17.4746C18.1041 16.9539 17.3978 16.6613 16.6613 16.6613H13.8844ZM30.5457 27.7688H13.8844C13.1479 27.7688 12.4416 28.0614 11.9209 28.5822C11.4001 29.1029 11.1075 29.8092 11.1075 30.5457C11.1075 31.2822 11.4001 31.9885 11.9209 32.5093C12.4416 33.03 13.1479 33.3226 13.8844 33.3226H30.5457C31.2822 33.3226 31.9885 33.03 32.5093 32.5093C33.03 31.9885 33.3226 31.2822 33.3226 30.5457C33.3226 29.8092 33.03 29.1029 32.5093 28.5822C31.9885 28.0614 31.2822 27.7688 30.5457 27.7688ZM49.1786 42.4585L43.6248 36.9048C43.3607 36.652 43.0493 36.4538 42.7085 36.3216C42.0324 36.0439 41.2741 36.0439 40.598 36.3216C40.2572 36.4538 39.9458 36.652 39.6817 36.9048L34.1279 42.4585C33.605 42.9814 33.3112 43.6906 33.3112 44.4301C33.3112 45.1696 33.605 45.8788 34.1279 46.4017C34.6508 46.9246 35.36 47.2184 36.0995 47.2184C36.839 47.2184 37.5482 46.9246 38.0711 46.4017L38.8764 45.5687V52.7608C38.8764 53.4973 39.1689 54.2036 39.6897 54.7243C40.2105 55.2451 40.9168 55.5377 41.6533 55.5377C42.3897 55.5377 43.096 55.2451 43.6168 54.7243C44.1376 54.2036 44.4301 53.4973 44.4301 52.7608V45.5687L45.2354 46.4017C45.4936 46.662 45.8007 46.8686 46.1391 47.0096C46.4775 47.1505 46.8404 47.2231 47.207 47.2231C47.5736 47.2231 47.9366 47.1505 48.2749 47.0096C48.6133 46.8686 48.9205 46.662 49.1786 46.4017C49.4389 46.1436 49.6455 45.8364 49.7864 45.4981C49.9274 45.1597 50 44.7967 50 44.4301C50 44.0636 49.9274 43.7006 49.7864 43.3622C49.6455 43.0238 49.4389 42.7167 49.1786 42.4585ZM24.992 44.4301C25.7284 44.4301 26.4347 44.1376 26.9555 43.6168C27.4763 43.096 27.7688 42.3897 27.7688 41.6533C27.7688 40.9168 27.4763 40.2105 26.9555 39.6897C26.4347 39.1689 25.7284 38.8764 24.992 38.8764H13.8844C13.1479 38.8764 12.4416 39.1689 11.9209 39.6897C11.4001 40.2105 11.1075 40.9168 11.1075 41.6533C11.1075 42.3897 11.4001 43.096 11.9209 43.6168C12.4416 44.1376 13.1479 44.4301 13.8844 44.4301H24.992Z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <div class="upload-file-description">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
+                  <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">
+    
+                </div>
+                <div class="upload-file-buttons">
+                  <button data-bs-dismiss="modal" class="btn btn-cancel">
+                    Cancel
+                  </button>
+                  <button v-if="!isLoading" @click="uploadFile()" class="btn btn-primary btn-upload">
+                    Upload
+                  </button>
+                  <button v-if="isLoading" disabled class="btn btn-primary btn-upload" style="
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "><span role="status" class="spinner-border text-light" style="
+                      width: 15px;
+                      height: 15px;
+                      margin-right: 5px;
+                    "><span class="visually-hidden">Loading...</span></span>
+                    Loading
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
   </div>
   <div class="modal fade" id="listenModal" tabindex="-1" aria-labelledby="listenModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-md" role="document">
@@ -194,6 +344,8 @@
 			</div>
 		</div>
 	</div>
+  <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
+
   <textarea id="create-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
   <textarea id="edit-book-url" style="display: none">{{ route('user.update-tts')}}</textarea>
   <textarea id="update-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
@@ -223,6 +375,66 @@
 <script src="{{ asset('js/app/vendors/axios.js') }}"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="/plugins/audio-player/green-audio-player.js"></script>
+<script>
+	var placeholders = [];
+	var userImage = "";
+	var data = {
+    "options": [{
+            "tick": false,
+            "title": "Niche",
+            "desc": "Please select your niche"
+        },
+        {
+            "tick": false,
+            "title": "Objective",
+            "desc": "Please select  your marketing objective."
+        },
+        {
+            "tick": false,
+            "title": "Keyword",
+            "desc": "Please enter a keyword that best describes your business."
+        },
+        {
+            "tick": false,
+            "title": "Language",
+            "desc": "What language would you prefer me to write your script?"
+        },
+        {
+            "tick": false,
+            "title": "Template",
+            "desc": "Please select your preferred script template."
+        }
+    ],
+    "intro": [
+        {
+            "text": "Hey There! I’m <b>Lizzy</b> and I am your Script Assistant."
+        },
+        {
+            "text": "Please answer the following questions and I will assist you write your audio script."
+        }
+    ],
+    "questions": [{
+            "id": 1,
+            "hasOptions": true,
+            "text": "Please answer the following questions and I will assist you write your audio script.",
+            "optionTitle": "Select Niche",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 2,
+            "hasOptions": true,
+            "text": "Please select your marketing objective.",
+            "optionTitle": "Select Objective",
+            "options": ["sports", "marketing", "business", "health"]
+        },
+        {
+            "id": 3,
+            "hasOptions": false,
+            "text":"Enter your business keywords (if more than one, separate each word by comma)"
+        }
+    ]
+}
+</script>
 <script src="{{ asset('js/app/list-books.js') }}"></script>
 	
 @endsection
