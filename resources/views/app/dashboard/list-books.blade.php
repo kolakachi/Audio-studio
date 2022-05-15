@@ -27,6 +27,16 @@
             height: 56px !important;
             box-shadow: none !important;
         }
+  .dropdown-menu.show {
+    background: rgb(53, 59, 90);
+  }
+  .dropdown-item:hover {
+    color: #FFB800;
+    background: rgb(53, 59, 90);
+  }
+  .dropdown-item{
+    color :#FFF;
+  }
 </style>
 @endsection
 

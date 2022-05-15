@@ -48,6 +48,7 @@ use App\Http\Controllers\Admin\WriterController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
 use App\Http\Controllers\WhiteLabelController;
+use App\Http\Controllers\AzureResourcesController;
 use Illuminate\Support\Facades\Artisan;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -444,7 +445,11 @@ Route::post('/white-label/update/subscriptions', [WhiteLabelController::class,'u
 Route::post('/white-label/update/password', [WhiteLabelController::class,'updatePassword'])
     ->name('user.whitelabel.account.update.password');
 
-
+    
+Route::get('/get-sounds', [AzureResourcesController::class,'getSounds'])
+    ->name('user.get-sounds');
+Route::get('/get-music', [AzureResourcesController::class,'getMusic'])
+    ->name('user.get-music');
 
 Route::get('/dashboard-test', function(){
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
@@ -488,88 +493,90 @@ Route::get('/dashboard-test', function(){
     // return view('tester');
 })->name('user.dashboardx');
 
-Route::get('/get-sounds', function(){
-    $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
-    $blobClient = BlobRestProxy::createBlobService($connectionString);
+// Route::get('/get-sounds', function(){
+//     $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
+//     $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-    try {
-        // List blobs.
-        $listBlobsOptions = new ListBlobsOptions();
-        // $listBlobsOptions->setPrefix("myblob");
+//     try {
+//         // List blobs.
+//         $listBlobsOptions = new ListBlobsOptions();
+//         // $listBlobsOptions->setPrefix("myblob");
 
-        // Setting max result to 1 is just to demonstrate the continuation token.
-        // It is not the recommended value in a product environment.
-        $listBlobsOptions->setMaxResults(15);
-        $files = [];
+//         // Setting max result to 1 is just to demonstrate the continuation token.
+//         // It is not the recommended value in a product environment.
+//         $listBlobsOptions->setMaxResults(15);
+//         $files = [];
 
-        do {
-            // global $myContainer;
-            $blob_list = $blobClient->listBlobs('sounds', $listBlobsOptions);
-            foreach ($blob_list->getBlobs() as $blob) {
-                $files[] = [
-                    'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
-                    'src' => $blob->getUrl()
-                ];
-                // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
-            }
+//         do {
+//             // global $myContainer;
+//             $blob_list = $blobClient->listBlobs('sounds', $listBlobsOptions);
+//             foreach ($blob_list->getBlobs() as $blob) {
+//                 $files[] = [
+//                     'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
+//                     'src' => $blob->getUrl()
+//                 ];
+//                 // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
+//             }
 
-            $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
-        } while ($blob_list->getContinuationToken());
+//             $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
+//         } while ($blob_list->getContinuationToken());
 
-        return response()->json([
-            'files' => $files
-        ]);
+//         Redis::set('_audio_sounds', $files);
 
-    } catch (ServiceException $e) {
-        $code = $e->getCode();
-        $error_message = $e->getMessage();
-        echo $code.": ".$error_message.PHP_EOL;
-    }
+//         return response()->json([
+//             'files' => $files
+//         ]);
 
-    // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
-    // return view('tester');
-})->name('user.get-sounds');
+//     } catch (ServiceException $e) {
+//         $code = $e->getCode();
+//         $error_message = $e->getMessage();
+//         echo $code.": ".$error_message.PHP_EOL;
+//     }
 
-Route::get('/get-music', function(){
-    $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
-    $blobClient = BlobRestProxy::createBlobService($connectionString);
+//     // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
+//     // return view('tester');
+// })->name('user.get-sounds');
 
-    try {
-        // List blobs.
-        $listBlobsOptions = new ListBlobsOptions();
-        // $listBlobsOptions->setPrefix("myblob");
+// Route::get('/get-music', function(){
+//     $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
+//     $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-        // Setting max result to 1 is just to demonstrate the continuation token.
-        // It is not the recommended value in a product environment.
-        $listBlobsOptions->setMaxResults(15);
-        $files = [];
+//     try {
+//         // List blobs.
+//         $listBlobsOptions = new ListBlobsOptions();
+//         // $listBlobsOptions->setPrefix("myblob");
 
-        do {
-            // global $myContainer;
-            $blob_list = $blobClient->listBlobs('music', $listBlobsOptions);
-            foreach ($blob_list->getBlobs() as $blob) {
-                $files[] = [
-                    'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
-                    'src' => $blob->getUrl()
-                ];
-                // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
-            }
+//         // Setting max result to 1 is just to demonstrate the continuation token.
+//         // It is not the recommended value in a product environment.
+//         $listBlobsOptions->setMaxResults(15);
+//         $files = [];
 
-            $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
-        } while ($blob_list->getContinuationToken());
+//         do {
+//             // global $myContainer;
+//             $blob_list = $blobClient->listBlobs('music', $listBlobsOptions);
+//             foreach ($blob_list->getBlobs() as $blob) {
+//                 $files[] = [
+//                     'name' => str_replace(".mp3", "", str_replace("-", " ", $blob->getName())),
+//                     'src' => $blob->getUrl()
+//                 ];
+//                 // echo $blob->getName().": ".$blob->getUrl().PHP_EOL;
+//             }
 
-        return response()->json([
-            'files' => $files
-        ]);
+//             $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
+//         } while ($blob_list->getContinuationToken());
 
-    } catch (ServiceException $e) {
-        $code = $e->getCode();
-        $error_message = $e->getMessage();
-        echo $code.": ".$error_message.PHP_EOL;
-    }
+//         return response()->json([
+//             'files' => $files
+//         ]);
 
-    // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
-    // return view('tester');
-})->name('user.get-music');
+//     } catch (ServiceException $e) {
+//         $code = $e->getCode();
+//         $error_message = $e->getMessage();
+//         echo $code.": ".$error_message.PHP_EOL;
+//     }
+
+//     // dd(\Storage::disk('google')->get('wind-blowing-in-trees.mp3'));
+//     // return view('tester');
+// })->name('user.get-music');
 
 
