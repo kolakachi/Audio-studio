@@ -109,6 +109,12 @@ new Vue({
         trackName: '',
         trackisLoading:false,
         libraryPreviewAudio: {},
+        trimPreviewAudio:{},
+        trimPreviewIsPlaying:false,
+        trimPreviewFrameId:0,
+        trimLastTime:null,
+        rangeSlider:{},
+        rangeSliderButtons:{},
         libraryPreviewAudioIsPlaying: false,
         prevKey:'',
         url: {
@@ -161,7 +167,14 @@ new Vue({
         activeLayer:{
             volume: 1,
         },
-        activeLayerIndex: 0
+        activeLayerIndex: 0,
+
+        backgroundMusicCurrentPage: 1,
+        backgroundMusicLastPage:1,
+
+        backgroundSoundCurrentPage: 1,
+        backgroundSoundLastPage:1,
+        
 
     },
     computed: {
@@ -181,7 +194,20 @@ new Vue({
             
 
             return voicePath;
-        }
+        },
+        backgroundMusicisInFirstPage () {
+            return this.backgroundMusicCurrentPage === 1
+        },
+        backgroundMusicisInLastPage () {
+            return this.backgroundMusicCurrentPage === this.backgroundMusicLastPage
+        },
+
+        backgroundSoundisInFirstPage () {
+            return this.backgroundSoundCurrentPage === 1
+        },
+        backgroundSoundisInLastPage () {
+            return this.backgroundSoundCurrentPage === this.backgroundSoundLastPage
+        },
          
     },
     
@@ -230,6 +256,14 @@ new Vue({
         modal.addEventListener('hidden.bs.modal',  (event) => {
 
             this.audio.pause();
+        });
+
+        var modal = document.getElementById('trimAudioModal')
+        modal.addEventListener('hidden.bs.modal',  (event) => {
+
+            if( this.rangeSlider.data){
+                this.rangeSlider.data("ionRangeSlider").destroy();
+            }
         });
 
         var listener = () => {
@@ -361,6 +395,15 @@ new Vue({
             e.stopPropagation();         
         });
 
+        $(document).on("click", '.trim-btn', function(e){
+            let layerNumber = $(this).attr("data-layer-index");
+            vueInstance.activeLayer = vueInstance.layers[layerNumber];
+            vueInstance.activeLayerIndex = layerNumber;
+            $("#trimAudioModal").modal('show'); 
+            vueInstance.initSlider();
+            e.stopPropagation();         
+        });
+
         $(document).on("click", '#timeline-wrapper', function(e){
             $('.layer-tooltip').fadeOut();           
         });
@@ -386,11 +429,12 @@ new Vue({
         getBackgroundMusic(){
             this.isLoading = true;
             this.loadingType = "background_music";
-            axios.get(this.url.backgroundMusicURL)
+            axios.get(this.url.backgroundMusicURL + "?c_page="+ this.backgroundMusicCurrentPage)
                 .then((response) => {
                     this.isLoading = false;
                     this.loadingType = "";
-                    this.backgroundMusic = response.data.files;
+                    this.backgroundMusic = response.data.files.data;
+                    this.backgroundMusicLastPage = response.data.files.last_page;
                 })
                 .catch((error) => {
                     this.isLoading = false;
@@ -400,11 +444,13 @@ new Vue({
         getBackgroundSounds(){
             this.isLoading = true;
             this.loadingType = "background_sounds";
-            axios.get(this.url.backgroundSoundsURL)
+            axios.get(this.url.backgroundSoundsURL + "?c_page="+ this.backgroundSoundCurrentPage)
                 .then((response) => {
                     this.isLoading = false;
                     this.loadingType = "";
-                    this.backgroundSounds = response.data.files;
+                    this.backgroundSounds = response.data.files.data;
+                    this.backgroundSoundLastPage = response.data.files.last_page;
+
                 })
                 .catch((error) => {
                     this.isLoading = false;
@@ -594,6 +640,8 @@ new Vue({
                 let highestLayerDuration = 0;
                 for(let i in this.layers){
                     let layer = this.layers[i];
+                    let result = layer.playEnd - layer.playStart;
+                    layer.end = result + layer.start;
                     if(layer.end > highestLayerDuration){
                         highestLayerDuration = layer.end;
                     }
@@ -808,6 +856,7 @@ new Vue({
 
             this.signals.animationModified.add( (layer) => {
                 this.updateLayerSize(layer.layerNumber);
+                this.resetDuration();
                 this.updateMarks();
                 this.updateTimeMark();
                 
@@ -879,6 +928,13 @@ new Vue({
             this.aplayer.isPlaying = false
             this.signals.playingChanged.dispatch( false );
         
+        },
+
+        trimAudioUpdate(){
+            this.initTimeline();
+            this.updateTimeMark();
+            this.initLayers();
+            $("#trimAudioModal").modal('hide');
         },
 
         animate( time ) {
@@ -1032,7 +1088,10 @@ new Vue({
                     url: objectUrl,
                     id: audioID,
                     path: path,
+                    playStart:0,
+                    playEnd: newAudio.duration,
                     duration: newAudio.duration,
+                    originalDuration: newAudio.duration,
                     start: this.player.currentTime,
                     end: seconds,
                     volume: 1,
@@ -1068,7 +1127,10 @@ new Vue({
                     url: objectUrl,
                     id: audioID,
                     path: path,
+                    playStart:0,
+                    playEnd: seconds,
                     duration: seconds,
+                    originalDuration: seconds,
                     start: this.player.currentTime,
                     end: seconds,
                     volume: 1,
@@ -1116,7 +1178,10 @@ new Vue({
                     id: audioID,
                     url: objectUrl,
                     path: path,
+                    playStart:0,
+                    playEnd: seconds,
                     duration: seconds,
+                    originalDuration: seconds,
                     start: this.player.currentTime,
                     end: seconds,
                     volume: 1,
@@ -1407,11 +1472,11 @@ new Vue({
             var name = document.getElementById("name-"+layerNumber);//layer.domName; 
             dom.style.left = ( layer.start * this.scale ) + 'px';
 		    // dom.style.top = ( layer.layerNumber * 32 ) + 'px';
-		    dom.style.width = ( ( layer.end - layer.start ) * this.scale ) + 'px';
+		    dom.style.width = ( ( layer.playEnd - layer.playStart ) * this.scale ) + 'px';
 
 		    name.innerHTML = layer.name; //+ ' <span style="opacity:0.5">' + animation.effect.name + '</span>';
             // this.layerContainer.appendChild(dom); 
-                this.timeMark.style.height = document.getElementById("timeline").offsetHeight - 18 + "px";
+            this.timeMark.style.height = document.getElementById("timeline").offsetHeight - 18 + "px";
         },
         playAudios(){
             let highestLayerDuration = 0;
@@ -1426,8 +1491,12 @@ new Vue({
                         let audio = document.getElementById('audio-'+ layer.layerNumber);
                         if(audio){
                            
-                            var audioIsPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended 
+                            var audioIsPlaying = audio.currentTime > layer.playStart && !audio.paused && !audio.ended 
                             && audio.readyState > audio.HAVE_CURRENT_DATA;
+
+                            if(audio.currentTime < layer.playStart){
+                                audio.currentTime = layer.playStart;
+                            }
                             if (!audioIsPlaying && this.player.isPlaying) {
                                 audio.play();
                             }
@@ -1451,16 +1520,17 @@ new Vue({
                 if(layer.type == 'audio'){
                     let audio = document.getElementById('audio-'+ layer.layerNumber);
                     let audioTime = this.player.currentTime - layer.start;
-                    if(audioTime < 0){
-                        audio.currentTime = 0;
+                    if(audioTime <= 0){
+                        audio.currentTime = layer.playStart;
                     }
                     if(layer.start <= this.player.currentTime && layer.end >= this.player.currentTime){
                         
                        
                         audioTime =parseFloat(parseFloat(audioTime).toFixed(7));
-                        if(parseFloat(parseFloat(audio.currentTime).toFixed(3)) != parseFloat(parseFloat(audioTime).toFixed(3))){
-                            audio.currentTime = audioTime;
-                        }
+                        audio.currentTime = audioTime + layer.playStart;
+                        // if(parseFloat(parseFloat(audio.currentTime).toFixed(3)) != parseFloat(parseFloat(audioTime).toFixed(3))){
+                        //     audio.currentTime = audioTime;
+                        // }
                         // if(audio && (audioTime > -1)){
                         //     audioTime =parseFloat(parseFloat(audioTime).toFixed(7));
                         //     if(parseFloat(parseFloat(audio.currentTime).toFixed(7)) != parseFloat(parseFloat(audioTime).toFixed(3))){
@@ -1763,6 +1833,7 @@ new Vue({
                 })
         },
         deleteLayer(index){
+            console.log(index, this.layers);
             let layer = this.layers[index];
             let layerId = "layer-container-"+ layer.layerNumber;
             $( "#"+layer.id ).remove();
@@ -1796,6 +1867,16 @@ new Vue({
             for(key in this.layers){
                 let layer = this.layers[key];
                 layer.url = this.url.audioURL + layer.path;
+                if(this.layers[key].playStart == undefined){
+                    this.layers[key].playStart = 0;
+                }
+                if(this.layers[key].playEnd == undefined){
+                    this.layers[key].playEnd = this.layers[key].duration;
+                }
+                if(this.layers[key].originalDuration == undefined){
+
+                    this.layers[key].originalDuration = this.layers[key].duration;
+                }
                 var audioConatiner = document.getElementById("audio-container");
                 var newAudio = document.createElement("AUDIO");
                 var audioID = 'audio-'+ layer.layerNumber;
@@ -1991,6 +2072,276 @@ new Vue({
                 vueInstance.teleprompter.text = text;
             })
         },
+
+        initSlider(){
+            $("#range-container").html('');
+            $("#range-container").html('<input id="range-slider" type="text" name="range" value="" />');
+            let layer = this.layers[this.activeLayerIndex];
+            var min = 0;
+            var max_interval = this.activeLayer.duration;
+            var step = 0.1;
+            var from = this.activeLayer.playStart;
+            var to = this.activeLayer.playEnd;
+            var videotime = 0;
+
+            this.trimPreviewAudio = new Audio(layer.url);
+            this.trimPreviewAudio.currentTime = from;
+            this.trimPreviewAudio.addEventListener("ended", (e) => {
+                this.trimPreviewIsPlaying = false;
+                cancelAnimationFrame(this.trimPreviewFrameId);
+            }, false);
+            this.trimPreviewAudio.addEventListener("pause", (e) => {
+                this.trimPreviewIsPlaying = false;
+                cancelAnimationFrame(this.trimPreviewFrameId);
+            }, false);
+
+            this.rangeSlider = $("#range-slider");
+            this.rangeSliderButtons = $(".slider-controls");
+            this.rangeSlider.ionRangeSlider({
+                type: "double",
+                skin: "modern",
+                min: 0,
+                max: this.activeLayer.originalDuration,
+                // 40: 40,
+                // step: 0.1,
+                from: from,
+                to: to,
+                drag_interval: true,
+                grid: true,
+                grid_snap: true,
+                prettify: this.hhmmsss_prettify,
+                onStart: (data) => {
+                    this.trimPreviewAudio.currentTime = data.from;
+                    this.stopTrimPreview();
+                    this.limit_filter(data)
+                    $(".irs-bar").html('<span id="reader" style="width:0%; height:100%; background:red; position:absolute;"></span>')
+                },
+                onChange: (data) => {
+                    this.trimPreviewAudio.currentTime = data.from;
+                    this.stopTrimPreview();
+                    $(".irs-bar").html('<span id="reader" style="width:0%; height:100%; background:red; position:absolute;"></span>');
+                    this.limit_filter(data)
+                },
+                onFinish: (data) => {
+                    if(data.to > data.from){
+                        this.stopTrimPreview();
+                        
+                        this.activeLayer.playEnd = data.to;
+                        this.activeLayer.playStart = data.from;
+                        this.trimPreviewAudio.currentTime = data.from;
+                        this.activeLayer.duration = data.to - data.from;
+                        this.activeLayer.end = data.to - data.from;
+                        
+                        console.log(data.to, data.from, this.trimPreviewAudio.currentTime);
+                    // player.loadVideoById({
+                    //     videoId: player.getVideoData()['video_id'],
+                    //     startSeconds: data.from,
+                    //     endSeconds: data.to
+                    // });
+                    }
+                },
+                onUpdate: function (data) {
+                }
+            });
+
+            var d5_instance = this.rangeSlider.data("ionRangeSlider")
+            let duration = d5_instance.old_to - d5_instance.old_from
+
+            console.log(d5_instance.old_to , d5_instance.old_from);
+
+
+            let vueInstance = this;
+            this.rangeSliderButtons.on("mousedown", function (e) {
+                isHeldDown = true;
+                (function loop (range) {
+                    if (!isHeldDown) return
+                    // if (1 == 2) {
+                    //   player.loadVideoById({
+                    //     videoId: player.getVideoData()['video_id'],
+                    //     startSeconds: d5_instance.old_from,
+                    //     endSeconds: d5_instance.old_to
+                    //   });
+                    // }
+                    if (e.target.id == "slider-start-prev" && duration.toFixed(1) < 40) {
+                        var from = d5_instance.old_from - step;
+                        var to = d5_instance.old_to;
+                        vueInstance.seek(from);
+                    }
+
+                    if (e.target.id == "slider-start-next" && duration.toFixed(1) <= 40) {
+                        var from = d5_instance.old_from + step;
+                        var to = d5_instance.old_to;
+                        vueInstance.seek(from);
+                    }
+
+                    if (e.target.id == "slider-next" && duration.toFixed(1) < 40) {
+                        var from = d5_instance.old_from;
+                        var to = d5_instance.old_to + step;
+                        vueInstance.seek(to);
+                    }
+
+                    if (e.target.id == "slider-end-prev" && duration.toFixed(1) <= 40) {
+                        var from = d5_instance.old_from;
+                        var to = d5_instance.old_to - step;
+                        vueInstance.seek(to);
+                    }
+
+                    d5_instance.update({
+                        from: from,
+                        to: to
+                    })
+
+                    setTimeout(loop, 125)
+                })();
+
+            }).on("mouseup mouseleave", function () {
+                isHeldDown = false;
+            });
+        },
+        limit_filter(data) {
+            let duration = data.to - data.from
+          
+            if(duration == 0) {
+              $("#d-pscreen").css('opacity','1').css('cursor','pointer')
+              $("#d-file").css('opacity','0.5').css('cursor','no-drop')
+              $("#d-audio").css('opacity','0.5').css('cursor','no-drop')
+              $("#d-gif").css('opacity','0.5').css('cursor','no-drop')
+            } else {
+              $("#d-pscreen").css('opacity','0.5').css('cursor','no-drop')
+              $("#d-file").css('opacity','1').css('cursor','pointer')
+              $("#d-audio").css('opacity','1').css('cursor','pointer')
+              $("#d-gif").css('opacity','1').css('cursor','pointer')
+            }
+            
+            if(duration >= 0.1 && duration <= 10) {
+              $("#d-gif").css('opacity','1').css('cursor','pointer')
+            } else {
+              $("#d-gif").css('opacity','0.5').css('cursor','no-drop')
+            }
+            
+            let percentage = duration / 40 * 100
+            let color = this.hsl_col_perc(percentage, 0, 100)
+            $("#ytduration").text(this.hhmmsss_prettify(duration)).css('color', color)
+        },
+        hhmmsss_prettify (n) {
+            var sec_num = parseInt(n, 10); // don't forget the second param
+            var hours   = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+            var milisec = n;
+        
+            if (hours   < 10) {hours   = "0"+hours;}
+            if (minutes < 10) {minutes = "0"+minutes;}
+            if (seconds < 10) {seconds = "0"+seconds;}
+            if (milisec < 10) {milisec = "0"+milisec;}
+            return hours+':'+minutes+':'+seconds+'.'+(milisec % 1).toFixed(1).substring(2);
+        },
+        hsl_col_perc(percent, start, end) {
+            var a = percent / 100,
+                b = (start - end) * a,
+                c = b + end;
+            // Return a CSS HSL string
+            return 'hsl('+c+', 100%, 50%)';
+        },
+        seek(from) {
+            this.trimPreviewAudio.currentTime = from;
+            console.log("from  ---" + from);
+            if(player.getPlayerState() == 1) {
+            //   player.pauseVideo()
+            }
+            if(player.getPlayerState() == 2) {
+            //   player.seekTo(from);
+            }  else {
+              // player.pauseVideo();
+            }
+        },
+
+        playTrimPreview(time){
+            let fullTime = this.activeLayer.playEnd - this.activeLayer.playStart;
+            let currentTime = this.trimPreviewAudio.currentTime - this.activeLayer.playStart;
+            let timeInSecond = 0;
+            console.log(this.trimPreviewAudio.currentTime);
+            if(this.lastTime != null){
+                timeInSecond = time - this.lastTime;
+            }
+            this.lastTime = time;
+            if(this.trimPreviewAudio.currentTime > this.activeLayer.playEnd){
+                this.stopTrimPreview();
+            }else{
+                this.trimPreviewAudio.play();
+                // let result = this.activeLayer.playEnd - this.trimPreviewAudio.currentTime / 40 * 100
+                
+                let result = currentTime * 100 / fullTime;
+                console.log([result, fullTime, currentTime]);
+                $("#reader").css("width", `${result}%`);
+                this.trimPreviewIsPlaying = true;
+    
+                this.trimPreviewFrameId = requestAnimationFrame( this.playTrimPreview );
+            }
+            
+        },
+        stopTrimPreview(){
+            this.trimPreviewAudio.pause();
+            this.trimPreviewIsPlaying = false;
+            cancelAnimationFrame(this.trimPreviewFrameId);
+        },
+
+        nextBackgroundMusicPage(){
+            this.backgroundMusicCurrentPage += 1;
+            if(this.backgroundMusicCurrentPage > this.backgroundMusicLastPage){
+                this.backgroundMusicCurrentPage = this.backgroundMusicLastPage;
+            }
+            this.getBackgroundMusic();
+        },
+        prevBackgroundMusicPage(){
+            this.backgroundMusicCurrentPage -= 1;
+
+            if(this.backgroundMusicCurrentPage < 1){
+                this.backgroundMusicCurrentPage = 1;
+            }
+            this.getBackgroundMusic();
+        },
+
+        goToBackgroundMusicPage(){
+            if(this.backgroundMusicCurrentPage < 1){
+                this.backgroundMusicCurrentPage = 1;
+            }
+
+            if(this.backgroundMusicCurrentPage > this.backgroundMusicLastPage){
+                this.backgroundMusicCurrentPage = this.backgroundMusicLastPage;
+            }
+            this.getBackgroundMusic();
+        },
+
+
+
+        nextBackgroundSoundPage(){
+            this.backgroundSoundCurrentPage += 1;
+            if(this.backgroundSoundCurrentPage > this.backgroundSoundLastPage){
+                this.backgroundSoundCurrentPage = this.backgroundSoundLastPage;
+            }
+            this.getBackgroundSounds();
+        },
+        prevBackgroundSoundPage(){
+            this.backgroundSoundCurrentPage -= 1;
+
+            if(this.backgroundSoundCurrentPage < 1){
+                this.backgroundSoundCurrentPage = 1;
+            }
+            this.getBackgroundSounds();
+        },
+
+        goToBackgroundMusicPage(){
+            if(this.backgroundSoundCurrentPage < 1){
+                this.backgroundSoundCurrentPage = 1;
+            }
+
+            if(this.backgroundSoundCurrentPage > this.backgroundSoundLastPage){
+                this.backgroundSoundCurrentPage = this.backgroundSoundLastPage;
+            }
+            this.getBackgroundSounds();
+        }
+          
     },
 
     

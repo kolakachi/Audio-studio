@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Redis;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
@@ -39,12 +43,17 @@ class AzureResourcesController extends Controller
         
                     $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
                 } while ($blob_list->getContinuationToken());
-                \Log::info(json_encode($files));
+                // \Log::info(json_encode($files));
+                // $filesCollectionObj = collect($files);
+                // $files = $this->paginate($filesCollectionObj);
                 Redis::set('_audio_sounds', json_encode($files));
 
             }else{
                 $files = json_decode($cachedSounds, FALSE);
             }
+
+            $filesCollectionObj = collect($files);
+            $files = $this->paginate($filesCollectionObj, 10, request()->c_page);
            
             return response()->json([
                 'files' => $files
@@ -93,7 +102,9 @@ class AzureResourcesController extends Controller
             }else{
                 $files = json_decode($cachedMusic, FALSE);
             }
-           
+            $filesCollectionObj = collect($files);
+            $files = $this->paginate($filesCollectionObj, 10, request()->c_page);
+            // dd($files);
             return response()->json([
                 'files' => $files
             ]);
@@ -108,5 +119,16 @@ class AzureResourcesController extends Controller
            
         }
 
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

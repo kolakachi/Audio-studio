@@ -41,8 +41,8 @@ def mixAudios():
         os.system(reduceVolume)
 
         clip = mpe.AudioFileClip(volumeEncodedMP3Path)
-        clip = clip.set_duration(layer["duration"])
-        trimmedClip = clip.subclip(0, layer["end"] - layer["start"])
+        clip = clip.set_duration(layer["originalDuration"])
+        trimmedClip = clip.subclip(layer["playStart"], layer["playEnd"])
         audios.append(trimmedClip.set_start(layer["start"]))
 
     mixed = CompositeAudioClip(audios)
