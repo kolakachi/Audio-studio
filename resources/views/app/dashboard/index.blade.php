@@ -36,10 +36,15 @@
 									<div class="chat-text" v-html="item.text">
 									</div>
 									<div v-if="item.hasOptions" class="option-holder">
-										<select class="chat-options" v-on:change="selectOption">
+										<select class="chat-options" v-on:change="selectOption($event, item.question)">
 											<option selected="true" disabled value="null" v-cloak>@{{ item.optionTitle }}</option>
-											<option v-for="(types, idx) in item.options" v-bind:value="types" v-cloak>@{{ types }}</option>
+											<option v-for="(types, idx) in item.options" v-bind:value="types.value" v-cloak>@{{ types.name }}</option>
 										</select>
+									</div>
+									<div v-if="item.hasButton" class="mt-2">
+										<button v-if="!isLoading" @click="uploadScrapedText(item.text)" class="btn btn-primary btn-sm">
+											Use
+										</button>
 									</div>
 								</div>
 
@@ -428,6 +433,8 @@
   <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
 
   <textarea id="create-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
+  <textarea id="get-ai-results-url" style="display: none">{{ route('user.get-ai-results')}}</textarea>
+
   <textarea id="edit-book-url" style="display: none">{{ route('user.update-tts')}}</textarea>
   <textarea id="update-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
   <textarea id="download-book-url" style="display: none">{{ route('user.download-audio')}}</textarea>
@@ -461,26 +468,41 @@
 	var placeholders = [];
 	var userImage = "";
 	var data = {
-    "options": [{
+    "options": [
+		{
             "tick": false,
-            "title": "Niche",
-            "desc": "Please select your niche"
+            "title": "Language",
+            "desc": "What language would you prefer me to write your script?"
         },
-        {
+		{
+            "tick": false,
+            "title": "Tone",
+            "desc": "Please select your preferred tone."
+        },
+		{
             "tick": false,
             "title": "Objective",
             "desc": "Please select  your marketing objective."
         },
+        
         {
             "tick": false,
             "title": "Keyword",
             "desc": "Please enter a keyword that best describes your business."
         },
-        {
+
+		{
             "tick": false,
-            "title": "Language",
-            "desc": "What language would you prefer me to write your script?"
+            "title": "Creativity Level",
+            "desc": "Please select  your creativity level."
         },
+
+		{
+            "tick": false,
+            "title": "Variants",
+            "desc": "Please select  your variants."
+        },
+       
         {
             "tick": false,
             "title": "Template",
@@ -495,25 +517,361 @@
             "text": "Please answer the following questions and I will assist you write your audio script."
         }
     ],
-    "questions": [{
+    "questions": [
+		{
             "id": 1,
+			"question":"language",
             "hasOptions": true,
-            "text": "Please answer the following questions and I will assist you write your audio script.",
-            "optionTitle": "Select Niche",
-            "options": ["sports", "marketing", "business", "health"]
+            "text": "Please select your Language.",
+            "optionTitle": "Select Language",
+            "options": [
+				{
+					"name": "🇦🇪 Arabic",
+					"value": "arabic",
+				},
+				{
+					"name": "🇧🇬 Bulgarian",
+					"value": "bulgarian"
+				},
+				{
+					"name": "🇨🇳 Chinese (S)",
+					"value": "chinese-simplified"
+				},
+				{
+					"name": "🇹🇼 Chinese (T)",
+					"value": "chinese-traditional"
+				},
+				{
+					"name": "🇨🇿 Czech",
+					"value": "czech"
+				},
+				{
+					"name": "🇩🇰 Danish",
+					"value": "danish"
+				},
+				{
+					"name": "🇳🇱 Dutch",
+					"value": "dutch"
+				},
+				{
+					"name": "🇺🇸 English",
+					"value": "english"
+				},
+				{
+					"name": "🇮🇷 Farsi",
+					"value": "farsi"
+				},
+				{
+					"name": "🇵🇭 Filipino",
+					"value": "filipino",
+				},
+				{
+					"name": "🇫🇮 Finnish",
+					"value": "finnish"
+				},
+				{
+					"name": "🇫🇷 French",
+					"value": "french"
+				},
+				{
+					"name": "🇩🇪 German",
+					"value": "german"
+				},
+				{
+					"name": "🇬🇷 Greek",
+					"value": "greek"
+				},
+				{
+					"name": "🇮🇱 Hebrew",
+					"value": "hebrew",
+					"direction": "rtl"
+				},
+				{
+					"name": "🇮🇳 Hindi",
+					"value": "hindi"
+				},
+				{
+					"name": "🇭🇺 Hungarian",
+					"value": "hungarian"
+				},
+				{
+					"name": "🇮🇩 Indonesian",
+					"value": "indonesian"
+				},
+				{
+					"name": "🇮🇹 Italian",
+					"value": "italian"
+				},
+				{
+					"name": "🇯🇵 Japanese",
+					"value": "japanese"
+				},
+				{
+					"name": "🇰🇷 Korean",
+					"value": "korean"
+				},
+				{
+					"name": "🇱🇹 Lithuanian",
+					"value": "lithuanian",
+				},
+				{
+					"name": "🇲🇾 Malay",
+					"value": "malay"
+				},
+				{
+					"name": "🇳🇴 Norwegian",
+					"value": "norwegian"
+				},
+				{
+					"name": "🇵🇱 Polish",
+					"value": "polish"
+				},
+				{
+					"name": "🇵🇹 Portuguese",
+					"value": "portuguese"
+				},
+				{
+					"name": "🇷🇴 Romanian",
+					"value": "romanian"
+				},
+				{
+					"name": "🇷🇺 Russian",
+					"value": "russian"
+				},
+				{
+					"name": "🇸🇰 Slovak",
+					"value": "slovak",
+					"is_default": false
+				},
+				{
+					"name": "🇪🇸 Spanish",
+					"value": "spanish"
+				},
+				{
+					"name": "🇸🇪 Swedish",
+					"value": "swedish"
+				},
+				{
+					"name": "🇹🇭 Thai",
+					"value": "thai"
+				},
+				{
+					"name": "🇹🇷 Turkish",
+					"value": "turkish"
+				},
+				{
+					"name": "🇻🇳 Vietnamese",
+					"value": "vietnamese"
+				}
+			]
+
         },
-        {
+		{
             "id": 2,
+			"question":"tone",
+            "hasOptions": true,
+            "text": "Please select your Tone.",
+            "optionTitle": "Select Tone",
+			"options":[
+				{
+					"name": "Appreciative",
+					"value": "appreciative"
+				},
+				{
+					"name": "Assertive",
+					"value": "assertive"
+				},
+				{
+					"name": "Awestruck",
+					"value": "awestruck"
+				},
+				{
+					"name": "Candid",
+					"value": "candid"
+				},
+				{
+					"name": "Casual",
+					"value": "casual"
+				},
+				{
+					"name": "Cautionary",
+					"value": "cautionary"
+				},
+				{
+					"name": "Compassionate",
+					"value": "compassionate"
+				},
+				{
+					"name": "Convincing",
+					"value": "convincing",
+					"is_default": true
+				},
+				{
+					"is_default": false,
+					"name": "Critical",
+					"value": "critical"
+				},
+				{
+					"name": "Earnest",
+					"value": "earnest"
+				},
+				{
+					"name": "Enthusiastic",
+					"value": "enthusiastic"
+				},
+				{
+					"name": "Formal",
+					"value": "formal"
+				},
+				{
+					"name": "Funny",
+					"value": "funny"
+				},
+				{
+					"name": "Humble",
+					"value": "humble"
+				},
+				{
+					"name": "Humorous",
+					"value": "humorous"
+				},
+				{
+					"is_default": false,
+					"name": "Informative",
+					"value": "informative"
+				},
+				{
+					"name": "Inspirational",
+					"value": "inspirational"
+				},
+				{
+					"name": "Joyful",
+					"value": "joyful"
+				},
+				{
+					"name": "Passionate",
+					"value": "passionate"
+				},
+				{
+					"name": "Thoughtful",
+					"value": "thoughtful"
+				},
+				{
+					"name": "Urgent",
+					"value": "urgent"
+				},
+				{
+					"name": "Worried",
+					"value": "worried"
+				}
+			]
+		},
+		{
+            "id": 3,
+			"question":"objective",
             "hasOptions": true,
             "text": "Please select your marketing objective.",
             "optionTitle": "Select Objective",
-            "options": ["sports", "marketing", "business", "health"]
+            "options": [
+				{
+					"name":"Audiobook",
+					"value":"Audiobook"
+				},
+				{ 
+					"name": "Long Video Sales Script",
+					"value":"Long Video Sales Script"
+				},
+				{ 
+					"name": "Facebook Video Ads Script",
+					"value": "Facebook Video Ads Script",
+				},
+				{ 
+					"name":"Instagram Video Ads Script",
+					"value":"Instagram Video Ads Script",
+				},
+				{ 
+					"name": "YouTube Video Ads Script",
+					"value": "YouTube Video Ads Script",
+				}, 
+				{ 
+					"name":"TV Commercials",
+					"value":"TV Commercials",
+				},
+				{ 
+					"name": "Radio Advert",
+					"value": "Radio Advert"
+				},
+				{
+					"name": "Podcast",
+					"value": "Podcast",
+				},
+				{   "name":"Tiktok Video Ads Script",
+					"value":"Tiktok Video Ads Script"
+				}
+			]
         },
-        {
-            "id": 3,
+		{
+            "id": 4,
+			"question":"keywords",
             "hasOptions": false,
             "text":"Enter your business keywords (if more than one, separate each word by comma)"
-        }
+        },
+		{
+            "id": 5,
+			"question":"creativity",
+            "hasOptions": true,
+            "text": "Please select creativity level.",
+            "optionTitle": "Select Creativity Level",
+            "options": [
+				{
+					"value": "optimal",
+					"name": "Optimal"
+				},
+				{
+					"value": "none",
+					"name": "None (more factual)"
+				},
+				{
+					"value": "low",
+					"name": "Low"
+				},
+				{
+					"value": "medium",
+					"name": "Medium"
+				},
+				{
+					"value": "high",
+					"name": "High"
+				},
+				{
+					"value": "max",
+					"name": "Max (les factual)"
+				}
+			]
+        },
+		{
+            "id": 6,
+			"question":"variants",
+            "hasOptions": true,
+            "text": "Please select variants.",
+            "optionTitle": "Select variants",
+            "options": [
+				{
+					"name": 1,
+					"value":1,
+				},
+				{
+					"name": 2,
+					"value":2,
+				},{
+					"name": 3,
+					"value":3,
+				},
+			]
+        },
+        
+
+		
     ]
 }
 </script>

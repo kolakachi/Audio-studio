@@ -44,6 +44,7 @@ use App\Http\Controllers\User\UserSupportController;
 use App\Http\Controllers\User\UserNotificationController;
 use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CopyWriterController;
 use App\Http\Controllers\Admin\WriterController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
@@ -392,6 +393,8 @@ Route::post('/upload-text', [DashboardController::class, 'uploadText'])->name('u
 Route::get('/new-tts', [DashboardController::class, 'newAudio'])->name('user.update-tts.new');    
 Route::get('/get-audio/{audioUUID?}', [DashboardController::class, 'getAudio'])->name('user.fetch-audio');    
 Route::get('/download-audio/{audioUUID?}', [DashboardController::class, 'downloadAudio'])->name('user.download-audio');    
+
+Route::post('/get-ai-results', [CopyWriterController::class, 'getAiResults'])->name('user.get-ai-results');
 
 Route::get('/admin/writer', [WriterController::class, 'index'])->name('admin.writer');
 Route::post('/admin/writer/create', [WriterController::class,'create'])->name('admin.writer.create');

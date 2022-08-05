@@ -86,7 +86,8 @@ new Vue({
             delete: "",
             download: "",
             embed: '',
-            getBookURL:''
+            getBookURL:'',
+            getResults:''
         },
         query:[],
 
@@ -96,16 +97,18 @@ new Vue({
         intro:data.intro,
         questions: data.questions,
         conversation: [],
-        answeredQuestions: [],
+        answeredQuestions: {},
         isTyping: false,
         canType: false,
         done: false,
+        choices:[]
     },
     mounted() {
         this.url.upload = $("#upload-text-url").val();
         this.startConversation(3);
 
         this.url.create = $("#create-book-url").val();
+        this.url.getResults = $("#get-ai-results-url").val();
         this.url.getBookURL = $("#fetch-book-url").val() + "/";
 
         this.url.edit = $("#edit-book-url").val() + "/";
@@ -370,11 +373,13 @@ new Vue({
         },
 
         // ASK A QUESTION
-        askQuestion(question) {
+        askQuestion(question, hasButton = false, textIndex = 0) {
 
             this.toggleTyping(question)
 
             this.conversation.push({
+                hasButton: hasButton,
+                textIndex: textIndex,
                 isAnswer: false,
                 ...question
             });
@@ -407,11 +412,42 @@ new Vue({
                     this.askQuestion(this.questions[this.readCount()]);
                 } else {
                     this.closeConversation()
-                    this.askQuestion({
-                        hasOptions: false,
-                        text: "Thank you for your response, we will get back to your shortly",
-                    });
-                    console.log(this.answeredQuestionList());
+                    
+                    let formData = new FormData();
+                    for ( var key in this.answeredQuestions ) {
+                        let value = this.answeredQuestions[key];
+                        formData.append(key, value);
+                    }
+                    this.isLoading = true;
+                    axios.post(this.url.getResults, formData)
+                        .then((response) => {
+                            this.isLoading = false;
+
+                            
+                            this.choices = response.data.choices;
+                            for(let key in this.choices){
+                                this.askQuestion({
+                                    hasOptions: false,
+                                    text: this.choices[key].text,
+                                }, true, key);
+                            }
+
+                            this.$notify({
+                                title: 'Success',
+                                message: response.data.message,
+                                type: 'success'
+                            });
+                            
+                        })
+                        .catch((error) => {
+                            this.isLoading = false;
+                            this.$notify.error({
+                                title: 'Error',
+                                message: error.response.data.message
+                            });
+                        })
+
+                    
                 }
                 this.setTyping(false);
                 this.incCount();
@@ -419,7 +455,7 @@ new Vue({
         },
 
         // WHEN OPTION IS SELECTED
-        selectOption(e) {
+        selectOption(e, question) {
 
             let option = e.target.value;
             this.replyQuestion(option);
@@ -428,9 +464,10 @@ new Vue({
                   element.setAttribute("disabled", "disabled");
                 }
             });
-            this.answeredQuestions.push({
-                answer: option
-            });
+            this.answeredQuestions[question]= option;
+            // this.answeredQuestions.push({
+            //     [question]: option
+            // });
             this.wait(()=>{
                 this.nextQuestion();
             },1.5)
@@ -441,9 +478,11 @@ new Vue({
             if(this.canType == true && this.done == false){
                 let value = this.$refs.answer.value;
                 if(value.length > 0){
-                    this.answeredQuestions.push({
-                      answer: value,
-                    });
+                    this.answeredQuestions["keywords"]= value;
+                    // this.answeredQuestions.push({
+                    //   [currentQuestion.question]: value,
+                    // });
+                    // console.log([currentQuestion, value]);
                     this.replyQuestion(value);
                     this.nextQuestion();
                 }
@@ -573,7 +612,7 @@ new Vue({
             var audio = document.getElementById('listen-result');
             audio.src = this.url.getBookURL + this.selectedAudio.audio_path;
             $("#listenModal").modal('show');
-        }    
+        }
         
     },
     watch:{
