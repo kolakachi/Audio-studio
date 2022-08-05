@@ -879,7 +879,7 @@
 
 	<script src="/plugins/audio-player/green-audio-player.js"></script>
 
-<script src="{{ asset('js/app/dashboard.js') }}?v=2"></script>
+<script src="{{ asset('js/app/dashboard.js') }}?v=3"></script>
 {{-- <script type="module" src="{{ asset('assets/js/ai-popup.js') }}"></script> --}}
 	
 @endsection
