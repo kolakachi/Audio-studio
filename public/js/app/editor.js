@@ -221,6 +221,7 @@ new Vue({
         this.url.backgroundSoundsURL = $("#get-audio-sounds-url").val();
         this.url.backgroundMusicURL = $("#get-audio-music-url").val();
         this.url.storeLibraryAudio = $("#store-audio-music-url").val();
+        this.url.masterpieceURL = $("#master-piece-url").val();
 
         this.player = new Player();
         this.languages = JSON.parse($("#languages").val());
@@ -408,6 +409,58 @@ new Vue({
             $('.layer-tooltip').fadeOut();           
         });
 
+        const tip3 = new TextTip({
+            scope: '.scope-four',
+            iconFormat: 'font',
+            buttons: [
+                {
+                    title: 'Copy and paste', 
+                    iconFormat:'text', icon: 'far fa-copy', 
+                    callback: function(message){
+                        console.log("meee copy" + message);
+                    }
+                },
+                {   title: 'Improve', 
+                    iconFormat:'svgsprite', 
+                    icon: `<svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.7278 14.0606L11.669 11.0017L13.2709 9.3975L14.7278 10.8567L20.4015 5.19213L22 6.79747L14.7278 14.0606ZM10.1962 11.3291H0V9.06329H10.1962V11.3291ZM14.7278 6.79747H0V4.53164H14.7278V6.79747ZM14.7278 2.26582H0V0H14.7278V2.26582Z" />
+                </svg>`, callback: this.improveText
+                },
+                {
+                    title: 'Rephrase',
+                    iconFormat:'svgsprite', 
+                    icon: `<svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12.4481H5.5325V13.8313H0V12.4481ZM14.1929 6.22407H0V7.60719H14.177C14.819 7.60719 15.4346 7.8622 15.8886 8.31613C16.3425 8.77006 16.5975 9.38571 16.5975 10.0277C16.5975 10.6696 16.3425 11.2853 15.8886 11.7392C15.4346 12.1931 14.819 12.4481 14.177 12.4481H10.2545L12.0429 10.6597L11.065 9.68188L7.60719 13.1397L11.065 16.5975L12.0429 15.6196L10.2545 13.8313H14.1999C15.2086 13.8303 16.1757 13.4287 16.8884 12.7148C17.6011 12.0008 18.0009 11.033 18 10.0242C17.9991 9.01543 17.5975 8.04833 16.8835 7.33567C16.1695 6.623 15.2017 6.22315 14.1929 6.22407ZM0 0H16.5975V1.38313H0V0Z" />
+                </svg>`, callback: this.rephraseText
+                },
+                {
+                    title: 'Expand', 
+                    iconFormat:'svgsprite', 
+                    icon: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.7705 0.00187292L12.9326 0.602785C12.7638 0.623242 12.6948 0.827808 12.8124 0.947991L14.2111 2.34671L10.286 6.27182C10.2479 6.31027 10.2266 6.36219 10.2266 6.4163C10.2266 6.4704 10.2479 6.52232 10.286 6.56077L11.4392 7.71401C11.5185 7.79328 11.6489 7.79328 11.7282 7.71401L15.6558 3.78634L17.0546 5.18506C17.0816 5.21204 17.1156 5.23086 17.1528 5.23937C17.19 5.24789 17.2288 5.24575 17.2649 5.23321C17.3009 5.22066 17.3327 5.19822 17.3565 5.16844C17.3804 5.13867 17.3954 5.10278 17.3998 5.06488L17.9981 0.229452C18.0024 0.198572 17.9994 0.167131 17.9895 0.13759C17.9795 0.108048 17.9629 0.081207 17.9408 0.0591671C17.9188 0.0371273 17.892 0.0204862 17.8624 0.0105466C17.8329 0.000606982 17.8014 -0.0023615 17.7705 0.00187292ZM6.56033 10.2864C6.52188 10.2484 6.46996 10.227 6.41586 10.227C6.36175 10.227 6.30983 10.2484 6.27138 10.2864L2.34627 14.2141L0.947551 12.8154C0.920565 12.7884 0.886524 12.7696 0.849332 12.7611C0.812139 12.7526 0.7733 12.7547 0.737267 12.7672C0.701234 12.7798 0.669465 12.8022 0.645602 12.832C0.621738 12.8618 0.606747 12.8977 0.602346 12.9356L0.0014334 17.771C-0.013909 17.904 0.096045 18.0139 0.229013 17.9986L5.067 17.3977C5.23577 17.3772 5.30481 17.1726 5.18718 17.0524L3.78846 15.6537L7.71613 11.7261C7.7954 11.6468 7.7954 11.5164 7.71613 11.4371L6.56033 10.2864Z" />
+                </svg>`, callback: this.expandText
+            
+                },
+                {
+                    title: 'Shorten', 
+                    iconFormat:'svgsprite', 
+                    icon: `<svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.3661 9.01416H11.0175C10.3953 9.01416 9.89076 9.51874 9.89076 10.1409C9.89076 10.7631 10.3953 11.2677 11.0175 11.2677H14.3661C14.9883 11.2677 15.4929 10.7631 15.4929 10.1409C15.4929 9.51874 14.9894 9.01416 14.3661 9.01416ZM18.8732 0H11.0175C10.3953 0 9.89076 0.504582 9.89076 1.12677C9.89076 1.74896 10.3953 2.25354 11.0175 2.25354H18.8732C19.4954 2.25354 20 1.74896 20 1.12677C20 0.504582 19.4965 0 18.8732 0ZM12.1126 13.5212H10.9858C10.3637 13.5212 9.85907 14.0258 9.85907 14.648C9.85907 15.2702 10.3637 15.7748 10.9858 15.7748H12.1126C12.7348 15.7748 13.2077 15.2702 13.2077 14.648C13.2077 14.0258 12.7359 13.5212 12.1126 13.5212ZM16.6197 4.50708H11.0175C10.3953 4.50708 9.89076 5.01166 9.89076 5.63385C9.89076 6.25604 10.3953 6.76062 11.0175 6.76062H16.6197C17.2419 6.76062 17.7465 6.25604 17.7465 5.63385C17.7465 5.01166 17.2429 4.50708 16.6197 4.50708ZM6.49284 10.5177L5.35199 11.7642V1.12783C5.35199 0.504582 4.84846 0 4.22522 0C3.60197 0 3.09845 0.504582 3.09845 1.12783V11.7617L1.95759 10.5177C1.73534 10.2753 1.43153 10.1522 1.12625 10.1522C0.844402 10.1519 0.572764 10.2577 0.365325 10.4485C-0.0934821 10.8692 -0.124116 11.583 0.295993 12.0425L3.36292 15.426C3.78969 15.8929 4.59744 15.8929 5.02456 15.426L8.09148 12.0425C8.51191 11.583 8.48092 10.8696 8.02215 10.4485C7.62665 10.0283 6.91538 10.0599 6.49284 10.5177Z" />
+                    </svg>
+                    `, callback: this.shortenText
+            
+                },
+                // {
+                //     title: 'Plagiarism', 
+                //     iconFormat:'svgsprite', 
+                //     icon: `<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                //     <path d="M1.44502 7.957C0.578456 8.82246 0.0653657 9.97969 0.00582841 11.203C-0.0537089 12.4262 0.344577 13.6278 1.123 14.5733C1.90142 15.5189 3.00414 16.1405 4.21608 16.317C5.42802 16.4935 6.66225 16.2122 7.67802 15.528L11.934 19.785C12.0715 19.9255 12.2573 20.0085 12.4537 20.0169C12.6501 20.0253 12.8423 19.9585 12.9912 19.8302C13.1401 19.7019 13.2346 19.5217 13.2554 19.3262C13.2761 19.1308 13.2217 18.9347 13.103 18.778L13.028 18.691L8.81102 14.473C9.58225 13.4841 9.94739 12.2384 9.83203 10.9897C9.71667 9.74096 9.12949 8.58321 8.19015 7.75238C7.25081 6.92155 6.03002 6.48017 4.77655 6.51819C3.52308 6.55621 2.33227 7.07077 1.44502 7.957ZM10.03 0C5.27402 0 1.29402 3.319 0.279018 7.767C0.872019 7.01447 1.63903 6.41733 2.51402 6.027C3.46429 4.23392 5.02304 2.83864 6.91002 2.092L6.80302 2.266C6.26502 3.159 5.83202 4.277 5.52802 5.546C6.02702 5.596 6.51902 5.71 6.99302 5.886C7.62502 3.258 8.81602 1.501 10.03 1.501L10.145 1.506C11.411 1.622 12.633 3.624 13.201 6.502H8.20402C8.80774 6.90301 9.33304 7.41103 9.75402 8.001L13.428 8.002C13.6039 9.66732 13.5585 11.3486 13.293 13.002H10.647C10.5688 13.2898 10.4689 13.5713 10.348 13.844L10.219 14.116L10.097 14.345L10.255 14.502H12.97C12.767 15.251 12.52 15.92 12.238 16.487L13.344 17.594C13.836 16.736 14.235 15.686 14.522 14.504L17.245 14.502C16.3502 15.934 15.0507 17.0686 13.511 17.762L13.736 17.985L13.861 18.125C14.081 18.421 14.206 18.75 14.239 19.078C15.9695 18.275 17.4342 16.9939 18.4604 15.3858C19.4867 13.7777 20.0316 11.9097 20.031 10.002C20.031 4.478 15.553 0 10.03 0ZM7.31802 9.05C7.63404 9.36338 7.88505 9.73609 8.05666 10.1467C8.22826 10.5574 8.31708 10.9979 8.31801 11.4429C8.31894 11.888 8.23197 12.3288 8.06208 12.7402C7.8922 13.1516 7.64274 13.5253 7.32804 13.84C7.01334 14.1547 6.63958 14.4042 6.22822 14.5741C5.81686 14.7439 5.376 14.8309 4.93095 14.83C4.48589 14.8291 4.0454 14.7402 3.63476 14.5686C3.22411 14.397 2.8514 14.146 2.53802 13.83C1.90853 13.1952 1.55615 12.3369 1.55803 11.4429C1.5599 10.5489 1.91586 9.69212 2.548 9.05998C3.18014 8.42784 4.03697 8.07188 4.93095 8.07001C5.82493 8.06814 6.68324 8.42051 7.31802 9.05ZM14.936 8.002L18.294 8.001L18.302 8.031C18.452 8.664 18.532 9.323 18.532 10.001C18.533 11.0257 18.3484 12.0421 17.987 13.001L14.813 13.003C14.956 12.053 15.031 11.045 15.031 10.002C15.031 9.318 14.999 8.649 14.936 8.002ZM13.149 2.091L13.172 2.099C15.2192 2.91624 16.8705 4.49414 17.78 6.502H14.731C14.418 4.749 13.871 3.223 13.149 2.091Z" />
+                //     </svg>
+                //     `, callback: console.log
+            
+                // }
+            ]
+        });
         
     },
     methods: {
@@ -2340,6 +2393,238 @@ new Vue({
                 this.backgroundSoundCurrentPage = this.backgroundSoundLastPage;
             }
             this.getBackgroundSounds();
+        },
+       
+
+        improveText(text, button){
+            if(!this.isLoading && text.length >= 30){
+                var prevContent = button.innerHTML;
+                button.innerHTML = `<span class="spinner-border text-light" role="status" style="width: 12px; height:12px">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span> Improve`;
+                this.isLoading = true;
+                this.loadingType = "improve_text";
+                const formData = new FormData();
+                formData.append('_token', $('input[name=_token]').val());
+                formData.append('selected_text', text);
+                formData.append('type', 'improve_text');
+    
+                axios.post(this.url.masterpieceURL, formData)
+                    .then((response) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                        let resultText = response.data.text;
+                        var sel, range;
+                        if (window.getSelection) {
+                            sel = window.getSelection();
+                            if (sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+                                range.insertNode(document.createTextNode(resultText));
+                            }
+                        } else if (document.selection && document.selection.createRange) {
+                            range = document.selection.createRange();
+                            range.text = resultText;
+                        }
+                        
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                    })
+            }else{
+                if(this.isLoading){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Editor action in progress, please wait.",
+                        type: 'warning'
+                    });
+                }
+
+                if(text.length < 30){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Please select 30 or more characters to proceed",
+                        type: 'warning'
+                    });
+                }
+               
+            }          
+        },
+        rephraseText(text, button){
+            if(!this.isLoading && text.length >= 30){
+                var prevContent = button.innerHTML;
+                button.innerHTML = `<span class="spinner-border text-light" role="status" style="width: 12px; height:12px">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span> Rephrase`;
+                this.isLoading = true;
+                this.loadingType = "rephrase_text";
+                const formData = new FormData();
+                formData.append('_token', $('input[name=_token]').val());
+                formData.append('selected_text', text);
+                formData.append('type', 'rephrase_text');
+    
+                axios.post(this.url.masterpieceURL, formData)
+                    .then((response) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                        let resultText = response.data.text;
+                        var sel, range;
+                        if (window.getSelection) {
+                            sel = window.getSelection();
+                            if (sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+                                range.insertNode(document.createTextNode(resultText));
+                            }
+                        } else if (document.selection && document.selection.createRange) {
+                            range = document.selection.createRange();
+                            range.text = resultText;
+                        }
+                        
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                    })
+            }else{
+                if(this.isLoading){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Editor action in progress, please wait.",
+                        type: 'warning'
+                    });
+                }
+
+                if(text.length < 30){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Please select 30 or more characters to proceed",
+                        type: 'warning'
+                    });
+                }
+               
+            }
+            
+        },
+        expandText(text, button){
+            if(!this.isLoading && text.length >= 30){
+                var prevContent = button.innerHTML;
+                button.innerHTML = `<span class="spinner-border text-light" role="status" style="width: 12px; height:12px">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span> Expand`;
+                this.isLoading = true;
+                this.loadingType = "expand_text";
+                const formData = new FormData();
+                formData.append('_token', $('input[name=_token]').val());
+                formData.append('selected_text', text);
+                formData.append('type', 'expand_text');
+    
+                axios.post(this.url.masterpieceURL, formData)
+                    .then((response) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                        let resultText = response.data.text;
+                        var sel, range;
+                        if (window.getSelection) {
+                            sel = window.getSelection();
+                            if (sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+                                range.insertNode(document.createTextNode(resultText));
+                            }
+                        } else if (document.selection && document.selection.createRange) {
+                            range = document.selection.createRange();
+                            range.text = resultText;
+                        }
+                        
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                    })
+            }else{
+                if(this.isLoading){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Editor action in progress, please wait.",
+                        type: 'warning'
+                    });
+                }
+
+                if(text.length < 30){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Please select 30 or more characters to proceed",
+                        type: 'warning'
+                    });
+                }
+               
+            }
+            
+        },
+        shortenText(text, button){
+            if(!this.isLoading && text.length >= 30){
+                var prevContent = button.innerHTML;
+                button.innerHTML = `<span class="spinner-border text-light" role="status" style="width: 12px; height:12px">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span> Shorten`;
+                this.isLoading = true;
+                this.loadingType = "shorten_text";
+                const formData = new FormData();
+                formData.append('_token', $('input[name=_token]').val());
+                formData.append('selected_text', text);
+                formData.append('type', 'shorten_text');
+    
+                axios.post(this.url.masterpieceURL, formData)
+                    .then((response) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                        let resultText = response.data.text;
+                        var sel, range;
+                        if (window.getSelection) {
+                            sel = window.getSelection();
+                            if (sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+                                range.insertNode(document.createTextNode(resultText));
+                            }
+                        } else if (document.selection && document.selection.createRange) {
+                            range = document.selection.createRange();
+                            range.text = resultText;
+                        }
+                        
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        this.loadingType = "";
+                        button.innerHTML = prevContent;
+                    })
+            }else{
+                if(this.isLoading){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Editor action in progress, please wait.",
+                        type: 'warning'
+                    });
+                }
+
+                if(text.length < 30){
+                    this.$notify({
+                        title: 'Warning',
+                        message: "Please select 30 or more characters to proceed",
+                        type: 'warning'
+                    });
+                }
+               
+            }
         }
           
     },

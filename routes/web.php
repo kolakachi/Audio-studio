@@ -50,6 +50,7 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
 use App\Http\Controllers\WhiteLabelController;
 use App\Http\Controllers\AzureResourcesController;
+use App\Http\Controllers\MasterPieceController;
 use Illuminate\Support\Facades\Artisan;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -314,6 +315,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::post('/tts/export-audio', [TTSController::class, 'exportAudio'])->name('user.tts.export-audio');
         Route::post('/tts/save-config', [TTSController::class, 'storeAudioConfig'])->name('user.tts.save-config');
         Route::post('/tts/store-library-audio', [TTSController::class, 'storeLibraryAudio'])->name('user.store-music');
+        Route::post('/tts/master-piece', [MasterPieceController::class, 'updateText'])->name('user.master-piece');
 
 
         Route::get('/audio-books', [TTSController::class, 'listBooks'])->name('user.tts.list-books');  
