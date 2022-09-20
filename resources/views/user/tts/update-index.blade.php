@@ -826,139 +826,139 @@
 	</div>
 	<!-- END LISTEN MODAL -->
 
-  <!-- Record Modal -->
-  <div class="modal fade" id="recordModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="recordModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered bd-example-modal-lg" style="max-width: 750px;">
-      <div class="modal-content modal-lg">
-        <button class="btn close-btn" data-bs-dismiss="modal">
-            <span class="icon"><svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M1.35 21C1.19 21 1.04 20.94 0.9 20.82C0.78 20.7 0.72 20.56 0.72 20.4C0.72 20.26 0.76 20.13 0.84 20.01L7.71 10.32L1.17 0.989998C1.11 0.889998 1.08 0.759999 1.08 0.6C1.08 0.439999 1.14 0.299999 1.26 0.18C1.38 0.059999 1.52 -1.43051e-06 1.68 -1.43051e-06H3.48C3.78 -1.43051e-06 4.05 0.169999 4.29 0.509999L9.57 8.01L14.82 0.509999C15.02 0.169999 15.28 -1.43051e-06 15.6 -1.43051e-06H17.31C17.47 -1.43051e-06 17.61 0.059999 17.73 0.18C17.85 0.299999 17.91 0.439999 17.91 0.6C17.91 0.78 17.87 0.909999 17.79 0.989998L11.34 10.35L18.18 20.01C18.26 20.13 18.3 20.26 18.3 20.4C18.3 20.56 18.24 20.7 18.12 20.82C18 20.94 17.85 21 17.67 21H15.84C15.54 21 15.27 20.83 15.03 20.49L9.45 12.72L3.9 20.49C3.7 20.83 3.44 21 3.12 21H1.35Z"></path></svg></span>        
-        </button>
-        <div class="modal-body">
-          <div class="record-audio-wrap">
-            <div class="record-audio-content">
-              <div class="record-audio-label" style="margin-bottom: 10px;">Record Your Audio</div>
-              <div v-if="!recordingDone || !isRecording" class="recording-wrap" style="width: 100%; margin-bottom: 10px;">
-                <div style="width: 100%; text-align: center;width: 100%;" class="upload-file-content" v-if="teleprompter.currentStep == 1">
-                    <div class="upload-file-content" style="display: flex; flex-flow: column; align-items: center;">
-                        <div class="upload-file-box" style="width: 80%; padding: 20px; border-radius: 10px; border: 2px dotted #c4c4c4;">
-                            <span class="upload-file-icon icon" style="    font-size: 3.5rem; color: #c4c4c4;">
-                                <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
-                                    <path
-                                        d="M27.7688 49.9839H8.33065C7.59417 49.9839 6.88786 49.6913 6.3671 49.1706C5.84633 48.6498 5.55377 47.9435 5.55377 47.207V8.33065C5.55377 7.59417 5.84633 6.88786 6.3671 6.3671C6.88786 5.84633 7.59417 5.55377 8.33065 5.55377H22.2151V13.8844C22.2151 16.0938 23.0928 18.2128 24.6551 19.7751C26.2174 21.3374 28.3363 22.2151 30.5457 22.2151H38.8764V27.7688C38.8764 28.5053 39.1689 29.2116 39.6897 29.7324C40.2105 30.2532 40.9168 30.5457 41.6533 30.5457C42.3897 30.5457 43.096 30.2532 43.6168 29.7324C44.1376 29.2116 44.4301 28.5053 44.4301 27.7688V19.2716C44.4012 19.0165 44.3454 18.7652 44.2635 18.5218V18.2719C44.13 17.9864 43.9519 17.7239 43.7359 17.4944L27.0746 0.833065C26.8451 0.617068 26.5826 0.438972 26.2971 0.305457C26.2142 0.293683 26.1301 0.293683 26.0472 0.305457C25.7651 0.143679 25.4535 0.0398322 25.1308 0H8.33065C6.12122 0 4.00229 0.877691 2.43999 2.43999C0.877691 4.00229 0 6.12122 0 8.33065V47.207C0 49.4164 0.877691 51.5354 2.43999 53.0977C4.00229 54.66 6.12122 55.5377 8.33065 55.5377H27.7688C28.5053 55.5377 29.2116 55.2451 29.7324 54.7243C30.2532 54.2036 30.5457 53.4973 30.5457 52.7608C30.5457 52.0243 30.2532 51.318 29.7324 50.7972C29.2116 50.2765 28.5053 49.9839 27.7688 49.9839ZM27.7688 9.46917L34.961 16.6613H30.5457C29.8092 16.6613 29.1029 16.3687 28.5822 15.848C28.0614 15.3272 27.7688 14.6209 27.7688 13.8844V9.46917ZM13.8844 16.6613C13.1479 16.6613 12.4416 16.9539 11.9209 17.4746C11.4001 17.9954 11.1075 18.7017 11.1075 19.4382C11.1075 20.1747 11.4001 20.881 11.9209 21.4017C12.4416 21.9225 13.1479 22.2151 13.8844 22.2151H16.6613C17.3978 22.2151 18.1041 21.9225 18.6249 21.4017C19.1456 20.881 19.4382 20.1747 19.4382 19.4382C19.4382 18.7017 19.1456 17.9954 18.6249 17.4746C18.1041 16.9539 17.3978 16.6613 16.6613 16.6613H13.8844ZM30.5457 27.7688H13.8844C13.1479 27.7688 12.4416 28.0614 11.9209 28.5822C11.4001 29.1029 11.1075 29.8092 11.1075 30.5457C11.1075 31.2822 11.4001 31.9885 11.9209 32.5093C12.4416 33.03 13.1479 33.3226 13.8844 33.3226H30.5457C31.2822 33.3226 31.9885 33.03 32.5093 32.5093C33.03 31.9885 33.3226 31.2822 33.3226 30.5457C33.3226 29.8092 33.03 29.1029 32.5093 28.5822C31.9885 28.0614 31.2822 27.7688 30.5457 27.7688ZM49.1786 42.4585L43.6248 36.9048C43.3607 36.652 43.0493 36.4538 42.7085 36.3216C42.0324 36.0439 41.2741 36.0439 40.598 36.3216C40.2572 36.4538 39.9458 36.652 39.6817 36.9048L34.1279 42.4585C33.605 42.9814 33.3112 43.6906 33.3112 44.4301C33.3112 45.1696 33.605 45.8788 34.1279 46.4017C34.6508 46.9246 35.36 47.2184 36.0995 47.2184C36.839 47.2184 37.5482 46.9246 38.0711 46.4017L38.8764 45.5687V52.7608C38.8764 53.4973 39.1689 54.2036 39.6897 54.7243C40.2105 55.2451 40.9168 55.5377 41.6533 55.5377C42.3897 55.5377 43.096 55.2451 43.6168 54.7243C44.1376 54.2036 44.4301 53.4973 44.4301 52.7608V45.5687L45.2354 46.4017C45.4936 46.662 45.8007 46.8686 46.1391 47.0096C46.4775 47.1505 46.8404 47.2231 47.207 47.2231C47.5736 47.2231 47.9366 47.1505 48.2749 47.0096C48.6133 46.8686 48.9205 46.662 49.1786 46.4017C49.4389 46.1436 49.6455 45.8364 49.7864 45.4981C49.9274 45.1597 50 44.7967 50 44.4301C50 44.0636 49.9274 43.7006 49.7864 43.3622C49.6455 43.0238 49.4389 42.7167 49.1786 42.4585ZM24.992 44.4301C25.7284 44.4301 26.4347 44.1376 26.9555 43.6168C27.4763 43.096 27.7688 42.3897 27.7688 41.6533C27.7688 40.9168 27.4763 40.2105 26.9555 39.6897C26.4347 39.1689 25.7284 38.8764 24.992 38.8764H13.8844C13.1479 38.8764 12.4416 39.1689 11.9209 39.6897C11.4001 40.2105 11.1075 40.9168 11.1075 41.6533C11.1075 42.3897 11.4001 43.096 11.9209 43.6168C12.4416 44.1376 13.1479 44.4301 13.8844 44.4301H24.992Z"
-                                    ></path>
-                                </svg>
-                            </span>
-                            <div class="upload-file-description" style="margin-top: 10px;
-                            color: #fff;">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
-                            <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">
+    <!-- Record Modal -->
+    <div class="modal fade" id="recordModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="recordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered bd-example-modal-lg" style="max-width: 750px;">
+        <div class="modal-content modal-lg">
+            <button class="btn close-btn" data-bs-dismiss="modal">
+                <span class="icon"><svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M1.35 21C1.19 21 1.04 20.94 0.9 20.82C0.78 20.7 0.72 20.56 0.72 20.4C0.72 20.26 0.76 20.13 0.84 20.01L7.71 10.32L1.17 0.989998C1.11 0.889998 1.08 0.759999 1.08 0.6C1.08 0.439999 1.14 0.299999 1.26 0.18C1.38 0.059999 1.52 -1.43051e-06 1.68 -1.43051e-06H3.48C3.78 -1.43051e-06 4.05 0.169999 4.29 0.509999L9.57 8.01L14.82 0.509999C15.02 0.169999 15.28 -1.43051e-06 15.6 -1.43051e-06H17.31C17.47 -1.43051e-06 17.61 0.059999 17.73 0.18C17.85 0.299999 17.91 0.439999 17.91 0.6C17.91 0.78 17.87 0.909999 17.79 0.989998L11.34 10.35L18.18 20.01C18.26 20.13 18.3 20.26 18.3 20.4C18.3 20.56 18.24 20.7 18.12 20.82C18 20.94 17.85 21 17.67 21H15.84C15.54 21 15.27 20.83 15.03 20.49L9.45 12.72L3.9 20.49C3.7 20.83 3.44 21 3.12 21H1.35Z"></path></svg></span>        
+            </button>
+            <div class="modal-body">
+            <div class="record-audio-wrap">
+                <div class="record-audio-content">
+                <div class="record-audio-label" style="margin-bottom: 10px;">Record Your Audio</div>
+                <div v-if="!recordingDone || !isRecording" class="recording-wrap" style="width: 100%; margin-bottom: 10px;">
+                    <div style="width: 100%; text-align: center;width: 100%;" class="upload-file-content" v-if="teleprompter.currentStep == 1">
+                        <div class="upload-file-content" style="display: flex; flex-flow: column; align-items: center;">
+                            <div class="upload-file-box" style="width: 80%; padding: 20px; border-radius: 10px; border: 2px dotted #c4c4c4;">
+                                <span class="upload-file-icon icon" style="    font-size: 3.5rem; color: #c4c4c4;">
+                                    <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
+                                        <path
+                                            d="M27.7688 49.9839H8.33065C7.59417 49.9839 6.88786 49.6913 6.3671 49.1706C5.84633 48.6498 5.55377 47.9435 5.55377 47.207V8.33065C5.55377 7.59417 5.84633 6.88786 6.3671 6.3671C6.88786 5.84633 7.59417 5.55377 8.33065 5.55377H22.2151V13.8844C22.2151 16.0938 23.0928 18.2128 24.6551 19.7751C26.2174 21.3374 28.3363 22.2151 30.5457 22.2151H38.8764V27.7688C38.8764 28.5053 39.1689 29.2116 39.6897 29.7324C40.2105 30.2532 40.9168 30.5457 41.6533 30.5457C42.3897 30.5457 43.096 30.2532 43.6168 29.7324C44.1376 29.2116 44.4301 28.5053 44.4301 27.7688V19.2716C44.4012 19.0165 44.3454 18.7652 44.2635 18.5218V18.2719C44.13 17.9864 43.9519 17.7239 43.7359 17.4944L27.0746 0.833065C26.8451 0.617068 26.5826 0.438972 26.2971 0.305457C26.2142 0.293683 26.1301 0.293683 26.0472 0.305457C25.7651 0.143679 25.4535 0.0398322 25.1308 0H8.33065C6.12122 0 4.00229 0.877691 2.43999 2.43999C0.877691 4.00229 0 6.12122 0 8.33065V47.207C0 49.4164 0.877691 51.5354 2.43999 53.0977C4.00229 54.66 6.12122 55.5377 8.33065 55.5377H27.7688C28.5053 55.5377 29.2116 55.2451 29.7324 54.7243C30.2532 54.2036 30.5457 53.4973 30.5457 52.7608C30.5457 52.0243 30.2532 51.318 29.7324 50.7972C29.2116 50.2765 28.5053 49.9839 27.7688 49.9839ZM27.7688 9.46917L34.961 16.6613H30.5457C29.8092 16.6613 29.1029 16.3687 28.5822 15.848C28.0614 15.3272 27.7688 14.6209 27.7688 13.8844V9.46917ZM13.8844 16.6613C13.1479 16.6613 12.4416 16.9539 11.9209 17.4746C11.4001 17.9954 11.1075 18.7017 11.1075 19.4382C11.1075 20.1747 11.4001 20.881 11.9209 21.4017C12.4416 21.9225 13.1479 22.2151 13.8844 22.2151H16.6613C17.3978 22.2151 18.1041 21.9225 18.6249 21.4017C19.1456 20.881 19.4382 20.1747 19.4382 19.4382C19.4382 18.7017 19.1456 17.9954 18.6249 17.4746C18.1041 16.9539 17.3978 16.6613 16.6613 16.6613H13.8844ZM30.5457 27.7688H13.8844C13.1479 27.7688 12.4416 28.0614 11.9209 28.5822C11.4001 29.1029 11.1075 29.8092 11.1075 30.5457C11.1075 31.2822 11.4001 31.9885 11.9209 32.5093C12.4416 33.03 13.1479 33.3226 13.8844 33.3226H30.5457C31.2822 33.3226 31.9885 33.03 32.5093 32.5093C33.03 31.9885 33.3226 31.2822 33.3226 30.5457C33.3226 29.8092 33.03 29.1029 32.5093 28.5822C31.9885 28.0614 31.2822 27.7688 30.5457 27.7688ZM49.1786 42.4585L43.6248 36.9048C43.3607 36.652 43.0493 36.4538 42.7085 36.3216C42.0324 36.0439 41.2741 36.0439 40.598 36.3216C40.2572 36.4538 39.9458 36.652 39.6817 36.9048L34.1279 42.4585C33.605 42.9814 33.3112 43.6906 33.3112 44.4301C33.3112 45.1696 33.605 45.8788 34.1279 46.4017C34.6508 46.9246 35.36 47.2184 36.0995 47.2184C36.839 47.2184 37.5482 46.9246 38.0711 46.4017L38.8764 45.5687V52.7608C38.8764 53.4973 39.1689 54.2036 39.6897 54.7243C40.2105 55.2451 40.9168 55.5377 41.6533 55.5377C42.3897 55.5377 43.096 55.2451 43.6168 54.7243C44.1376 54.2036 44.4301 53.4973 44.4301 52.7608V45.5687L45.2354 46.4017C45.4936 46.662 45.8007 46.8686 46.1391 47.0096C46.4775 47.1505 46.8404 47.2231 47.207 47.2231C47.5736 47.2231 47.9366 47.1505 48.2749 47.0096C48.6133 46.8686 48.9205 46.662 49.1786 46.4017C49.4389 46.1436 49.6455 45.8364 49.7864 45.4981C49.9274 45.1597 50 44.7967 50 44.4301C50 44.0636 49.9274 43.7006 49.7864 43.3622C49.6455 43.0238 49.4389 42.7167 49.1786 42.4585ZM24.992 44.4301C25.7284 44.4301 26.4347 44.1376 26.9555 43.6168C27.4763 43.096 27.7688 42.3897 27.7688 41.6533C27.7688 40.9168 27.4763 40.2105 26.9555 39.6897C26.4347 39.1689 25.7284 38.8764 24.992 38.8764H13.8844C13.1479 38.8764 12.4416 39.1689 11.9209 39.6897C11.4001 40.2105 11.1075 40.9168 11.1075 41.6533C11.1075 42.3897 11.4001 43.096 11.9209 43.6168C12.4416 44.1376 13.1479 44.4301 13.8844 44.4301H24.992Z"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <div class="upload-file-description" style="margin-top: 10px;
+                                color: #fff;">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
+                                <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">
 
-                        </div>
-                        <div class="upload-file-buttons mt-4">
-                            <button v-if="!isLoading" @click="uploadFile()" class="btn btn-primary btn-upload">
-                                Upload
-                            </button>
-                            <button v-if="isLoading" disabled class="btn btn-primary btn-upload" style="
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                "><span role="status" class="spinner-border text-light" style="
-                                    width: 15px;
-                                    height: 15px;
-                                    margin-right: 5px;
-                                "><span class="visually-hidden">Loading...</span></span>
-                                Loading
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 100%" v-if="teleprompter.currentStep == 2">
-                    <div class="audio-textarea form-control" style="position:relative;overflow:hidden;max-height:300px; min-height:300px">
-                        <div contentEditable="true" class="" style="resize: none; position:relative;left:0;top:0" id="prompter-content" :style="{fontSize: teleprompter.fontSize + 'px'}">
-                            @{{ teleprompter.text }}
-                        </div>
-                    </div>
-                    <div style="width: 100%" class="container">
-                        <div class="row">
-                            <div style="width: 70px; height: 28px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; display: flex; justify-content: space-around; margin-top: 10px; padding: 5px;">
-                                <img src="/assets/img/play-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterScrolldown">
-                                <img src="/assets/img/pause-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterStop">
-        
                             </div>
-                            <div class="col-10">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <label class="col-12" style="font-size: 13px;">Speed</label>
-                                        <span style="font-size: 13px;">Slow</span> <input type="range" min="1" max="16" @change="setspeed" v-model="teleprompter.speedSize" name="" id=""><span style="font-size: 13px;">Fast</span>
-                                    </div>
-                                    <div class="col-5">
-                                        <label class="col-12" style="font-size: 13px;">Font size</label>
-                                        <span style="font-size: 13px;">Small</span><input type="range" min="14" max="50" name="" id="" v-model="teleprompter.fontSize"><span style="font-size: 13px;">Large</span>
-                                    </div>
-                                    <div class="col-2">
-                                        <button style="width: 128px; height: 31px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; background: transparent; color: #FFF; margin-top: 10px;" @click="resetTeleprompter">Reset Default</button>
-                                    </div>
+                            <div class="upload-file-buttons mt-4">
+                                <button v-if="!isLoading" @click="uploadFile()" class="btn btn-primary btn-upload">
+                                    Upload
+                                </button>
+                                <button v-if="isLoading" disabled class="btn btn-primary btn-upload" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    "><span role="status" class="spinner-border text-light" style="
+                                        width: 15px;
+                                        height: 15px;
+                                        margin-right: 5px;
+                                    "><span class="visually-hidden">Loading...</span></span>
+                                    Loading
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%" v-if="teleprompter.currentStep == 2">
+                        <div class="audio-textarea form-control" style="position:relative;overflow:hidden;max-height:300px; min-height:300px">
+                            <div contentEditable="true" class="" style="resize: none; position:relative;left:0;top:0" id="prompter-content" :style="{fontSize: teleprompter.fontSize + 'px'}">
+                                @{{ teleprompter.text }}
+                            </div>
+                        </div>
+                        <div style="width: 100%" class="container">
+                            <div class="row">
+                                <div style="width: 70px; height: 28px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; display: flex; justify-content: space-around; margin-top: 10px; padding: 5px;">
+                                    <img src="/assets/img/play-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterScrolldown">
+                                    <img src="/assets/img/pause-prompter.svg" style="height: 15px; cursor:pointer;" alt="" class="record-audio-wave" @click="teleprompterStop">
+            
                                 </div>
-                                
-                                
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <label class="col-12" style="font-size: 13px;">Speed</label>
+                                            <span style="font-size: 13px;">Slow</span> <input type="range" min="1" max="16" @change="setspeed" v-model="teleprompter.speedSize" name="" id=""><span style="font-size: 13px;">Fast</span>
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="col-12" style="font-size: 13px;">Font size</label>
+                                            <span style="font-size: 13px;">Small</span><input type="range" min="14" max="50" name="" id="" v-model="teleprompter.fontSize"><span style="font-size: 13px;">Large</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <button style="width: 128px; height: 31px; border: 1px solid #797FAE; box-sizing: border-box; border-radius: 5px; background: transparent; color: #FFF; margin-top: 10px;" @click="resetTeleprompter">Reset Default</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
                             </div>
+                            
                         </div>
-                        
                     </div>
+                    {{-- <textarea name="" id="" cols="30" rows="10" class="col-12 form-control"></textarea> --}}
                 </div>
-                  {{-- <textarea name="" id="" cols="30" rows="10" class="col-12 form-control"></textarea> --}}
-              </div>
-              
-              <div class="record-audio-wave-wrap">
-                {{-- <div class="slider">
-                    <p id="rangeValue">10</p>
-                  </div> --}}
-                <template v-show="recordingDone">
-                    
-                  <div class="progress" v-show="recordingDone">
-                    <input type="range" min="0" :max="rangeMaximum" v-model="currentRange" style="width: 100%" id="time-range">
-
-                    {{-- <div class="progress-bar" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
-                      <div class="slide-handle"></div>
+                
+                <div class="record-audio-wave-wrap">
+                    {{-- <div class="slider">
+                        <p id="rangeValue">10</p>
                     </div> --}}
-                  </div>
-                  <div class="recording-duration">@{{ audioTimeReader }}</div>
-                </template>
-                <img v-show="!recordingDone" src="/assets/img/waveform.svg" alt="" class="record-audio-wave">
-              </div>
-              <div class="record-audio-buttons">
-                <div v-if="!recordingDone && isRecording" class="recording-wrap">
-                  <button class="btn recording-btn" @click="stopRecording">
-                    <span class="record-icon"></span>
-                  </button>
+                    <template v-show="recordingDone">
+                        
+                    <div class="progress" v-show="recordingDone">
+                        <input type="range" min="0" :max="rangeMaximum" v-model="currentRange" style="width: 100%" id="time-range">
 
-                  <div class="recording-duration">@{{ timeDisplay }}</div>
+                        {{-- <div class="progress-bar" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
+                        <div class="slide-handle"></div>
+                        </div> --}}
+                    </div>
+                    <div class="recording-duration">@{{ audioTimeReader }}</div>
+                    </template>
+                    <img v-show="!recordingDone" src="/assets/img/waveform.svg" alt="" class="record-audio-wave">
                 </div>
+                <div class="record-audio-buttons">
+                    <div v-if="!recordingDone && isRecording" class="recording-wrap">
+                    <button class="btn recording-btn" @click="stopRecording">
+                        <span class="record-icon"></span>
+                    </button>
 
-                <button v-if="!isRecording" class="btn play-recording-btn" @click="startRecording">
-                    <span class="icon"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>                
-                </button>
+                    <div class="recording-duration">@{{ timeDisplay }}</div>
+                    </div>
 
-                <button v-if="recordingDone" class="btn play-recording-btn" @click="playRecording">
-                    <span class="icon"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>                
-                </button>
+                    <button v-if="!isRecording" class="btn play-recording-btn" @click="startRecording">
+                        <span class="icon"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>                
+                    </button>
 
-                <button v-if="recordingDone" class="btn btn-success recording-add-timeline-btn" @click="addRecordedAudio()" :disabled="isLoading">
-                    <span class="spinner-border text-light" role="status" v-if="loadingType == 'addRecordedAudio'" style="width: 12px; height:12px">
-                        <span class="visually-hidden">Loading...</span>
-                    </span>
-                    <span class="icon" v-if="loadingType != 'addRecordedAudio'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M0 4C0 2.93913 0.421427 1.92172 1.17157 1.17157C1.92172 0.421427 2.93913 0 4 0H16C17.0609 0 18.0783 0.421427 18.8284 1.17157C19.5786 1.92172 20 2.93913 20 4V16C20 17.0609 19.5786 18.0783 18.8284 18.8284C18.0783 19.5786 17.0609 20 16 20H4C2.93913 20 1.92172 19.5786 1.17157 18.8284C0.421427 18.0783 0 17.0609 0 16V4ZM9 9H5C4.73478 9 4.48043 9.10536 4.29289 9.29289C4.10536 9.48043 4 9.73478 4 10C4 10.2652 4.10536 10.5196 4.29289 10.7071C4.48043 10.8946 4.73478 11 5 11H9V15C9 15.2652 9.10536 15.5196 9.29289 15.7071C9.48043 15.8946 9.73478 16 10 16C10.2652 16 10.5196 15.8946 10.7071 15.7071C10.8946 15.5196 11 15.2652 11 15V11H15C15.2652 11 15.5196 10.8946 15.7071 10.7071C15.8946 10.5196 16 10.2652 16 10C16 9.73478 15.8946 9.48043 15.7071 9.29289C15.5196 9.10536 15.2652 9 15 9H11V5C11 4.73478 10.8946 4.48043 10.7071 4.29289C10.5196 4.10536 10.2652 4 10 4C9.73478 4 9.48043 4.10536 9.29289 4.29289C9.10536 4.48043 9 4.73478 9 5V9ZM17 22C18.3261 22 19.5979 21.4732 20.5355 20.5355C21.4732 19.5979 22 18.3261 22 17V2.536C22.6081 2.88706 23.113 3.392 23.4641 4.00006C23.8151 4.60811 24 5.29787 24 6V17C24 18.8565 23.2625 20.637 21.9497 21.9497C20.637 23.2625 18.8565 24 17 24H6C5.29787 24 4.60811 23.8151 4.00006 23.4641C3.392 23.113 2.88706 22.6081 2.536 22H17Z" fill="white"></path></svg></span>
-                  Add to Timeline
-                </button>
-                <button v-if="recordingDone" class="btn record-btn" @click="clearRecording">
-                    <span class="icon"><svg width="28" height="39" viewBox="0 0 28 39" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M14 23.7576C17.9836 23.7576 21.2121 20.5673 21.2121 16.6303V7.12727C21.2121 3.1903 17.9836 0 14 0C10.0164 0 6.78788 3.1903 6.78788 7.12727V16.6303C6.78788 20.5673 10.0164 23.7576 14 23.7576ZM28 16.5455C28 16.3588 27.8473 16.2061 27.6606 16.2061H25.1152C24.9285 16.2061 24.7758 16.3588 24.7758 16.5455C24.7758 22.4976 19.9521 27.3212 14 27.3212C8.04788 27.3212 3.22424 22.4976 3.22424 16.5455C3.22424 16.3588 3.07152 16.2061 2.88485 16.2061H0.339394C0.152727 16.2061 0 16.3588 0 16.5455C0 23.7024 5.37091 29.6079 12.303 30.4436V34.7879H6.13879C5.55758 34.7879 5.09091 35.3945 5.09091 36.1455V37.6727C5.09091 37.8594 5.2097 38.0121 5.35394 38.0121H22.6461C22.7903 38.0121 22.9091 37.8594 22.9091 37.6727V36.1455C22.9091 35.3945 22.4424 34.7879 21.8612 34.7879H15.5273V30.4648C22.54 29.7012 28 23.7618 28 16.5455Z" fill="white"></path></svg></span>                    
-                </button>
-              </div>
+                    <button v-if="recordingDone" class="btn play-recording-btn" @click="playRecording">
+                        <span class="icon"><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M18 10.8019C18 11.3401 17.451 11.7271 17.451 11.7271L2.0412 21.2725C0.918 22.0087 0 21.4633 0 20.0683V1.53374C0 0.135137 0.918 -0.406663 2.043 0.327737L17.4528 9.87674C17.4528 9.87674 18 10.2637 18 10.8019Z"></path></svg></span>                
+                    </button>
+
+                    <button v-if="recordingDone" class="btn btn-success recording-add-timeline-btn" @click="addRecordedAudio()" :disabled="isLoading">
+                        <span class="spinner-border text-light" role="status" v-if="loadingType == 'addRecordedAudio'" style="width: 12px; height:12px">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                        <span class="icon" v-if="loadingType != 'addRecordedAudio'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M0 4C0 2.93913 0.421427 1.92172 1.17157 1.17157C1.92172 0.421427 2.93913 0 4 0H16C17.0609 0 18.0783 0.421427 18.8284 1.17157C19.5786 1.92172 20 2.93913 20 4V16C20 17.0609 19.5786 18.0783 18.8284 18.8284C18.0783 19.5786 17.0609 20 16 20H4C2.93913 20 1.92172 19.5786 1.17157 18.8284C0.421427 18.0783 0 17.0609 0 16V4ZM9 9H5C4.73478 9 4.48043 9.10536 4.29289 9.29289C4.10536 9.48043 4 9.73478 4 10C4 10.2652 4.10536 10.5196 4.29289 10.7071C4.48043 10.8946 4.73478 11 5 11H9V15C9 15.2652 9.10536 15.5196 9.29289 15.7071C9.48043 15.8946 9.73478 16 10 16C10.2652 16 10.5196 15.8946 10.7071 15.7071C10.8946 15.5196 11 15.2652 11 15V11H15C15.2652 11 15.5196 10.8946 15.7071 10.7071C15.8946 10.5196 16 10.2652 16 10C16 9.73478 15.8946 9.48043 15.7071 9.29289C15.5196 9.10536 15.2652 9 15 9H11V5C11 4.73478 10.8946 4.48043 10.7071 4.29289C10.5196 4.10536 10.2652 4 10 4C9.73478 4 9.48043 4.10536 9.29289 4.29289C9.10536 4.48043 9 4.73478 9 5V9ZM17 22C18.3261 22 19.5979 21.4732 20.5355 20.5355C21.4732 19.5979 22 18.3261 22 17V2.536C22.6081 2.88706 23.113 3.392 23.4641 4.00006C23.8151 4.60811 24 5.29787 24 6V17C24 18.8565 23.2625 20.637 21.9497 21.9497C20.637 23.2625 18.8565 24 17 24H6C5.29787 24 4.60811 23.8151 4.00006 23.4641C3.392 23.113 2.88706 22.6081 2.536 22H17Z" fill="white"></path></svg></span>
+                    Add to Timeline
+                    </button>
+                    <button v-if="recordingDone" class="btn record-btn" @click="clearRecording">
+                        <span class="icon"><svg width="28" height="39" viewBox="0 0 28 39" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M14 23.7576C17.9836 23.7576 21.2121 20.5673 21.2121 16.6303V7.12727C21.2121 3.1903 17.9836 0 14 0C10.0164 0 6.78788 3.1903 6.78788 7.12727V16.6303C6.78788 20.5673 10.0164 23.7576 14 23.7576ZM28 16.5455C28 16.3588 27.8473 16.2061 27.6606 16.2061H25.1152C24.9285 16.2061 24.7758 16.3588 24.7758 16.5455C24.7758 22.4976 19.9521 27.3212 14 27.3212C8.04788 27.3212 3.22424 22.4976 3.22424 16.5455C3.22424 16.3588 3.07152 16.2061 2.88485 16.2061H0.339394C0.152727 16.2061 0 16.3588 0 16.5455C0 23.7024 5.37091 29.6079 12.303 30.4436V34.7879H6.13879C5.55758 34.7879 5.09091 35.3945 5.09091 36.1455V37.6727C5.09091 37.8594 5.2097 38.0121 5.35394 38.0121H22.6461C22.7903 38.0121 22.9091 37.8594 22.9091 37.6727V36.1455C22.9091 35.3945 22.4424 34.7879 21.8612 34.7879H15.5273V30.4648C22.54 29.7012 28 23.7618 28 16.5455Z" fill="white"></path></svg></span>                    
+                    </button>
+                </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
     <div class="modal fade" id="popupVolumeModal" tabindex="-1" aria-labelledby="popupVolumeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content" style="background:#353B5A">
@@ -1011,7 +1011,7 @@
         </div>
     </div>
     
-@csrf
+    @csrf
 </div>
 <textarea name="" id="speech_text" cols="30" rows="10" style="display: none">{{ Session::get('user_text') }}</textarea>
 <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>

@@ -232,6 +232,8 @@ new Vue({
         this.layers = audio.layers;
         this.speech_text = audio.speech_text;
 
+        document.getElementById("audio-textarea").innerHTML = this.speech_text;
+
         this.signals = editorSignals;
         this.resetDuration();
         this.initTimeline();
@@ -1856,6 +1858,7 @@ new Vue({
         },
         storeEditorState(){
             const formData = new FormData();
+            this.speech_text = document.getElementById("audio-textarea").innerHTML;
             formData.append('_token', $('input[name=_token]').val());
             formData.append('layers', JSON.stringify(this.layers));
             formData.append('edit_id', this.edit_id);

@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\Settings\AppearanceController;
 use App\Http\Controllers\Admin\Settings\FrontendController;
 use App\Http\Controllers\Admin\Settings\BlogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EditorController;
+
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserPasswordController;
 use App\Http\Controllers\User\TTSController;
@@ -299,7 +301,10 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::get('/tts/voices', [TTSVoicesController::class, 'index'])->name('user.tts.voices');
 
         // USER TTS ROUTES
-        Route::get('/update-tts/{audioUUID?}', [TTSController::class, 'indexUpdate'])->name('user.update-tts');    
+        Route::get('/update-tts/{audioUUID?}', [TTSController::class, 'indexUpdate'])->name('user.update-tts');  
+
+        Route::get('/editor/{audioUUID?}', [EditorController::class, 'index'])->name('user.editor.index');    
+  
         Route::delete('/delete-book', [TTSController::class, 'deleteBook'])->name('user.delete-book');    
         Route::get('/audio/view/{audioUUID?}/embed', [ShareController::class, 'index'])->name('user.audios.embed.widget');    
 

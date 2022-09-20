@@ -277,7 +277,6 @@ class TTSController extends Controller
         return view('user.tts.update-index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio', 'page', 'pageClass'));
     }
 
-
     /**
      * Process text synthesize request.
      *
