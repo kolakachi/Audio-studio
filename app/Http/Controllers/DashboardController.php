@@ -36,7 +36,7 @@ class DashboardController extends Controller
         $audio->layers = [];
         $audio->save();
 
-        return redirect()->route('user.update-tts', $audio->uuid);
+        return redirect()->route('user.editor.index', $audio->uuid);
     }
 
     public function uploadText(Request $request){
@@ -51,7 +51,7 @@ class DashboardController extends Controller
             $audio->layers = [];
             $audio->save();
 
-            $url = route('user.update-tts', $audio->uuid);
+            $url = route('user.editor.index', $audio->uuid);
             return response()->json([
                 'user_text' => $text,
                 'url' => $url

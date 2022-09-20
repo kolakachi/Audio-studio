@@ -357,7 +357,7 @@
   <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
 
   <textarea id="create-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
-  <textarea id="edit-book-url" style="display: none">{{ route('user.update-tts')}}</textarea>
+  <textarea id="edit-book-url" style="display: none">{{ route('user.editor.index')}}</textarea>
   <textarea id="update-book-url" style="display: none">{{ route('user.upload-text')}}</textarea>
   <textarea id="download-book-url" style="display: none">{{ route('user.download-audio')}}</textarea>
   <textarea id="delete-book-url" style="display: none">{{ route('user.delete-book')}}</textarea>
