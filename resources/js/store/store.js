@@ -180,7 +180,6 @@ export const store = new Vuex.Store({
             state.signals = value.signals; 
             
             for(let key in state.languages){
-                console.log([state.languages[key], value.language]);
                 if(state.languages[key].language_code == value.language){
                     state.selectedLanguage = Object.assign({}, state.languages[key]);
                 }

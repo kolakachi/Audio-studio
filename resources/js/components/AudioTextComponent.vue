@@ -895,8 +895,8 @@
                 let audio = document.getElementById('listen-result');
                 audio.pause();
                 audio.src = "";
-
-                this.addTranslatedAudioToLayer(this.prevSynthesizeAudioURL, this.prevSynthesizePath);
+                this.$store.dispatch('addTranslatedAudioToLayer');
+                // this.addTranslatedAudioToLayer(this.prevSynthesizeAudioURL, this.prevSynthesizePath);
 
             },
             addTranslatedAudioToLayer(){
