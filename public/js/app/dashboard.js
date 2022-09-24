@@ -62,6 +62,7 @@ new Vue({
         preview: false,
         objectUrl: "",
         fileType: "",
+        fileName:'',
         books: [],
         filter: '',
         embed: '',
@@ -147,8 +148,13 @@ new Vue({
             var file = event.currentTarget.files[0];
             this.objectUrl = URL.createObjectURL(file);
             this.fileType = file.type;
+            this.fileName = event.currentTarget.files[0].name;
         },
-
+        clearUpload(){
+            this.objectUrl = '';
+            this.fileType = '';
+            this.fileName = '';
+        },
         uploadFile(){
             this.isLoading = true;
             var ext = $("#doc-upload").val().split('.').pop();

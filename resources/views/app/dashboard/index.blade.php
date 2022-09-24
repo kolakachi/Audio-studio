@@ -277,8 +277,11 @@
 										></path>
 									</svg>
 								</span>
-								<div class="upload-file-description">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
-								<input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">
+								<div v-if="fileName == '' " class="upload-file-description" style="margin-top: 10px;
+                                    color: #fff;"><a href="#" @click="openFileExplorer()">Browse</a> your file</div>
+                                    <div v-if="fileName != '' " class="upload-file-description" style="margin-top: 10px;
+                                    color: #fff;">@{{fileName}}<br> <a href="#" @click="clearUpload()">Change</a> file</div>
+                                    <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none" accept="application/pdf,text/plain,application/msword">
 	
 							</div>
 							<div class="upload-file-buttons">
@@ -879,7 +882,7 @@
 
 	<script src="/plugins/audio-player/green-audio-player.js"></script>
 
-<script src="{{ asset('js/app/dashboard.js') }}?v=3"></script>
+<script src="{{ asset('js/app/dashboard.js') }}?v=3.5"></script>
 {{-- <script type="module" src="{{ asset('assets/js/ai-popup.js') }}"></script> --}}
 	
 @endsection

@@ -132,7 +132,7 @@
                                         </svg>
                                     </span>
                                     <div v-if="fileName == '' " class="upload-file-description" style="margin-top: 10px;
-                                    color: #fff;">Drag and drop or <a href="#" @click="openFileExplorer()">browse</a> your file</div>
+                                    color: #fff;"><a href="#" @click="openFileExplorer()">Browse</a> your file</div>
                                     <div v-if="fileName != '' " class="upload-file-description" style="margin-top: 10px;
                                     color: #fff;">{{fileName}}<br> <a href="#" @click="clearUpload()">Change</a> file</div>
                                     <input type="file" name="" id="doc-upload" @change="fileonUpload($event)" style="display: none">

@@ -42,7 +42,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
           {{-- <li><a class="dropdown-item" href="{{ route('admin.writer') }}">Manage writer</a></li> --}}
-          <li><a class="dropdown-item" href="#">Account</a></li>
+          <li><a class="dropdown-item" href="{{ route('user.settings') }}">Account</a></li>
           {{-- <li><a class="dropdown-item" href="#">Billing</a></li> --}}
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a></li>

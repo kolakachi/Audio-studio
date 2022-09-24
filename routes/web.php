@@ -50,6 +50,7 @@ use App\Http\Controllers\CopyWriterController;
 use App\Http\Controllers\Admin\WriterController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WhiteLabelController;
 use App\Http\Controllers\AzureResourcesController;
 use App\Http\Controllers\MasterPieceController;
@@ -443,6 +444,9 @@ Route::post('/agency-teams/update/subscriptions', [AgencyController::class,'upda
 Route::post('/agency-teams/update/password', [AgencyController::class,'updatePassword'])
     ->name('user.agency.account.update.password');
 
+Route::get('/settings', [ SettingsController::class, 'index'])->name('user.settings');
+Route::post('/settings/update-details', [ SettingsController::class, 'updateDetails'])->name('user.settings.details');
+Route::post('/settings/update-password', [ SettingsController::class, 'updatePassword'])->name('user.settings.password');
 
 
 Route::post('/white-label/add', [WhiteLabelController::class,'addAccount'])->name('user.whitelabel.account.add');
