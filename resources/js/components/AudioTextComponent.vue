@@ -409,7 +409,7 @@
                         title: 'Copy and paste', 
                         iconFormat:'text', icon: 'far fa-copy', 
                         callback: function(message){
-                            console.log("meee copy" + message);
+                            // console.log("meee copy" + message);
                         }
                     },
                     {   title: 'Improve', 
@@ -783,11 +783,9 @@
                 }
             },
             resetTeleprompter(){
-                console.log(this.teleprompter);
                 this.teleprompter.speedSize = 1;
                 this.teleprompter.fontSize =14;
                 this.setspeed();
-                console.log(this.teleprompter);
             },
             readTextFile() {
                 var rawFile = new XMLHttpRequest();
@@ -890,7 +888,6 @@
             synthesize(type){
                 let textarea = this.cleanTextEditor().replaceAll('&nbsp;', ' ');
                 this.speech_text = textarea;
-                console.log(this.speech_text);
                 this.$store.dispatch('synthesize', type);
             },
 

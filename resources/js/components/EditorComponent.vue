@@ -173,7 +173,10 @@
                 layers:  layers,
                 speech_text:  speech_text,
                 player: player,
-                signals: signals
+                signals: signals,
+                selectedFormat: audio.format,
+                language: audio.language,
+                selectedVoiceId: audio.voice
             }));
         },
         computed: {

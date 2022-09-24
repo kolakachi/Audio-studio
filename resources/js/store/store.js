@@ -178,7 +178,16 @@ export const store = new Vuex.Store({
             state.speech_text = value.speech_text;
             state.player = value.player;
             state.signals = value.signals; 
-            // state.selectedVoiceId = 
+            
+            for(let key in state.languages){
+                console.log([state.languages[key], value.language]);
+                if(state.languages[key].language_code == value.language){
+                    state.selectedLanguage = Object.assign({}, state.languages[key]);
+                }
+            }
+            state.selectedVoiceId = value.selectedVoiceId;
+            state.selectedLanguageId = state.selectedLanguage.id
+            state.selectedFormat = (value.selectedFormat)? value.selectedFormat : "mp3";
 
         },
         updateVoiceIdError(state, value){
@@ -208,13 +217,13 @@ export const store = new Vuex.Store({
             commit('updateEditorState', payload)
         },
         synthesize({dispatch, state}, type){
-            console.log(type);
             const formData = new FormData();
             formData.append('_token', $('input[name=_token]').val());
             // formData.append('textarea', $("#audio-textarea").val());
             formData.append('textarea', state.speech_text);
             formData.append('title', state.edit_name);
             formData.append('voice', state.selectedVoiceId);
+            formData.append('edit_id', state.edit_id);
             formData.append('format', state.selectedFormat);
             formData.append('language', state.selectedLanguage.language_code);
 
@@ -248,7 +257,6 @@ export const store = new Vuex.Store({
                 });
             })
             .catch((error) => {
-                console.log(error);
                 state.isLoading = false;
                 state.loadingType = '';
 
@@ -1018,6 +1026,7 @@ export const store = new Vuex.Store({
                 const formData = new FormData();
                 formData.append('edit_id', state.edit_id);
                 formData.append('edit_name', state.edit_name);
+                formData.append('format',state.selectedFormat);
 
                 formData.append('_token', $('input[name=_token]').val());
                 formData.append('layers', JSON.stringify(state.layers));
@@ -1031,7 +1040,7 @@ export const store = new Vuex.Store({
                         let blob = new Blob([response.data], { type: 'audio/mp3' })
                         let link = document.createElement('a')
                         link.href = window.URL.createObjectURL(blob)
-                        link.download = 'download.mp3'
+                        link.download = 'download.'+state.selectedFormat
                         link.click()
 
                     })

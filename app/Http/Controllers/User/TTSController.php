@@ -328,32 +328,34 @@ class TTSController extends Controller
 
 
             # Name and extention of the result audio file
-            if (request('format') === 'mp3') {
-                $file_name = Str::random(20) . '.mp3';
-            } elseif (request('format') === 'ogg_vorbis' || request('format') === 'ogg')  {                
-                $file_name = Str::random(20) .'.ogg';
-            } elseif (request('format') === 'webm') {
-                $file_name = Str::random(20) .'.webm';
-            } elseif (request('format') === 'wav') {
-                $file_name = Str::random(20) .'.wav';
-            } else {
-                return response()->json(["error" => "Unsupported audio file extension was selected. Please try again."], 422);
-            } 
+            // if (request('format') === 'mp3') {
+            //     $file_name = Str::random(20) . '.mp3';
+            // } elseif (request('format') === 'ogg_vorbis' || request('format') === 'ogg')  {                
+            //     $file_name = Str::random(20) .'.ogg';
+            // } elseif (request('format') === 'webm') {
+            //     $file_name = Str::random(20) .'.webm';
+            // } elseif (request('format') === 'wav') {
+            //     $file_name = Str::random(20) .'.wav';
+            // } else {
+            //     return response()->json(["error" => "Unsupported audio file extension was selected. Please try again."], 422);
+            // } 
+            $file_name = Str::random(20) . '.mp3';
 
 
             $result_url = $this->processText($voice, request('textarea'), request('format'), $total_characters, $file_name);
 
 
             # Audio Format
-            if (request('format') == 'mp3') {
-                $audio_type = 'audio/mpeg';
-            } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
-                $audio_type = 'audio/ogg';
-            } elseif(request('format') == 'wav') {
-                $audio_type = 'audio/wav';
-            } elseif(request('format') == 'webm') {
-                $audio_type = 'audio/webm';
-            }
+            $audio_type = 'audio/mpeg';
+            // if (request('format') == 'mp3') {
+            //     $audio_type = 'audio/mpeg';
+            // } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
+            //     $audio_type = 'audio/ogg';
+            // } elseif(request('format') == 'wav') {
+            //     $audio_type = 'audio/wav';
+            // } elseif(request('format') == 'webm') {
+            //     $audio_type = 'audio/webm';
+            // }
 
 
             $result = new Result([
@@ -531,9 +533,9 @@ class TTSController extends Controller
      */
     public function listen(Request $request)
     {   
-        if ($this->api->api_url != 'https://license.berkine.space/') {
-            return redirect()->back();
-        }
+        // if ($this->api->api_url != 'https://license.berkine.space/') {
+        //     return redirect()->back();
+        // }
 
         // if ($request->ajax()) {
         
@@ -573,30 +575,31 @@ class TTSController extends Controller
             
 
             # Name and extention of the audio file
-            if (request('format') == 'mp3') {
-                $file_name = 'LISTEN--' . Str::random(20) . '.mp3';
-            } elseif (request('format') === 'ogg_vorbis' || request('format') === 'ogg')  {                
-                $file_name = Str::random(20) .'.ogg';
-            } elseif (request('format') === 'webm') {
-                $file_name = Str::random(20) .'.webm';
-            } elseif (request('format') === 'wav') {
-                    $file_name = Str::random(20) .'.wav';
-            } else {
-                return response()->json(["error" => "Unsupported audio file extension was selected. Please try again."], 422);
-            } 
+            $file_name = 'LISTEN--' . Str::random(20) . '.mp3';
+            // if (request('format') == 'mp3') {
+            //     $file_name = 'LISTEN--' . Str::random(20) . '.mp3';
+            // } elseif (request('format') === 'ogg_vorbis' || request('format') === 'ogg')  {                
+            //     $file_name = Str::random(20) .'.ogg';
+            // } elseif (request('format') === 'webm') {
+            //     $file_name = Str::random(20) .'.webm';
+            // } elseif (request('format') === 'wav') {
+            //         $file_name = Str::random(20) .'.wav';
+            // } else {
+            //     return response()->json(["error" => "Unsupported audio file extension was selected. Please try again."], 422);
+            // } 
 
 
             $result_url = $this->processText($voice, request('textarea'), request('format'), $total_characters, $file_name);
-
-            if (request('format') == 'mp3') {
-                $audio_type = 'audio/mpeg';
-            } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
-                $audio_type = 'audio/ogg';
-            } elseif(request('format') == 'wav') {
-                $audio_type = 'audio/wav';
-            } elseif(request('format') == 'webm') {
-                $audio_type = 'audio/webm';
-            }
+            $audio_type = 'audio/mpeg';
+            // if (request('format') == 'mp3') {
+            //     $audio_type = 'audio/mpeg';
+            // } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
+            //     $audio_type = 'audio/ogg';
+            // } elseif(request('format') == 'wav') {
+            //     $audio_type = 'audio/wav';
+            // } elseif(request('format') == 'webm') {
+            //     $audio_type = 'audio/webm';
+            // }
 
             $result = new Result([
                 'user_id' => Auth::user()->id,
@@ -625,16 +628,16 @@ class TTSController extends Controller
 
 
             $data = [];
-
-            if (request('format') == 'mp3') {
-                $data['audio_type'] = 'audio/mpeg';
-            } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
-                $data['audio_type'] = 'audio/ogg';
-            } elseif(request('format') == 'wav') {
-                $data['audio_type'] = 'audio/wav';
-            } elseif(request('format') == 'webm') {
-                $data['audio_type'] = 'audio/webm';
-            }
+            $data['audio_type'] = 'audio/mpeg';
+            // if (request('format') == 'mp3') {
+            //     $data['audio_type'] = 'audio/mpeg';
+            // } elseif (request('format') == 'ogg_vorbis' || request('format') == 'ogg') {
+            //     $data['audio_type'] = 'audio/ogg';
+            // } elseif(request('format') == 'wav') {
+            //     $data['audio_type'] = 'audio/wav';
+            // } elseif(request('format') == 'webm') {
+            //     $data['audio_type'] = 'audio/webm';
+            // }
             
             $data['message'] = "Success";
             if (config('tts.default_storage') == 'local') 
@@ -650,6 +653,16 @@ class TTSController extends Controller
             $audio->save();
             $result = Storage::disk('audio')->path($file_name);
             $data['path'] = $audio->uuid;
+
+            $book = AudioBookModel::where('uuid', $request->edit_id)->where('user_id', Auth::id())->first();
+            if($book){
+                $book->voice = $request->voice;
+                $book->speech_text = $request->textarea;
+                $book->language = $request->language;
+                $book->format = $request->format;
+                $book->save();
+            }         
+            
             
             return response()->json($data);
         // }
@@ -790,18 +803,21 @@ class TTSController extends Controller
             foreach($layers as $layer){
                 $layer->path = $this->getAudioPath($layer->path);
             }
-
             $GUZZLERequest = $client->request('POST', $url, [
 
                 'json' => [
                     "storePath" => $path,
+                    'format' => $request->format,
                     "layers" => $layers
                 ]
             ]);
 
             $contents = $GUZZLERequest->getBody()->getContents();
 
-            $contents = json_decode($contents);   
+            $contents = json_decode($contents);
+            $paths = explode("/", $contents);
+            $file_name = $paths[count($paths) - 1];
+             
             $audio = new AudioModel();
             $audio->user_id = Auth::id();
             $audio->uuid = \Str::uuid();
@@ -815,11 +831,26 @@ class TTSController extends Controller
                     'status' => 'error',
                     'message' => "Unable to complete request. Audio not found",
                 ], 404);
-            }         
+            } 
+            $prevAudio = AudioModel::where('id', $book->audio_id)->where('user_id', Auth::id())->first();
+            if($prevAudio){
+                $fileName = Paths::AUDIO_PATH. $prevAudio->file_name;
+                if(\Storage::exists($fileName)){
+                    \Storage::delete($fileName);
+                }
+                $prevAudio->delete();
+            }
+        
             $book->audio_path = $audio->uuid;
+            $book->format = $request->format;
+            $book->audio_id = $audio->id;
             $book->audio_name = $request->edit_name;
             $book->save();
-            return \Response::download($path);
+
+            $fileName = Paths::AUDIO_PATH. $file_name;
+            $path = Storage::path($fileName);
+
+            return \Response::download($contents);
 
         }catch(\Exception $error){
             \Log::info($error->getMessage());

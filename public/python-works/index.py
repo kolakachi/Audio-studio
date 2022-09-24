@@ -20,6 +20,9 @@ def hello_world():
 def mixAudios():
     output =  request.json["storePath"]
     audios = []
+    pathToDeleteList = []
+    # encodedMP3Path = ""
+    # volumeEncodedMP3Path = ""
     for layer in request.json["layers"]:
         encodedMP3Path = layer["path"]
         value = randint(0, 10)
@@ -44,8 +47,26 @@ def mixAudios():
         clip = clip.set_duration(layer["originalDuration"])
         trimmedClip = clip.subclip(layer["playStart"], layer["playEnd"])
         audios.append(trimmedClip.set_start(layer["start"]))
+        
+        pathToDeleteList.append(volumeEncodedMP3Path)
+        pathToDeleteList.append(encodedMP3Path)
 
     mixed = CompositeAudioClip(audios)
     mixed.fps = 44100
     mixed.write_audiofile(output)
-    return jsonify(request.json["storePath"])
+    
+    for pathToDelete in pathToDeleteList:
+        os.system("rm "+ pathToDelete)
+
+    finalPath = request.json["storePath"]
+    if request.json["format"] == "ogg":
+        finalPath = request.json["storePath"].replace(".mp3",str(value)+ ".ogg")
+        convertAudioFormat ="ffmpeg -i "+ request.json["storePath"] +" -c:a libvorbis -q:a 4 "+ finalPath
+        os.system(convertAudioFormat)
+        os.system("rm "+ request.json["storePath"])
+    if request.json["format"] == "webm": 
+        finalPath = request.json["storePath"].replace(".mp3",str(value)+ ".webm")
+        convertAudioFormat ="ffmpeg -i "+ request.json["storePath"] +" -c:a libvorbis -q:a 4 "+ finalPath
+        os.system(convertAudioFormat)
+        os.system("rm "+ request.json["storePath"])
+    return jsonify(finalPath)

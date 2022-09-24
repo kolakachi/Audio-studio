@@ -32,6 +32,7 @@ class DashboardController extends Controller
         $audio = new AudioBookModel();
         $audio->uuid = \Str::uuid();
         $audio->user_id = Auth::id();
+        $audio->audio_name = "new-project-".time();
         $audio->speech_text = '';
         $audio->layers = [];
         $audio->save();
@@ -48,6 +49,7 @@ class DashboardController extends Controller
             $audio->uuid = \Str::uuid();
             $audio->user_id = Auth::id();
             $audio->speech_text = $text;
+            $audio->audio_name = "new-project-".time();
             $audio->layers = [];
             $audio->save();
 

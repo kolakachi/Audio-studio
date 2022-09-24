@@ -212,7 +212,6 @@
         },
         mounted() {
             var modal = document.getElementById('addMusicTrackModal');
-            console.log(modal);
             modal.addEventListener('hidden.bs.modal',  (event) => {
                 this.libraryPreviewAudioIsPlaying = false;
                 if(Object.keys(this.libraryPreviewAudio).length != 0){
@@ -342,7 +341,6 @@
 
             nextBackgroundMusicPage(){
                 this.backgroundMusicCurrentPage += 1;
-                console.log([this.backgroundMusicCurrentPage, this.backgroundMusicLastPage])
                 if(this.backgroundMusicCurrentPage > this.backgroundMusicLastPage){
                     this.backgroundMusicCurrentPage = this.backgroundMusicLastPage;
                 }

@@ -225,7 +225,6 @@
                 }
             },
             setVoice() {
-                console.log(document.getElementById('preview-audio'))
                 this.prevAudio = document.getElementById('preview-audio');
                 
                 this.prevAudio.src = '';

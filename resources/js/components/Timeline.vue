@@ -232,7 +232,6 @@
                             this.$store.state.activeLayer.duration = data.to - data.from;
                             this.$store.state.activeLayer.end = data.to - data.from;
                             
-                            console.log(data.to, data.from, this.$store.state.trimPreviewAudio.currentTime);
                         // player.loadVideoById({
                         //     videoId: player.getVideoData()['video_id'],
                         //     startSeconds: data.from,
@@ -247,7 +246,6 @@
                 var d5_instance = this.$store.state.rangeSlider.data("ionRangeSlider")
                 let duration = d5_instance.old_to - d5_instance.old_from
 
-                console.log(d5_instance.old_to , d5_instance.old_from);
 
 
                 let vueInstance = this;
@@ -346,7 +344,6 @@
             },
             seek(from) {
                 this.$store.state.trimPreviewAudio.currentTime = from;
-                console.log("from  ---" + from);
                 if(player.getPlayerState() == 1) {
                 //   player.pauseVideo()
                 }
@@ -361,7 +358,6 @@
                 let fullTime = this.$store.state.activeLayer.playEnd - this.$store.state.activeLayer.playStart;
                 let currentTime = this.$store.state.trimPreviewAudio.currentTime - this.$store.state.activeLayer.playStart;
                 let timeInSecond = 0;
-                console.log(this.$store.state.trimPreviewAudio.currentTime);
                 if(this.$store.state.lastTime != null){
                     timeInSecond = time - this.$store.state.lastTime;
                 }
@@ -373,7 +369,6 @@
                     // let result = this.activeLayer.playEnd - this.trimPreviewAudio.currentTime / 40 * 100
                     
                     let result = currentTime * 100 / fullTime;
-                    console.log([result, fullTime, currentTime]);
                     $("#reader").css("width", `${result}%`);
                     this.$store.state.trimPreviewIsPlaying = true;
         
