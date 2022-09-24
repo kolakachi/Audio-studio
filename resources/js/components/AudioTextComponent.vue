@@ -899,6 +899,9 @@
                 this.addTranslatedAudioToLayer(this.prevSynthesizeAudioURL, this.prevSynthesizePath);
 
             },
+            addTranslatedAudioToLayer(){
+                this.$store.dispatch('addTranslatedAudioToLayer');
+            },
 
             cleanTextEditor(textToClean = null) {
                 let text = $("#audio-textarea").html();
