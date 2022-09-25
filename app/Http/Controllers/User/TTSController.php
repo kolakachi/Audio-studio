@@ -342,7 +342,7 @@ class TTSController extends Controller
             $file_name = Str::random(20) . '.mp3';
 
 
-            $result_url = $this->processText($voice, request('textarea'), request('format'), $total_characters, $file_name);
+            $result_url = $this->processText($voice, request('textarea'), "mp3", $total_characters, $file_name);
 
 
             # Audio Format
@@ -589,7 +589,7 @@ class TTSController extends Controller
             // } 
 
 
-            $result_url = $this->processText($voice, request('textarea'), request('format'), $total_characters, $file_name);
+            $result_url = $this->processText($voice, request('textarea'), "mp3", $total_characters, $file_name);
             $audio_type = 'audio/mpeg';
             // if (request('format') == 'mp3') {
             //     $audio_type = 'audio/mpeg';
