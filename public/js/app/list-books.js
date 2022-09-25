@@ -235,7 +235,7 @@ new Vue({
             if (document.execCommand("copy")) {
                 this.copyMessage();
             }
-            document.removeEventListener("copy", this.copyURLHandler());
+            document.removeEventListener("copy", this.copyURLHandler);
         },
         copyURLHandler(e){
             e.clipboardData.setData("text/plain", this.url.getBookURL + this.selectedAudio.audio_path);
