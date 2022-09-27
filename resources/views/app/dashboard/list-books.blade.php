@@ -143,7 +143,7 @@
       <!-- AI POPUP MODAL END -->
     <div class="recent-audio-books">
       <div class="d-flex justify-content-between align-items-center mb-5">
-        <h4>Recent Audio books</h4>
+        <h4>Recent Audios</h4>
 
    
         <div class="dropdown show">

@@ -146,7 +146,7 @@
     </div>
 
     <div class="recent-audio-books">
-		<h4>Recent Audio books</h4> 
+		<h4>Recent Audios</h4> 
 		<div class="table-wrap">
 			<table class="table table-borderless">
 			  <thead>
@@ -157,6 +157,7 @@
 					</div>
 				  </th>
 				  <th class="ps-1" scope="col">Name</th>
+				  <th scope="col">Created Date</th>
 				  {{-- <th scope="col">Language</th>
 				  <th scope="col">Voice</th>
 				  <th scope="col">Gender</th> --}}

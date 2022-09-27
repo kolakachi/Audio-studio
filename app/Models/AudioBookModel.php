@@ -14,4 +14,10 @@ class AudioBookModel extends Model
     protected $casts = [
         'layers' => 'array'
     ];
+
+    public function getCreatedAtAttribute($value){
+        $value = \Carbon\Carbon::parse($value)->format('Y-m-d');
+
+        return $value;
+    }
 }

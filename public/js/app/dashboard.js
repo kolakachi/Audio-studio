@@ -525,7 +525,7 @@ new Vue({
 
             const customAlert = swal({
                 title: 'Warning',
-                text: `Are you sure you want to delete this Book? This action cannot be undone.`,
+                text: `Are you sure you want to delete this Audio? This action cannot be undone.`,
                 icon: 'warning',
                 closeOnClickOutside: false,
                 buttons: {

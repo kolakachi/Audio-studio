@@ -324,7 +324,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|
         Route::post('/tts/master-piece', [MasterPieceController::class, 'updateText'])->name('user.master-piece');
 
 
-        Route::get('/audio-books', [TTSController::class, 'listBooks'])->name('user.tts.list-books');  
+        Route::get('/audios', [TTSController::class, 'listBooks'])->name('user.tts.list-books');  
 
         // USER BALANCE ROUTES
         Route::get('/balance', [BalanceController::class, 'index'])->name('user.balance');        
