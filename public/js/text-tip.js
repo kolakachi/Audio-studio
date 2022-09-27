@@ -347,6 +347,12 @@ var TextTip = function TextTip(config) {
       newTipLeft = window.innerWidth - buffer - tipHalfWidth;
     }
 
+    if(newTipBottom > 280){
+      newTipBottom = 200;
+    }if (newTipBottom > 260) {
+      newTipBottom = 190;
+    }
+
     _this.tipEl.style.left = newTipLeft + 'px';
     _this.tipEl.style.bottom = newTipBottom + 'px';
     var counter = document.getElementById('btn-text-count');
