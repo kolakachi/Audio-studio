@@ -35,8 +35,8 @@
         <a class="nav-link dropdown-toggle" href="#" id="notification-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="icon"><svg width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M12.5 28.573C13.4472 28.573 14.3556 28.1967 15.0254 27.5269C15.6952 26.8572 16.0714 25.9488 16.0714 25.0016H8.92857C8.92857 25.9488 9.30485 26.8572 9.97462 27.5269C10.6444 28.1967 11.5528 28.573 12.5 28.573ZM14.2768 1.96406C14.3017 1.71577 14.2743 1.465 14.1964 1.22794C14.1184 0.990884 13.9917 0.772794 13.8242 0.587738C13.6568 0.402681 13.4525 0.254767 13.2244 0.153535C12.9963 0.0523026 12.7495 0 12.5 0C12.2505 0 12.0037 0.0523026 11.7756 0.153535C11.5475 0.254767 11.3432 0.402681 11.1758 0.587738C11.0083 0.772794 10.8816 0.990884 10.8036 1.22794C10.7257 1.465 10.6983 1.71577 10.7232 1.96406C8.70485 2.3746 6.8904 3.47006 5.58708 5.06496C4.28376 6.65985 3.57169 8.65616 3.57143 10.7158C3.57143 12.6766 2.67857 21.4301 0 23.2158H25C22.3214 21.4301 21.4286 12.6766 21.4286 10.7158C21.4286 6.39442 18.3571 2.78728 14.2768 1.96406Z" fill="white"></path></svg></span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notification-dropdown">
-          <li style="color: #FFF; padding:5px">
+        <ul class="dropdown-menu dropdown-menu-end" style="background:rgb(53, 59, 90);" aria-labelledby="notification-dropdown">
+          <li style="color: #FFF; padding:5px;">
             No new message
           </li>
         </ul>
