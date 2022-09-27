@@ -327,7 +327,11 @@ var TextTip = function TextTip(config) {
 
 
     var newTipLeft = selLeft + selWidth / 2 - window.scrollX; // Right above selection 
-
+    if(selTop >= 188){
+      selTop = 270;
+    }else if (selTop >= 167) {
+      selTop = 250;
+    }
     var newTipBottom = window.innerHeight - selTop - window.scrollY; // Stop tooltip bleeding off of left or right edge of screen
     // Use a buffer of 20px so we don't bump right against the edge
     // The tooltip transforms itself left minus 50% of it's width in css
@@ -345,16 +349,6 @@ var TextTip = function TextTip(config) {
     } else if (realTipRight > window.innerWidth - buffer) {
       // Correct for right edge overlap
       newTipLeft = window.innerWidth - buffer - tipHalfWidth;
-    }
-
-    if(newTipBottom >= 560 && window.innerHeight >= 735){
-      newTipBottom = 491;
-    }else if(newTipBottom >= 540 && window.innerHeight >= 735){
-      newTipBottom = 470;
-    }else if(newTipBottom >= 280 && window.innerHeight >= 500){
-      newTipBottom = 200;
-    }else if (newTipBottom >= 260 && window.innerHeight >= 500) {
-      newTipBottom = 190;
     }
 
     _this.tipEl.style.left = newTipLeft + 'px';
