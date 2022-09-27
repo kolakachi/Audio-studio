@@ -985,6 +985,8 @@ export const store = new Vuex.Store({
             formData.append('edit_id', state.edit_id);
             formData.append('edit_name', state.edit_name);
             formData.append('speech_text', state.speech_text);
+            formData.append('format',state.selectedFormat);
+
             state.isLoading = true;
             state.loadingType = "save";
             axios.post(state.url.save, formData, {responseType: 'blob'})
@@ -1026,7 +1028,7 @@ export const store = new Vuex.Store({
                 formData.append('edit_id', state.edit_id);
                 formData.append('edit_name', state.edit_name);
                 formData.append('format',state.selectedFormat);
-
+                formData.append('speech_text', state.speech_text);
                 formData.append('_token', $('input[name=_token]').val());
                 formData.append('layers', JSON.stringify(state.layers));
                 state.isLoading = true;

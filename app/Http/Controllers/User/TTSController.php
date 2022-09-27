@@ -845,6 +845,10 @@ class TTSController extends Controller
             $book->format = $request->format;
             $book->audio_id = $audio->id;
             $book->audio_name = $request->edit_name;
+            $book->layers = json_decode($request->layers);
+            $book->speech_text = $request->speech_text;
+
+
             $book->save();
 
             $fileName = Paths::AUDIO_PATH. $file_name;
@@ -885,6 +889,7 @@ class TTSController extends Controller
             }
             $audio->speech_text = $request->speech_text;
             $audio->audio_name = $request->edit_name;
+            $audio->format = $request->format;
 
             $audio->layers = json_decode($request->layers);
             $audio->save();
