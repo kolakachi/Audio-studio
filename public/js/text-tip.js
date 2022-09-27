@@ -347,9 +347,13 @@ var TextTip = function TextTip(config) {
       newTipLeft = window.innerWidth - buffer - tipHalfWidth;
     }
 
-    if(newTipBottom > 280){
+    if(newTipBottom >= 560 && window.innerHeight >= 735){
+      newTipBottom = 491;
+    }else if(newTipBottom >= 540 && window.innerHeight >= 735){
+      newTipBottom = 470;
+    }else if(newTipBottom >= 280 && window.innerHeight >= 500){
       newTipBottom = 200;
-    }if (newTipBottom > 260) {
+    }else if (newTipBottom >= 260 && window.innerHeight >= 500) {
       newTipBottom = 190;
     }
 
