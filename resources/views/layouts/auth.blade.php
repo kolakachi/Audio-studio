@@ -44,7 +44,7 @@
     </div>
     <div class="form-col">
       <div class="form-col-content">
-        <h1 class="logo-type">audiostudio.ai</h1>
+        <img src="/img/new-logo.png" style="height: 250px" class="marketing-card-user" alt="">
 		@yield('content')
       </div>
     </div>
