@@ -44,7 +44,9 @@
     </div>
     <div class="form-col">
       <div class="form-col-content">
-        <img src="/img/new-logo-2.png" style="height: 100px; margin-bottom: 10px" class="marketing-card-user" alt="">
+        <div class="text-center">
+          <img src="/img/new-logo-2.png" style="height: 70px; margin-bottom: 10px" class="marketing-card-user" alt="">
+        </div>
 		@yield('content')
       </div>
     </div>
