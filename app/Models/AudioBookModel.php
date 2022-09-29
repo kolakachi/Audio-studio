@@ -16,7 +16,7 @@ class AudioBookModel extends Model
     ];
 
     public function getCreatedAtAttribute($value){
-        $value = \Carbon\Carbon::parse($value)->format('Y-m-d');
+        $value = \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s');
 
         return $value;
     }
