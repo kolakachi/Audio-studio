@@ -23,7 +23,7 @@
 <div class="{{ $pageClass ?? 'dashboard-page' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
   <div class="container">
-    <a class="logo-type" href="{{route('user.dashboard')}}">        <img src="/img/new-logo.png" style="height: 200px" class="marketing-card-user" alt="">
+    <a class="logo-type" href="{{route('user.dashboard')}}">        <img src="/img/new-logo-2.png" style="height: 40px" class="marketing-card-user" alt="">
     </a>
 
     <ul class="navbar-nav ml-auto">
