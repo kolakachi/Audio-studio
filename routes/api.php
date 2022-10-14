@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterPieceController;
+use App\Http\Controllers\IPN\JVZooPaymentHandlerController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/tts/master-piece', [MasterPieceController::class, 'updateText'])->name('user.master-piece');
+Route::post('/ipn/jvz', [JVZooPaymentHandlerController::class,'processPayment'])->name('jvz.ipn');
 

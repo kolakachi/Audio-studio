@@ -13,7 +13,7 @@
         
         <p>Email: {{ $user->email }}</p>
         <p>Password: {{ $user->plain_password }}</p>
-        <p>Login URL: <a href="{{ route('auth.login') }}" target='_BLANK'>{{ route('auth.login') }}</a></p>
+        <p>Login URL: <a href="{{ route('login') }}" target='_BLANK'>{{ route('login') }}</a></p>
         
         <br><br>
         <p><b>Some Important Details:</b> Here are some details to help get you started:</p>

@@ -15,12 +15,18 @@ class CopyWriterController extends Controller
     }
 
     public function getAiResults(Request $request){
-        $choices = $this->getOpenAIResults($request);
-        return response()->json([
-            'message' => 'Generated',
-            'status' => 'Success',
-            'choices' => $choices,
-        ]);
+        try{
+            $choices = $this->getOpenAIResults($request);
+            return response()->json([
+                'message' => 'Generated',
+                'status' => 'Success',
+                'choices' => $choices,
+            ]);
+        }catch(\Exception $error){
+            \Log::info('CopyWriterController@getAiResults error message: ' . $error->getMessage());
+            $message = "Unable to complete request.";
+            return response()->json(['message' => $message], 500);
+        }
     }
 
     public function getOpenAIResults($request){

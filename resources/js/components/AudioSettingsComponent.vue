@@ -86,18 +86,18 @@
                         </label>
                         </div>
 
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ogg" :checked="selectedFormat == 'ogg'" @click="setFormat('ogg')">
-                        <label class="form-check-label" for="ogg">
-                            OGG
-                        </label>
+                        <div class="form-check" v-if="userAccess.number_of_audio_output > 1">
+                            <input class="form-check-input" type="checkbox" value="" id="ogg" :checked="selectedFormat == 'ogg'" @click="setFormat('ogg')">
+                            <label class="form-check-label" for="ogg">
+                                OGG
+                            </label>
                         </div>
 
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="webm" :checked="selectedFormat == 'webm'" @click="setFormat('webm')">
-                        <label class="form-check-label" for="webm">
-                            WEBM
-                        </label>
+                        <div class="form-check" v-if="userAccess.number_of_audio_output > 1">
+                            <input class="form-check-input" type="checkbox" value="" id="webm" :checked="selectedFormat == 'webm'" @click="setFormat('webm')">
+                            <label class="form-check-label" for="webm">
+                                WEBM
+                            </label>
                         </div>
                     </div>
                     </div>
@@ -156,6 +156,9 @@
             },
             languages() {
                 return this.$store.state.languages
+            },
+            userAccess() {
+                return this.$store.state.userAccess
             },
             selectedLanguageId:{
                 get () {

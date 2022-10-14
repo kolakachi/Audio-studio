@@ -125,6 +125,13 @@ export const store = new Vuex.Store({
 
         backgroundSoundCurrentPage: 1,
         backgroundSoundLastPage:1,
+        userAccess: {
+            number_of_audio_output: 1,
+            number_of_layers: 2,
+            has_access_to_recorder:false,
+            has_access_to_teleprompter: false,
+            has_access_to_masterpiece: false
+        }
         
         
 
@@ -187,6 +194,7 @@ export const store = new Vuex.Store({
             state.selectedVoiceId = value.selectedVoiceId;
             state.selectedLanguageId = state.selectedLanguage.id
             state.selectedFormat = (value.selectedFormat)? value.selectedFormat : "mp3";
+            state.userAccess = value.userAccess
 
         },
         updateVoiceIdError(state, value){
@@ -267,6 +275,16 @@ export const store = new Vuex.Store({
             })
         },
         addTranslatedAudioToLayer({dispatch, state}){
+            let userAccessNumberOfLayers = state.userAccess.number_of_layers;
+            let sumOfLayers = state.layers.length;
+            if(sumOfLayers >= userAccessNumberOfLayers){
+                Notification({
+                    type:'error',
+                    title: 'Error',
+                    message: "You can no longer add layer to timeline. Upgrade"
+                });
+                return 0;
+            }
             var objectUrl = state.prevSynthesizeAudioURL;
             var audioConatiner = document.getElementById("audio-container");
             var newAudio = document.createElement("AUDIO");
@@ -305,6 +323,16 @@ export const store = new Vuex.Store({
             
         },
         addRecordedAudio({dispatch, state}, recorderInstance){
+            let userAccessNumberOfLayers = state.userAccess.number_of_layers;
+            let sumOfLayers = state.layers.length;
+            if(sumOfLayers >= userAccessNumberOfLayers){
+                Notification({
+                    type:'error',
+                    title: 'Error',
+                    message: "You can no longer add layer to timeline. Upgrade"
+                });
+                return 0;
+            }
             const formData = new FormData();
 
             formData.append('_token', $('input[name=_token]').val());
@@ -1093,6 +1121,16 @@ export const store = new Vuex.Store({
                 })
         },
         addLibraryAudioToTimeline({dispatch, state},sound){
+            let userAccessNumberOfLayers = state.userAccess.number_of_layers;
+            let sumOfLayers = state.layers.length;
+            if(sumOfLayers >= userAccessNumberOfLayers){
+                Notification({
+                    type:'error',
+                    title: 'Error',
+                    message: "You can no longer add layer to timeline. Upgrade"
+                });
+                return 0;
+            }
             const formData = new FormData();
             formData.append('_token', $('input[name=_token]').val());
             formData.append('sound_src', sound.src);
@@ -1127,6 +1165,16 @@ export const store = new Vuex.Store({
         },
 
         addAudioLayer({dispatch, state},{file, path}){
+            let userAccessNumberOfLayers = state.userAccess.number_of_layers;
+            let sumOfLayers = state.layers.length;
+            if(sumOfLayers >= userAccessNumberOfLayers){
+                Notification({
+                    type:'error',
+                    title: 'Error',
+                    message: "You can no longer add layer to timeline. Upgrade"
+                });
+                return 0;
+            }
             var objectUrl = URL.createObjectURL(file);
             var audioConatiner = document.getElementById("audio-container");
             var newAudio = document.createElement("AUDIO");

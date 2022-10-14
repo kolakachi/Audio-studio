@@ -16,7 +16,7 @@
 @yield('css')
 
 <!-- Style css -->
-<link href="{{URL::asset('css/app.css')}}" rel="stylesheet" />
+<link href="{{URL::asset('css/prev-app.css')}}" rel="stylesheet" />
 
 <!-- Simplebar css -->
 <link href="{{URL::asset('plugins/simplebar/css/simplebar.css')}}" rel="stylesheet">

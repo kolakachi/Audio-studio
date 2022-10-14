@@ -18,6 +18,8 @@
     <textarea name="" id="speech_text" cols="30" rows="10" style="display: none">{{ Session::get('user_text') }}</textarea>
     <textarea id="upload-text-url" style="display: none">{{ route('user.upload-text')}}</textarea>
     <textarea style="display:none" id="languages">{!! json_encode($languages) !!}</textarea>
+    <textarea style="display:none" id="user-access">{!! json_encode($userAccess) !!}</textarea>
+
     <textarea style="display:none" id="voices">{!! json_encode($voices) !!}</textarea>
     <textarea style="display:none" id="synthesize-url" cols="30" rows="10">{{ route('user.tts.listen') }}</textarea>
     <textarea style="display:none" id="store-record-url" cols="30" rows="10">{{ route('user.tts.store-record') }}</textarea>

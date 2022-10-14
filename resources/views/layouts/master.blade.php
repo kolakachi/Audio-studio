@@ -70,6 +70,26 @@
     </div>
   </div>
 
+  <div class="modal fade" id="access-modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="recordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button class="btn close-btn" data-bs-dismiss="modal">
+                <span class="icon"><svg width="19" height="21" viewBox="0 0 19 21" fill="#000" xmlns="http://www.w3.org/2000/svg" class=""><path d="M1.35 21C1.19 21 1.04 20.94 0.9 20.82C0.78 20.7 0.72 20.56 0.72 20.4C0.72 20.26 0.76 20.13 0.84 20.01L7.71 10.32L1.17 0.989998C1.11 0.889998 1.08 0.759999 1.08 0.6C1.08 0.439999 1.14 0.299999 1.26 0.18C1.38 0.059999 1.52 -1.43051e-06 1.68 -1.43051e-06H3.48C3.78 -1.43051e-06 4.05 0.169999 4.29 0.509999L9.57 8.01L14.82 0.509999C15.02 0.169999 15.28 -1.43051e-06 15.6 -1.43051e-06H17.31C17.47 -1.43051e-06 17.61 0.059999 17.73 0.18C17.85 0.299999 17.91 0.439999 17.91 0.6C17.91 0.78 17.87 0.909999 17.79 0.989998L11.34 10.35L18.18 20.01C18.26 20.13 18.3 20.26 18.3 20.4C18.3 20.56 18.24 20.7 18.12 20.82C18 20.94 17.85 21 17.67 21H15.84C15.54 21 15.27 20.83 15.03 20.49L9.45 12.72L3.9 20.49C3.7 20.83 3.44 21 3.12 21H1.35Z"></path></svg></span>        
+            </button>
+            </div>
+            
+            <div class="modal-body text-center" style="color: #000">
+              <h1><i>Access Restricted !</i></h1>
+              <p>You dont have access to this resource.</p>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-danger btn-sm mx-auto" data-bs-dismiss="modal"><i class="flaticon-cancel-12"></i> Okay</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
   
 
 </div>

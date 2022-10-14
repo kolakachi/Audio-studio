@@ -152,6 +152,7 @@
             let languages = JSON.parse($("#languages").val());
             let voices = JSON.parse($("#voices").val());
             let audio = JSON.parse($("#audio-details").val());
+            let userAccess = JSON.parse($("#user-access").val());
             
             let edit_id = audio.uuid;
             let edit_name = audio.audio_name;
@@ -176,7 +177,8 @@
                 signals: signals,
                 selectedFormat: audio.format,
                 language: audio.language,
-                selectedVoiceId: audio.voice
+                selectedVoiceId: audio.voice,
+                userAccess:userAccess
             }));
         },
         computed: {

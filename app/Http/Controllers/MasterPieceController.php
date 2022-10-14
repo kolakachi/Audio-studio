@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth, Log;
 use App\Helpers\Keys;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,22 @@ class MasterPieceController extends Controller
     // }
 
     public function updateText(Request $request){
-        $response = $this->getOpenAIMasterPieceResult($request);
-        return response()->json([
-            'message' => 'Generated',
-            'status' => 'Success',
-            'text' => $response,
-        ]);
+        try{
+            if(!userHasAccessToMasterpieceRequests(Auth::id())){
+                $message = "You do not have enough credits to make this request";
+                return response()->json(['message' => $message], 401);
+            }
+            $response = $this->getOpenAIMasterPieceResult($request);
+            return response()->json([
+                'message' => 'Generated',
+                'status' => 'Success',
+                'text' => $response,
+            ]);
+        }catch(\Exception $error){
+            Log::info('MasterPieceController@updateText error message: ' . $error->getMessage());
+            $message = "Unable to complete request.";
+            return response()->json(['message' => $message], 500);
+        }
     }
 
     public function getOpenAIMasterPieceResult($request){

@@ -18,7 +18,7 @@ class AlterTableUsers extends Migration
             $table->string('token')->nullable();
             $table->boolean('is_active')->default(false);
             $table->boolean('subscription_is_active')->default(false);
-            $table->integer('added_by')->nullable();
+            $table->string('added_by')->nullable();
             $table->integer('edited_by')->nullable();
             $table->integer('admin_id')->nullable();
             $table->string('account_type')->nullable();

@@ -188,9 +188,7 @@
             </div>
             <!-- End of Add Music Track Modal -->
         </div>
-    <!-- </div> -->
-    
-    
+    <!-- </div> -->    
 </template>
 
 <script>

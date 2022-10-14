@@ -17,7 +17,7 @@
             </li>
             <hr class="slide-divider">
             <li class="side-item side-item-category">{{ __('Admin Panel') }}</li>
-            <li class="slide">
+            {{-- <li class="slide">
                     <a class="side-menu__item" data-toggle="slide" href="{{ url('#')}}">
                         <span class="side-menu__icon enlarge lead-3 fa fa-magic"></span>
                         <span class="side-menu__label">{{ __('TTS Management') }}</span><i class="angle fa fa-angle-right"></i>
@@ -27,7 +27,7 @@
                         <li><a href="{{ route('admin.tts.results') }}" class="slide-item">{{ __('Synthesized TTS Results') }}</a></li>
                         <li><a href="{{ route('admin.tts.configs') }}" class="slide-item">{{ __('TTS Configuration') }}</a></li>
                     </ul>
-            </li>
+            </li> --}}
             <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('#')}}">
                     <span class="side-menu__icon mdi mdi-account-convert"></span>
@@ -35,10 +35,10 @@
                     <ul class="slide-menu">
                         <li><a href="{{ route('admin.user.dashboard') }}" class="slide-item">{{ __('User Dashboard') }}</a></li>
                         <li><a href="{{ route('admin.user.list') }}" class="slide-item">{{ __('User List') }}</a></li>
-                        <li><a href="{{ route('admin.user.activity') }}" class="slide-item">{{ __('Activity Monitoring') }}</a></li>
+                        {{-- <li><a href="{{ route('admin.user.activity') }}" class="slide-item">{{ __('Activity Monitoring') }}</a></li> --}}
                     </ul>
             </li>
-            <li class="slide">
+            {{-- <li class="slide">
                 <a class="side-menu__item" data-toggle="slide" href="{{ url('#')}}">
                     <span class="side-menu__icon enlarge fa fa-google-wallet"></span>
                     <span class="side-menu__label">{{ __('Finance Management') }}</span>
@@ -110,14 +110,14 @@
                         <li><a href="{{ route('admin.settings.backup') }}" class="slide-item">{{ __('Database Backup') }}</a></li>
                         <li><a href="{{ route('admin.settings.activation') }}" class="slide-item">{{ __('Activation') }}</a></li>                    
                     </ul>
-            </li>
+            </li> --}}
     
             <hr class="slide-divider">
         @endrole
         @role('user|subscriber')
             <hr class="slide-divider d-none">
         @endrole
-        <li class="side-item side-item-category">{{ __('User Panel') }}</li>
+        {{-- <li class="side-item side-item-category">{{ __('User Panel') }}</li>
         <li class="slide">
             <a class="side-menu__item" href="{{ route('user.tts') }}">
             <span class="side-menu__icon enlarge lead-3 fa fa-magic"></span>
@@ -172,9 +172,9 @@
                     <span class="badge badge-warning">{{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\GeneralNotification')->count() }}</span>
                 @endif                
             </a>
-        </li>
+        </li> --}}
     </ul>
-    @role('user')
+    {{-- @role('user')
     <div class="aside-progress-position">
         <div class="d-flex">
             <span class="fs-10 text-muted pl-5">{{ App\Services\HelperService::formatTotalChars(auth()->user()->available_chars) }} of {{ App\Services\HelperService::formatTotalChars(config('tts.free_chars')) }} chars left</span>
@@ -193,6 +193,6 @@
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: {{ App\Services\HelperService::getPercentage(auth()->user()->available_chars, App\Services\HelperService::getTotalChars()) }}%" role="progressbar" aria-valuenow="{{ auth()->user()->available_chars }}" aria-valuemin="0" aria-valuemax="{{ App\Services\HelperService::getTotalChars() }}"></div>
         </div>
     </div>
-    @endrole
+    @endrole --}}
 </aside>
 <!-- END SIDE MENU BAR -->

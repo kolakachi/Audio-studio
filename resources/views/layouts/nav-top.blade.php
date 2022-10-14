@@ -178,19 +178,19 @@
                             <span class="text-center fs-12 text-muted">{{ Auth::user()->job_role }}</span>
                             <div class="dropdown-divider"></div>
                         </div>
-                        <a class="dropdown-item d-flex" href="{{ route('user.subscriptions') }}">
+                        {{-- <a class="dropdown-item d-flex" href="{{ route('user.subscriptions') }}">
                             <span class="profile-icon fa fa-google-wallet"></span>
                             <div class="fs-12">{{ __('Increase Balance') }}</div>
                         </a>
                         <a class="dropdown-item d-flex" href="{{ route('user.tts.results') }}">
                             <span class="profile-icon fa fa-magic"></span>
                             <div class="fs-12">{{ __('TTS Results') }}</div>
-                        </a>
-                        <a class="dropdown-item d-flex" href="{{ route('user.profile') }}">
+                        </a> --}}
+                        <a class="dropdown-item d-flex" href="{{ route('user.settings') }}">
                             <span class="profile-icon mdi mdi-account-edit"></span>
                             <div class="fs-12">{{ __('Profile') }}</div>
                         </a>
-                        <a class="dropdown-item d-flex" href="{{ route('user.password') }}">
+                        <a class="dropdown-item d-flex" href="{{ route('user.settings') }}">
                             <span class="profile-icon mdi mdi-account-key"></span>
                             <div class="fs-12">{{ __('Change Password') }}</div>
                         </a>

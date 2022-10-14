@@ -11,7 +11,7 @@
     <div class="page-tab-nav">
       <div class="btn-group">
         <a href="{{ route('user.agency') }}" class="btn btn-primary active" aria-current="page">Assets</a>
-        <a href="{{ route('user.agency.teams') }}" class="btn btn-primary">Teams</a>
+        {{-- <a href="{{ route('user.agency.teams') }}" class="btn btn-primary">Teams</a> --}}
       </div>
     </div>
 

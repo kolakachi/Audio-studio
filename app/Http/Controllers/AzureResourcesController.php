@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,7 +22,8 @@ class AzureResourcesController extends Controller
         try{
 
             $files = [];
-            $cachedSounds = Redis::get('_audio_sounds');
+            $limit = getNumberOfSounds(Auth::id());
+            $cachedSounds = Redis::get(Auth::id().'_audio_sounds');
             if(!isset($cachedSounds)){
                 $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
                 $blobClient = BlobRestProxy::createBlobService($connectionString);
@@ -42,11 +43,11 @@ class AzureResourcesController extends Controller
                     }
         
                     $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
-                } while ($blob_list->getContinuationToken());
+                } while ($blob_list->getContinuationToken()  && count($files) <= $limit);
                 // \Log::info(json_encode($files));
                 // $filesCollectionObj = collect($files);
                 // $files = $this->paginate($filesCollectionObj);
-                Redis::set('_audio_sounds', json_encode($files));
+                Redis::set(Auth::id().'_audio_sounds', json_encode($files));
 
             }else{
                 $files = json_decode($cachedSounds, FALSE);
@@ -75,7 +76,8 @@ class AzureResourcesController extends Controller
         try{
 
             $files = [];
-            $cachedMusic = Redis::get('_audio_music');
+            $limit = getNumberOfMusic(Auth::id());
+            $cachedMusic = Redis::get(Auth::id().'_audio_music');
             if(!isset($cachedMusic)){
                 $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";
                 $blobClient = BlobRestProxy::createBlobService($connectionString);
@@ -95,9 +97,9 @@ class AzureResourcesController extends Controller
                     }
         
                     $listBlobsOptions->setContinuationToken($blob_list->getContinuationToken());
-                } while ($blob_list->getContinuationToken());
+                } while ($blob_list->getContinuationToken() && count($files) <= $limit);
     
-                Redis::set('_audio_music', json_encode($files));
+                Redis::set(Auth::id().'_audio_music', json_encode($files));
 
             }else{
                 $files = json_decode($cachedMusic, FALSE);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB, Session;
+use DB, Session, Auth;
 use App\Helpers\Paths;
 use App\Models\AudioBookModel;
 use App\Models\AudioModel;
@@ -80,9 +80,46 @@ class EditorController extends Controller
 
         $page = 'editor';
         $pageClass = 'audio-editor-page';
+        if(getNumberOfLanguages(Auth::id()) < 16){
+            $languages = $this->filterLanguages($languages);
+        }
+        $userAccess = [
+            'number_of_audio_output' => getNumberOfAudioOutput(Auth::id()),
+            'number_of_layers' => getNumberOfLayers(Auth::id()),
+            'has_access_to_recorder' => userHasAccessToRecorder(Auth::id()),
+            'has_access_to_teleprompter' => userHasAccessToTeleprompter(Auth::id()),
+            'has_access_to_masterpiece' => userHasAccessToMasterpiece(Auth::id()),
+        ];
 
+        return view('app.editor.index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio', 'page', 'pageClass', 'userAccess'));
+    }
 
-        return view('app.editor.index', compact('languages', 'voices', 'max_chars', 'config', 'userText', 'audio', 'page', 'pageClass'));
+    private function filterLanguages($languages){
+        $filteredLanguages = [];
+        $allowedLanguages = [
+            'English (USA)',
+	        'English (UK)',
+	        'English (Canada)',
+	        'French (France)',
+	        'German (Germany)',
+	        'Italian (Italy)',
+	        'Spanish (Spain)',
+	        'Arabic (Saudi Arabia)',
+	        'Greek (Greece)',
+	        'Hindi (India)',
+	        'Portuguese (Portugal)',
+	        'Russian (Russia)',
+	        'Chinese (Cantonese)',
+	        'Dutch (Belgium)',
+	        'Turkish (Turkey)'
+        ];
+        foreach($languages as $language){
+            if(in_array($language->language, $allowedLanguages)){
+                $filteredLanguages[] = $language;
+            }
+        }
+
+        return $filteredLanguages;
     }
 
 }
