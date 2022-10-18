@@ -210,7 +210,7 @@ function userHasAccessToMasterpiece($userId){
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
-    if($user->role == 'admin' || $user->role == 'support' ||  $user->user_type == 'reviewer'){
+    if($user->role == 'admin' || $user->role == 'support' ||  $user->role == 'reviewer'){
         return true;
     }
 
