@@ -50,6 +50,7 @@ use App\Http\Controllers\CopyWriterController;
 use App\Http\Controllers\Admin\WriterController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ShareController;
+use App\Http\Controllers\JobFinderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WhiteLabelController;
 use App\Http\Controllers\AzureResourcesController;
@@ -443,6 +444,9 @@ Route::post('/agency-teams/update/subscriptions', [AgencyController::class,'upda
     ->name('user.agency.account.update.subscriptions');
 Route::post('/agency-teams/update/password', [AgencyController::class,'updatePassword'])
     ->name('user.agency.account.update.password');
+
+Route::get('/job-finder', [ JobFinderController::class, 'index'])->name('user.job-finder');
+Route::post('/job-finder/search', [ JobFinderController::class, 'searchJobs'])->name('user.job-finder.search');
 
 Route::get('/settings', [ SettingsController::class, 'index'])->name('user.settings');
 Route::post('/settings/update-details', [ SettingsController::class, 'updateDetails'])->name('user.settings.details');
