@@ -414,6 +414,7 @@ export const store = new Vuex.Store({
         },
         addLayerToTimeLine({dispatch, state},layerNumber){
             var layer = state.layers[layerNumber];
+            console.log([layerNumber,state.layers]);
             if(layer){
                 var layerContainer = document.createElement( 'div' );
                 layerContainer.id = "layer-container-"+layerNumber;
@@ -1431,6 +1432,7 @@ export const store = new Vuex.Store({
         },
         updateLayerSize({dispatch, state}, layerNumber){
             var layer = state.layers[layerNumber];
+            console.log([layerNumber, state.layers]);
             if(layer){
                 var dom = document.getElementById("dom-"+layerNumber);//layer.dom;
                 var name = document.getElementById("name-"+layerNumber);//layer.domName; 
@@ -1521,7 +1523,7 @@ export const store = new Vuex.Store({
                 var audio = document.getElementById(audioID);
                 if(audio != null){
                     $("#" + audioID).prop("volume", layer.volume);
-                    dispatch('addLayerToTimeLine', layer.layerNumber);
+                    dispatch('addLayerToTimeLine', key);
                     
                 }else{
                     newAudio.id       = audioID;
@@ -1532,7 +1534,7 @@ export const store = new Vuex.Store({
                     $("#" + audioID).prop("volume", layer.volume);
                     newAudio = document.getElementById(audioID);
                     $("#"+audioID).on("loadedmetadata", (e) =>{
-                        dispatch('addLayerToTimeLine', layer.layerNumber);
+                        dispatch('addLayerToTimeLine', key);
 
                     });
                 }
@@ -1567,7 +1569,7 @@ export const store = new Vuex.Store({
             $("#"+audioID).on("loadedmetadata", (e) =>{
                 layer.layerNumber = state.layers.length;
                 state.layers.push(layer);
-                dispatch('addLayerToTimeLine', layer.layerNumber);
+                dispatch('addLayerToTimeLine', index);
             });
         },
 
