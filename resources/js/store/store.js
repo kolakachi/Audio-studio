@@ -414,7 +414,6 @@ export const store = new Vuex.Store({
         },
         addLayerToTimeLine({dispatch, state},layerNumber){
             var layer = state.layers[layerNumber];
-            console.log([layerNumber,state.layers]);
             if(layer){
                 var layerContainer = document.createElement( 'div' );
                 layerContainer.id = "layer-container-"+layerNumber;
@@ -1432,7 +1431,6 @@ export const store = new Vuex.Store({
         },
         updateLayerSize({dispatch, state}, layerNumber){
             var layer = state.layers[layerNumber];
-            console.log([layerNumber, state.layers]);
             if(layer){
                 var dom = document.getElementById("dom-"+layerNumber);//layer.dom;
                 var name = document.getElementById("name-"+layerNumber);//layer.domName; 
