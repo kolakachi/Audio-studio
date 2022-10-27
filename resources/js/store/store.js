@@ -1459,7 +1459,7 @@ export const store = new Vuex.Store({
             for(let i in state.layers){
                 let layer = state.layers[i];
                 if(layer.type == 'audio'){
-                    let audio = document.getElementById('audio-'+ layer.layerNumber);
+                    let audio = document.getElementById('audio-'+ i);
                     let audioTime = state.player.currentTime - layer.start;
                     if(audioTime <= 0){
                         audio.currentTime = layer.playStart;
@@ -1506,6 +1506,7 @@ export const store = new Vuex.Store({
             $('#scroller').html('');
             for(let key in state.layers){
                 let layer = state.layers[key];
+                state.layers[key].layerNumber = key;
                 layer.url = state.url.audioURL + layer.path;
                 if(state.layers[key].playStart == undefined){
                     state.layers[key].playStart = 0;
@@ -1519,7 +1520,7 @@ export const store = new Vuex.Store({
                 }
                 var audioConatiner = document.getElementById("audio-container");
                 var newAudio = document.createElement("AUDIO");
-                var audioID = 'audio-'+ layer.layerNumber;
+                var audioID = 'audio-'+ key;
                 var audio = document.getElementById(audioID);
                 if(audio != null){
                     $("#" + audioID).prop("volume", layer.volume);
@@ -1544,7 +1545,7 @@ export const store = new Vuex.Store({
         },
         deleteLayer({dispatch, state}, index){
             let layer = state.layers[index];
-            let layerId = "layer-container-"+ layer.layerNumber;
+            let layerId = "layer-container-"+ index;
             $( "#"+layer.id ).remove();
             $( "#"+layerId ).remove();
             state.layers.splice(index, 1);
