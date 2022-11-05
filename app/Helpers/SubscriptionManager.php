@@ -101,7 +101,7 @@ class SubscriptionManager {
 			$sub->start_date = $start;
             $sub->end_date = $end;
             $sub->status = true;
-            $sub->name = PaymentConfig::FRONTEND;
+            $sub->name = $type;
 
 			$sub->type = 'lifetime';
 
@@ -336,84 +336,84 @@ class SubscriptionManager {
         return $addon;
     }
 
-	public static function addFullBundleSubscription($sub_data, $start, $end, $type = '', $log_txn = true, $extra_subs = [])
-    {
-        $user = SubscriptionManager::addUser(array_merge($sub_data, ['type' => $type]), PaymentConfig::FRONTEND_COMMERCIAL);
+	// public static function addFullBundleSubscription($sub_data, $start, $end, $type = '', $log_txn = true, $extra_subs = [])
+    // {
+    //     $user = SubscriptionManager::addUser(array_merge($sub_data, ['type' => $type]), PaymentConfig::FRONTEND_COMMERCIAL);
 
-        $sub = Subscription::firstOrNew(['user_id' => $user->id]);
+    //     $sub = Subscription::firstOrNew(['user_id' => $user->id]);
 
 
-		if (!$sub->created_at)
-		{
-			$sub->start_date = $start;
-            $sub->end_date = $end;
-            $sub->status = true;
-            $sub->name = PaymentConfig::FRONTEND_COMMERCIAL;
+	// 	if (!$sub->created_at)
+	// 	{
+	// 		$sub->start_date = $start;
+    //         $sub->end_date = $end;
+    //         $sub->status = true;
+    //         $sub->name = PaymentConfig::FRONTEND_COMMERCIAL;
 
-			$sub->type = 'lifetime';
+	// 		$sub->type = 'lifetime';
 
-			$sub->save();
+	// 		$sub->save();
 
-			self::sendBasicSubEmail($user);
-		}
-		else
-		{
-			$sub_array = $extra_subs;
+	// 		self::sendBasicSubEmail($user);
+	// 	}
+	// 	else
+	// 	{
+	// 		$sub_array = $extra_subs;
 
-			if ( !empty($start) && !empty($end) )
-				$sub_array = array_merge([
-					'start_date' => $start,
-					'end_date' => $end,
-                    'type' => 'lifetime',
-                    'status' => true,
-                    'name' => PaymentConfig::FRONTEND_COMMERCIAL
-				], $extra_subs);
+	// 		if ( !empty($start) && !empty($end) )
+	// 			$sub_array = array_merge([
+	// 				'start_date' => $start,
+	// 				'end_date' => $end,
+    //                 'type' => 'lifetime',
+    //                 'status' => true,
+    //                 'name' => PaymentConfig::FRONTEND_COMMERCIAL
+	// 			], $extra_subs);
 
-			Subscription::where('user_id', $user->id)->update($sub_array);
-        }
-        updateUserSubConfig($user, PaymentConfig::FRONTEND_COMMERCIAL);
-        self::registerUserSubscriptions($sub);
+	// 		Subscription::where('user_id', $user->id)->update($sub_array);
+    //     }
+    //     updateUserSubConfig($user, PaymentConfig::FRONTEND_COMMERCIAL);
+    //     self::registerUserSubscriptions($sub);
 		
-		self::activateAddonSub($sub, PaymentConfig::OTO_PROFESSIONAL);
-		updateUserSubConfig($user, PaymentConfig::OTO_PROFESSIONAL);
+	// 	self::activateAddonSub($sub, PaymentConfig::OTO_PROFESSIONAL);
+	// 	updateUserSubConfig($user, PaymentConfig::OTO_PROFESSIONAL);
 
-		self::activateAddonSub($sub, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
-		updateUserSubConfig($user, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
+	// 	self::activateAddonSub($sub, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
+	// 	updateUserSubConfig($user, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
 
-		self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_PRO);
-		updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_PRO);
+	// 	self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_PRO);
+	// 	updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_PRO);
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $type);
+	// 	if ($log_txn === true)
+	// 		self::logPaymentTransaction($sub_data, $type);
 
-		return $user;
-    }
+	// 	return $user;
+    // }
 
-	public static function processFullBundleRefund($sub_data, $sub_type, $log_txn = true)
-	{
-		$user = User::where(['email' => $sub_data['email']])->first();
+	// public static function processFullBundleRefund($sub_data, $sub_type, $log_txn = true)
+	// {
+	// 	$user = User::where(['email' => $sub_data['email']])->first();
 
-		if ($user)
-		{
-            $sub = $user->frontEnd;
+	// 	if ($user)
+	// 	{
+    //         $sub = $user->frontEnd;
 
-			if ($sub)
-			{
-                $userSub = Subscription::where('user_id', $user->id)->first();
-                $userSub->status = false;
-                $userSub->save();
+	// 		if ($sub)
+	// 		{
+    //             $userSub = Subscription::where('user_id', $user->id)->first();
+    //             $userSub->status = false;
+    //             $userSub->save();
 
-				self::cancelMainSubscription($user);
-			}
-			resetUserSubConfig($user, PaymentConfig::OTO_PROFESSIONAL);
-			resetUserSubConfig($user, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
-			resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_PRO);
-            resetUserSubConfig($user, PaymentConfig::FRONTEND_COMMERCIAL);
-		}
+	// 			self::cancelMainSubscription($user);
+	// 		}
+	// 		resetUserSubConfig($user, PaymentConfig::OTO_PROFESSIONAL);
+	// 		resetUserSubConfig($user, PaymentConfig::OTO_AGENCY_AND_CONSULTANCY);
+	// 		resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_PRO);
+    //         resetUserSubConfig($user, PaymentConfig::FRONTEND_COMMERCIAL);
+	// 	}
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $sub_type);
-    }
+	// 	if ($log_txn === true)
+	// 		self::logPaymentTransaction($sub_data, $sub_type);
+    // }
 
 	public static function activateAddonSub($sub, $sub_type){
 		$oto = SubscriptionAddonModel::where('subscription_id', $sub->id)

@@ -43,7 +43,7 @@
     "autoload": {
         "files": [
             "app/Helpers/SubscriptionValidator.php",
-            "app/Helpers/SubscriptionValidator.php"
+            "app/Helpers/SubscriptionConfig.php"
         ],
         "psr-4": {
             "App\\": "app/",

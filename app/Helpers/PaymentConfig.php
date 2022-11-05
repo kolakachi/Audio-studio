@@ -34,4 +34,7 @@ class PaymentConfig
     const OTO_ENTERPRISE = 'oto_enterprise';
     const OTO_WHITELABEL_AND_RESELLER = 'oto_whitelabel_reseller';    
     const OTO_WHITELABEL_AND_RESELLER_2 = 'oto_whitelabel_reseller_2';    
+
+    const FRONTEND_BUNDLE_1 = 'front_end_bundle_1';
+    const FRONTEND_BUNDLE_2 = 'front_end_bundle_2';
 }

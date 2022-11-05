@@ -25,7 +25,7 @@ class JVZooPaymentHandlerController extends Controller
     {
     	$data = $request->all();
 
-	  	$secretKey = "sDwpNN1xxow0xe0hFQ3d";
+	  	$secretKey = "e49315862ed7b22f1952570db";
 	  	$pop = "";
 	  	$ipnFields = array();
 
@@ -93,11 +93,11 @@ class JVZooPaymentHandlerController extends Controller
 			return 'false';
         }
 
-        if(!$request->has('src')){
-            Log::info('JVZoo IPN data: ', $data);
+        // if(!$request->has('src')){
+        //     Log::info('JVZoo IPN data: ', $data);
 
-			return 'false';
-        }
+		// 	return 'false';
+        // }
 
         // if($request->get('src') == self::SRC){
 
@@ -238,6 +238,34 @@ class JVZooPaymentHandlerController extends Controller
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2, true);
+	    			}
+                }elseif($request->get('cproditem') === 388527){
+
+	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			{
+                        $today = SubscriptionManager::today();
+                        $hundredYears = SubscriptionManager::hundredYears();
+
+	    				$sub = SubscriptionManager::addFrontEndSubscription($sub_data, $today, $hundredYears, PaymentConfig::FRONTEND_BUNDLE_1);
+	    			}
+	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			{
+
+	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::FRONTEND_BUNDLE_1, true);
+	    			}
+                }elseif($request->get('cproditem') === 388528){
+
+	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			{
+                        $today = SubscriptionManager::today();
+                        $hundredYears = SubscriptionManager::hundredYears();
+
+	    				$sub = SubscriptionManager::addFrontEndSubscription($sub_data, $today, $hundredYears, PaymentConfig::FRONTEND_BUNDLE_2);
+	    			}
+	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			{
+
+	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::FRONTEND_BUNDLE_2, true);
 	    			}
                 }
 

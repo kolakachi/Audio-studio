@@ -25,6 +25,14 @@ function userHasAccessToEnterprise($userId){
         return false;
     }
 
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return true;
+    }
+
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
     if(!$subConfig){
         return false;
@@ -60,6 +68,14 @@ function userHasAccessToReseller($userId){
 
     if(!$subscription){
         return false;
+    }
+
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return true;
     }
 
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
@@ -99,6 +115,14 @@ function getNumberOfAudioOutput($userId){
         return 3;
     }
 
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return 3;
+    }
+
     if(!$subscription){
         return 1;
     }
@@ -124,6 +148,14 @@ function getNumberOfLayers($userId){
 
 
     if($user->role == 'admin' || $user->role == 'support' ||  $user->role == 'reviewer'){
+        return 100;
+    }
+
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
         return 100;
     }
 
@@ -160,6 +192,14 @@ function userHasAccessToRecorder($userId){
         return false;
     }
 
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return true;
+    }
+
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
     if(!$subConfig){
         return false;
@@ -187,6 +227,14 @@ function userHasAccessToTeleprompter($userId){
 
     if(!$subscription){
         return false;
+    }
+
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return true;
     }
 
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
@@ -240,6 +288,15 @@ function userHasAccessToMasterpieceRequests($userId){
     if($user->role == 'admin' || $user->role == 'support' || $user->role == 'reviewer'){
         return true;
     }
+
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return true;
+    }
+
 
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
     if(!$subConfig){
@@ -301,6 +358,14 @@ function getNumberOfSounds($userId){
         return 1;
     }
 
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return 999999999999;
+    }
+
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
     if(!$subConfig){
         return 1;
@@ -329,6 +394,14 @@ function getNumberOfMusic($userId){
         return 1;
     }
 
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return 9999999999999;
+    }
+
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
     if(!$subConfig){
         return 1;
@@ -355,6 +428,14 @@ function getNumberOfLanguages($userId){
 
     if(!$subscription){
         return 1;
+    }
+
+    $Bundlesubscription1 = SubscriptionModel::where('user_id', $userId)
+        ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    $Bundlesubscription2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', PaymentConfig::FRONTEND_BUNDLE_1)->first();
+    if($Bundlesubscription1 || $Bundlesubscription2){
+        return 999999999999999;
     }
 
     $subConfig = UserSubConfigModel::where('user_id',$userId)->first();
