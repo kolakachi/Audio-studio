@@ -24,7 +24,7 @@
           <span class="asset-rating icon"><svg width="125" height="23" viewBox="0 0 125 23" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M12.5 0L15.3064 8.63729H24.3882L17.0409 13.9754L19.8473 22.6127L12.5 17.2746L5.15271 22.6127L7.95913 13.9754L0.611816 8.63729H9.6936L12.5 0Z" fill="#FFB800"></path><path d="M37.5 0L40.3064 8.63729H49.3882L42.0409 13.9754L44.8473 22.6127L37.5 17.2746L30.1527 22.6127L32.9591 13.9754L25.6118 8.63729H34.6936L37.5 0Z" fill="#FFB800"></path><path d="M62.5 0L65.3064 8.63729H74.3882L67.0409 13.9754L69.8473 22.6127L62.5 17.2746L55.1527 22.6127L57.9591 13.9754L50.6118 8.63729H59.6936L62.5 0Z" fill="#FFB800"></path><path d="M87.5 0L90.3064 8.63729H99.3882L92.0409 13.9754L94.8473 22.6127L87.5 17.2746L80.1527 22.6127L82.9591 13.9754L75.6118 8.63729H84.6936L87.5 0Z" fill="#FFB800"></path><path d="M112.5 0L115.306 8.63729H124.388L117.041 13.9754L119.847 22.6127L112.5 17.2746L105.153 22.6127L107.959 13.9754L100.612 8.63729H109.694L112.5 0Z" fill="#FFB800"></path></svg></span>
         </div>
         <div class="asset-description">
-          We have created an editable high converting Agency website for you by our team of experts designers and writers, so you’ll no longer have to pay or hire a web designer any more. All you need to do is to add your logo and contact information to suit your marketing goals. This Agency website is rated 5 start by our early users.
+          @{{asset.description}}
         </div>
       </a>
     </div>
@@ -55,12 +55,12 @@
                   </div>
                 </div>
                 <div class="asset-file-details-buttons">
-                  <button class="btn btn-primary px-4">
+                  <a :href="activeAsset.preview_url" class="btn btn-primary px-4">
                     Preview Online
-                  </button>
-                  <button class="btn btn-success text-white px-4">
+                  </a>
+                  <a :href="activeAsset.download_url" class="btn btn-success text-white px-4">
                     Download
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
