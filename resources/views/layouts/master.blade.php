@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-  <link rel="shortcut icon" href="/img/new-logo-2.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 
 <link href="/assets/css/styles.css" rel="stylesheet"></head>
 <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">

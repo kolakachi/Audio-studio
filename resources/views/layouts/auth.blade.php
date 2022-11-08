@@ -5,7 +5,7 @@
   <title>Login - Audiostudio</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="/assets/css/styles.css" rel="stylesheet">
-  <link rel="shortcut icon" href="/img/new-logo-2.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
   <!-- Pixel Code for https://socialproofo.com/demo/ -->
   
 <script async src="https://socialproofo.com/demo/pixel/pep6tirgsba5vmp3qvfmjdrxfvvyz5re"></script>
