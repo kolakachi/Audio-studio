@@ -51,7 +51,7 @@
         </select>
       </div> --}}
       <div class="table-actions">
-         <input type="text" class="form-control search-input" placeholder="Search for User" @keyup="searchUser" v-model="searchQuery">       
+         <input type="text" class="form-control search-input" placeholder="Search for User" @keyup.enter="searchUser" v-model="searchQuery">       
       </div>
 
       <div class="table-wrap">
