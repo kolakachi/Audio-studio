@@ -78,6 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'addon_subscriptions',
+        'subscriptions'
     ];
 
     protected $dates = [
@@ -159,6 +160,38 @@ class User extends Authenticatable implements MustVerifyEmail
 
 	public function getAddonSubscriptionsAttribute(){
         return $this->getAddonSubscriptions($this->id);
+    }
+
+    public function getSubscriptionsAttribute(){
+        $subscription_1 = SubscriptionModel::where('user_id', $this->id)
+        ->where('name', 'front_end_bundle_1')->first();
+        $subscription_2 = SubscriptionModel::where('user_id', $this->id)
+        ->where('name', 'front_end_bundle_2')->first();
+
+        return [
+            'front_end_bundle_2'  => [
+                'id' => ($subscription_2)? $subscription_2->id : '',
+                'status' => ($subscription_2)? $subscription_2->status : false,
+                'limit' => ($subscription_2)? $subscription_2->limit : 0,
+                'start_date' => ($subscription_2)? $subscription_2->start_date : '',
+                'end_date' => ($subscription_2)? $subscription_2->end_date : '',
+                'type' => ($subscription_2)? $subscription_2->type : '',
+                'name' => 'Front End Bundle 2',
+                // 'config' => $FEConfig,
+
+            ],
+            'front_end_bundle_1'  => [
+                'id' => ($subscription_1)? $subscription_1->id : '',
+                'status' => ($subscription_1)? $subscription_1->status : false,
+                'limit' => ($subscription_1)? $subscription_1->limit : 0,
+                'start_date' => ($subscription_1)? $subscription_1->start_date : '',
+                'end_date' => ($subscription_1)? $subscription_1->end_date : '',
+                'type' => ($subscription_1)? $subscription_1->type : '',
+                'name' => 'Front End Bundle 1',
+                // 'config' => $FEConfig,
+
+            ],
+        ];
     }
 
 	private function getAddonSubscriptions($userId){

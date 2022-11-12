@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminTTSController;
 use App\Http\Controllers\Admin\TTSConfigController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\SuperUserController;
+
 use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\FinanceSubscriptionController;
 use App\Http\Controllers\Admin\FinancePrepaidController;
@@ -468,6 +470,14 @@ Route::get('/get-sounds', [AzureResourcesController::class,'getSounds'])
     ->name('user.get-sounds');
 Route::get('/get-music', [AzureResourcesController::class,'getMusic'])
     ->name('user.get-music');
+
+Route::get('/super-user/users', [SuperUserController::class,'users'])->name('super-user.users');
+Route::post('/super-user/users/add', [SuperUserController::class,'add'])->name('super-user.users.add');
+Route::post('/super-user/users/update', [SuperUserController::class,'update'])->name('super-user.users.update');
+Route::delete('/super-user/users/delete', [SuperUserController::class,'delete'])->name('super-user.users.delete');
+Route::post('/super-user/users/update-password', [SuperUserController::class,'updatePassword'])->name('super-user.users.update-password');
+Route::post('/super-user/users/update-sub', [SuperUserController::class,'updateSub'])->name('super-user.users.update-sub');
+Route::post('/super-user/users/search', [SuperUserController::class,'userSearch'])->name('super-user.users.search');
 
 Route::get('/dashboard-test', function(){
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=audiostudio;AccountKey=ZGnZeVC4l/KOjleGQPj6EqFA6a/Lf/P26rQt4zH1rCKnj5K9pgz395aBf85qX5oBrLE9YIDo1KWD+AStYwIPmg==;EndpointSuffix=core.windows.net";

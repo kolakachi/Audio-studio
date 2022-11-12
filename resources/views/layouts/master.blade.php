@@ -53,6 +53,9 @@
           <li><a class="dropdown-item" href="{{ route('user.settings') }}">Account</a></li>
           {{-- <li><a class="dropdown-item" href="#">Billing</a></li> --}}
           <li><hr class="dropdown-divider"></li>
+          @if(Auth::user()->role == 'admin' || Auth::user()->role == 'support')
+          <li><a class="dropdown-item" href="{{ route('super-user.users') }}">Admin</a></li>
+          @endif
           <li><a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a></li>
         </ul>
       </li>

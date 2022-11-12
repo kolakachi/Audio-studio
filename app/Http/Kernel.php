@@ -74,5 +74,6 @@ class Kernel extends HttpKernel
         'enterprise' => \App\Http\Middleware\EnterpriseAccess::class,
         'whitelabel' => \App\Http\Middleware\WhitelabelAccess::class,
         'subscription' => \App\Http\Middleware\Subscription::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }
