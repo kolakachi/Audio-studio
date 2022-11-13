@@ -14,6 +14,15 @@ function userHasAccessToEnterprise($userId){
     if(!$user){
         return false;
     }
+    
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+    
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -59,6 +68,15 @@ function userHasAccessToReseller($userId){
     if(!$user){
         return false;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -108,6 +126,15 @@ function getNumberOfAudioOutput($userId){
     if(!$user){
         return 1;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return 1;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -144,6 +171,15 @@ function getNumberOfLayers($userId){
     if(!$user){
         return 2;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return 2;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -181,6 +217,15 @@ function userHasAccessToRecorder($userId){
     if(!$user){
         return false;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -218,6 +263,15 @@ function userHasAccessToTeleprompter($userId){
     if(!$user){
         return false;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -255,6 +309,23 @@ function userHasAccessToMasterpiece($userId){
     if(!$user){
         return false;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return false;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -280,6 +351,14 @@ function userHasAccessToMasterpiece($userId){
 function userHasAccessToMasterpieceRequests($userId){
     $user = User::where('id', $userId)->first();
     $subscription = SubscriptionModel::where('user_id', $userId)->first();
+
+    if(!$user){
+        return false;
+    }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
 
     if(!$user){
         return false;
@@ -347,6 +426,15 @@ function getNumberOfSounds($userId){
     if(!$user){
         return 1;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return 1;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -383,6 +471,15 @@ function getNumberOfMusic($userId){
     if(!$user){
         return 1;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return 1;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 
@@ -419,6 +516,15 @@ function getNumberOfLanguages($userId){
     if(!$user){
         return 1;
     }
+
+    if($user->account_type == 'whitelabel' || $user->account_type == 'agency'){
+        $user = User::where('id', $user->admin_id)->first();
+    }
+
+    if(!$user){
+        return 1;
+    }
+
     $subscription = SubscriptionModel::where('user_id', $user->id)->where('status', true)->first();
 
 

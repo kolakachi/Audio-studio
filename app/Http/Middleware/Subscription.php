@@ -24,19 +24,19 @@ class Subscription
            if ($user->role != 'admin' && $user->role != 'support' && $user->role != 'reviewer'){
                 if($user->is_active == false ){
                     $message = 'You account is inactive please contact support';
-                    Session::put('errorMessage', $message);
+                    Session::put('error', $message);
                     return redirect('/logout');
                 }
+                
                 if($user->frontEnd){
                     $userHasAccessToFrontEnd = ($user->frontEnd->status == true)? true :false;
                 }else{
                     $userHasAccessToFrontEnd = false;
                 }
 
-
                 if(!$userHasAccessToFrontEnd ){
                     $message = 'You don\'t have an active subscription, please contact support';
-                    Session::put('errorMessage', $message);
+                    Session::put('error', $message);
                     return redirect('/logout');
                 }
 
