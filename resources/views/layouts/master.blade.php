@@ -109,7 +109,10 @@
 <script>
   window.intercomSettings = {
     api_base: "https://api-iam.intercom.io",
-    app_id: "sksvfqxn"
+    app_id: "sksvfqxn",
+    email: `{{ Auth::user()->email }}`,
+    name: `{{ Auth::user()->name }}`,
+    created_at: `{{ Auth::user()->created_at }}`,
   };
 </script>
 
