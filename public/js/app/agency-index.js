@@ -24,32 +24,32 @@ new Vue({
                 agency_url:"/assets/img/AGENCY/LETTERHEAD.png", 
                 popup_url:"/assets/img/POP_UP/LETTERHEAD_2.png",
                 description: 'We have created some editable highly-engaging Letterheads for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Letterheads are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/drive/folders/18IL8YxFBNUexBzekEd6LCXXXR9h8emVe?usp=sharing',
+                download_url:'https://drive.google.com/drive/folders/18IL8YxFBNUexBzekEd6LCXXXR9h8emVe?usp=sharing'
             },
             {
                 title:"Invoice", 
                 agency_url:"/assets/img/AGENCY/INVOICE.png", 
                 popup_url:"/assets/img/POP_UP/INVOICE.png",
                 description: 'We have created some editable highly-engaging Invoices for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This invoices are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/drive/folders/1p7EysyiHAqpWI1knwtO_erXQXU60OeGJ?usp=sharing',
+                download_url:'https://drive.google.com/drive/folders/1p7EysyiHAqpWI1knwtO_erXQXU60OeGJ?usp=sharing'
             },
             {
                 title:"Brochure", 
                 agency_url:"/assets/img/AGENCY/BROCHURE.png", 
                 popup_url:"/assets/img/POP_UP/BROCHURE_1.png",
                 description: 'We have created some easily editable, highly-engaging Brochures for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information, edit to your taste to suit your marketing goals. This Brochures are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/drive/folders/1BsliU4h37b8VTPKfB6lKscKN0Y8oblwy?usp=sharing',
+                download_url:'https://drive.google.com/drive/folders/1BsliU4h37b8VTPKfB6lKscKN0Y8oblwy?usp=sharing'
             },
             {
                 title:"Business Card", 
                 agency_url:"/assets/img/AGENCY/BUSINESS_CARD.png", 
                 popup_url:"/assets/img/POP_UP/BUSINESS_CARD_1.png",
                 description: 'We have created some editable highly-engaging Business Cards for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Business cards are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/file/d/16kNUbtvwbHaNvzEBkXRUfiiBR5XmfH-e/view?usp=sharing',
+                download_url:'https://drive.google.com/file/d/16kNUbtvwbHaNvzEBkXRUfiiBR5XmfH-e/view?usp=sharing'
             },
             {
                 title:"Powerpoint Proposal", 
@@ -71,7 +71,9 @@ new Vue({
                 title:"Flyer", 
                 agency_url:"/assets/img/AGENCY/FLYER_DESIGN.png", 
                 popup_url:"/assets/img/POP_UP/FLYER_1.png",
-                description: 'We have created some editable highly-engaging Flyer Designs for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Flyer designs are rated 5star by our early users.'
+                description: 'We have created some editable highly-engaging Flyer Designs for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Flyer designs are rated 5star by our early users.',
+                preview_url: 'https://drive.google.com/drive/folders/1fY0NzdvnvhYfWbNMxidXzpMUNaJoJntq?usp=sharing',
+                download_url: 'https://drive.google.com/drive/folders/1fY0NzdvnvhYfWbNMxidXzpMUNaJoJntq?usp=sharing'
             },
             {
                 title:"Legal Contract", 
@@ -86,8 +88,8 @@ new Vue({
                 agency_url:"/assets/img/AGENCY/ADS_BANNER.png", 
                 popup_url:"/assets/img/POP_UP/ADS_BANNER_1.png",
                 description: 'We have created some editable highly-engaging Ad Banners for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a graphics designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Ad Banners are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/drive/folders/1gJsIIyUxeHgQU88y7OyWGwhDFmlNzaP8?usp=sharing',
+                download_url:'https://drive.google.com/drive/folders/1gJsIIyUxeHgQU88y7OyWGwhDFmlNzaP8?usp=sharing'
             },
             {
                 title:"Email Sequence", 
