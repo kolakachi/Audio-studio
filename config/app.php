@@ -52,7 +52,8 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://app.audiostudio.cc'),
+    'main_domain' => env('MAIN_DOMAIN', 'app.audiostudio.cc'),
 
     'asset_url' => env('ASSET_URL', null),
 

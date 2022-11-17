@@ -284,7 +284,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['verified', 'role:admin', 'P
       
         
 // REGISTERED USER ROUTES
-Route::group(['prefix' => 'user', 'middleware' => ['verified', 'role:user|admin|subscriber', 'PreventBackHistory']], function() {
+Route::group(['prefix' => 'user', 'middleware' => ['verified', 'PreventBackHistory']], function() {
 
         // CHANGE USER PASSWORD ROUTES
         Route::get('/profile/password', [UserPasswordController::class, 'index'])->name('user.password');
