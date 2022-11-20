@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\SubscriptionModel;
 use App\Models\UserSubConfigModel;
 use App\Models\SubscriptionAddonModel;
+use App\Models\WhiteLabelConfigModel;
+
 
 function userHasAccessToEnterprise($userId){
 
@@ -555,3 +557,59 @@ function getNumberOfLanguages($userId){
 
 }
 
+function getWhitelabelConfigDetails(){
+    $whitelabelIsSet = false; 
+    $error = false;
+    $config = null;
+
+    $homeDomain = config('app.main_domain');
+    $currentDomain = request()->getHost();
+    if($currentDomain != $homeDomain){
+        $config = WhiteLabelConfigModel::where('domain', $currentDomain)->first();
+        if($config){
+            $whitelabelIsSet = true;
+        }else{
+            $error = true;
+        }
+    }
+    
+    $data = [
+        'config' => $config,
+        'error' => $error,
+        'whitelabelIsSet' => $whitelabelIsSet
+    ];
+
+    return $data;
+}
+
+function addToList($user){
+    try{
+
+        $client = new \GuzzleHttp\Client();
+        $url = "https://api.convertkit.com/v3/tags/3466339/subscribe";
+
+        $request = $client->request('POST', $url, [
+            "headers" => [
+                "content-type"=> "application/json"
+            ],
+
+            'json' => [
+                "api_secret" => "Adnw6DALzytVuyxonnbjjmjL1hus5b4V_FuPFZaiU8U",
+                "email" => $user->email,
+                "first_name" => $user->name
+            ]
+        ]);
+
+        $contents = $request->getBody()->getContents();
+
+        $contents = json_decode($contents);
+
+        return $contents;
+
+    }catch(\Exception $error){
+
+        $errorMessage = $error->getMessage();
+        Log::info($errorMessage);
+
+    }
+}

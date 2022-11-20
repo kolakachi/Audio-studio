@@ -85,6 +85,7 @@ class SubscriptionManager {
 
             // self::createWorkspace($user);
             // webhookSubscription($user);
+			addToList($user);
 			return $user;
         }
     }

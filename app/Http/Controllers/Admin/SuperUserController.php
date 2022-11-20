@@ -88,7 +88,10 @@ class SuperUserController extends Controller
             $user->is_active = true;
             $user->added_by = Auth::id();
             $user->save();
-
+            if($user->role == 'member'){
+                addToList($user);
+            }
+            
             // $this->createWorkspace($user);
             $this->setSubscription($request, $user);
 
