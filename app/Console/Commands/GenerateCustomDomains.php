@@ -76,14 +76,13 @@ class GenerateCustomDomains extends Command
                             $this->comment(' Processing: '.$this->addProtocol($cname));
                             $history[] = $cname;
                             $url = $this->addProtocol($cname).'/domain/cname_valid.txt';
+                            $this->comment(' quirk: '.$url);
                             $fp = @fopen($url,'r');
                             $pointed = @fread($fp, 8);
 
                             if (rtrim($pointed) == 'valid') {
                                 $cnames .= $cname . ', ';
                                 $generated[] = $cname;
-                                $traking_domain->status = 2;
-                                $traking_domain->save();
                             }
                         }
                     }
@@ -106,6 +105,11 @@ class GenerateCustomDomains extends Command
 
             $bar->finish();
             $this->info(' Generated '.count($chunks).' servers and '.count($generated).' custom domains');
+            
+            foreach ($chunks as $key => $chunk){
+                $server_key = $key+1;
+                exec("sudo /var/www/generate-ssl.sh". $server_key);
+            }
           
         }else{
             $this->info(' Nothing to do');
