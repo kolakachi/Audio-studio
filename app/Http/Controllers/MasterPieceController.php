@@ -20,10 +20,18 @@ class MasterPieceController extends Controller
                 return response()->json(['message' => $message], 401);
             }
             $response = $this->getOpenAIMasterPieceResult($request);
+            if($response['error']){
+                return response()->json([
+                    'message' => $response['message'],
+                    'status' => 'Failed',
+                    'text' => '',
+                ], 400);
+            }
+            $text = $response['text'];
             return response()->json([
                 'message' => 'Generated',
                 'status' => 'Success',
-                'text' => $response,
+                'text' => $text,
             ]);
         }catch(\Exception $error){
             Log::info('MasterPieceController@updateText error message: ' . $error->getMessage());
@@ -37,6 +45,13 @@ class MasterPieceController extends Controller
         $url = "https://api.openai.com/v1/engines/text-davinci-002/completions";
         $temperature = 1;
         $prompt = $this->getMasterPiecePrompt($request);
+        if($this->contentModerationisFlagged($prompt)){
+            return [
+                'error' => true,
+                'choices' => [],
+                'message' => 'Request was found promoting sexual, hateful, violent, or self-harm content. Please try again with a different content.'
+            ];
+        }
         $res = $client->request('POST', $url, [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -48,15 +63,38 @@ class MasterPieceController extends Controller
                 'max_tokens' => 1000,
                 'frequency_penalty' => 0,
                 'presence_penalty' => 0,
+                "user"=> Auth::id()
             ], 
     
         ]);
         $contents = $res->getBody()->getContents();
         $contents = json_decode($contents);
         $result = $contents->choices[0]->text;
-
+        return [
+            'error' => false,
+            'text' => $result
+        ];
         return $result;
         
+    }
+
+    private function contentModerationisFlagged($text){
+        $body = [
+            'input' => $text,
+        ];
+
+        $client = new \GuzzleHttp\Client();
+        $url ='https://api.openai.com/v1/moderations';
+        $res = $client->request('POST', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . Keys::OPEN_AI_KEY,
+            ],
+            'json' => $body,
+        ]);
+        $contents = $res->getBody()->getContents();
+        $response = json_decode($contents);
+        return $response->results[0]->flagged;
     }
 
     private function getMasterPiecePrompt(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Helpers\Paths;
+use Auth, Log;
 use App\Helpers\Keys;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,15 @@ class CopyWriterController extends Controller
 
     public function getAiResults(Request $request){
         try{
-            $choices = $this->getOpenAIResults($request);
+            $response = $this->getOpenAIResults($request);
+            if($response['error']){
+                return response()->json([
+                    'message' => $response['message'],
+                    'status' => 'Failed',
+                    'choices' => [],
+                ], 400);
+            }
+            $choices = $response['choices'];
             return response()->json([
                 'message' => 'Generated',
                 'status' => 'Success',
@@ -36,6 +45,13 @@ class CopyWriterController extends Controller
         
         $temperature = $this->getTemperature($request->creativity);
         $prompt = $this->getPrompt($request);
+        if($this->contentModerationisFlagged($prompt)){
+            return [
+                'error' => true,
+                'choices' => [],
+                'message' => 'Request was found promoting sexual, hateful, violent, or self-harm content. Please try again with a different content.'
+            ];
+        }
         $res = $client->request('POST', $url, [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -48,14 +64,39 @@ class CopyWriterController extends Controller
                 'frequency_penalty' => 0,
                 'presence_penalty' => 0,
                 'n' => (int) $request->variants,
+                "user"=> Auth::id()
             ], 
     
         ]);
         $contents = $res->getBody()->getContents();
         $contents = json_decode($contents);
         $responseChoices = $contents->choices;
+
+        return [
+            'error' => false,
+            'choices' => $responseChoices
+        ];
         
         return $responseChoices;
+    }
+
+    private function contentModerationisFlagged($text){
+        $body = [
+            'input' => $text,
+        ];
+
+        $client = new \GuzzleHttp\Client();
+        $url ='https://api.openai.com/v1/moderations';
+        $res = $client->request('POST', $url, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . Keys::OPEN_AI_KEY,
+            ],
+            'json' => $body,
+        ]);
+        $contents = $res->getBody()->getContents();
+        $response = json_decode($contents);
+        return $response->results[0]->flagged;
     }
 
     private function getPrompt(Request $request)
