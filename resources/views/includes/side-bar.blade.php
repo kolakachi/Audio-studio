@@ -16,7 +16,7 @@
             @if(userHasAccessToEnterprise(Auth::id()))
             <a class="nav-link {{ ($page == 'agency')? 'active' : ''}}" href="{{ route('user.agency') }}">
                 <span class="icon"><svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M15.1519 0L0 12.5675H3.5825V27.5675H26.0825V12.5675H30L15.1519 0ZM18.5462 23.1925H11.4531L12.9406 16.4981C12.0413 15.8731 11.4531 14.9319 11.4531 13.7794C11.4531 11.8806 13.0413 10.38 14.9994 10.38C16.9587 10.38 18.5462 11.9381 18.5462 13.8369C18.5462 14.99 17.9581 15.865 17.0594 16.4881L18.5462 23.1925Z" fill="white"></path></svg></span>                
-                <span class="label">Agency</span>
+                <span class="label">Enterprise</span>
             </a>
             @else
             <a class="nav-link" href="#" data-bs-target="#access-modal" data-bs-toggle="modal">
