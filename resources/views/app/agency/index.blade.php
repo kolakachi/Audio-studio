@@ -6,12 +6,12 @@
 
 @section('content')	
 <div class="main-col-content" id="agency-index">
-    <h1 class="page-title">Agency</h1>
+    <h1 class="page-title">Enterprise</h1>
 
     <div class="page-tab-nav">
       <div class="btn-group">
         <a href="{{ route('user.agency') }}" class="btn btn-primary active" aria-current="page">Assets</a>
-        {{-- <a href="{{ route('user.agency.teams') }}" class="btn btn-primary">Teams</a> --}}
+        <a href="{{ route('user.agency.teams') }}" class="btn btn-primary">Teams</a>
       </div>
     </div>
 
@@ -38,7 +38,7 @@
     
           <div class="modal-body">
             <div class="asset-detail-header">
-              <h4 class="asset-detail-heading">Agency Asset Details</h4>
+              <h4 class="asset-detail-heading">Enterprise Asset Details</h4>
             </div>
     
             <div class="asset-detail-row">
