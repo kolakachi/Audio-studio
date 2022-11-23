@@ -18,10 +18,10 @@ class AdminMiddleware
         if (Auth::check()) {
             $user = Auth::user();
             if ($user->role != 'admin' && $user->role != 'support'){
-                abort(404);
+                return route('login');
             }
         }else{
-            abort(404);
+            return route('login');
         }
         return $next($request);
     }
