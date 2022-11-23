@@ -435,8 +435,8 @@ Route::post('/whitelabel-update-smtp-details', [WhiteLabelController::class, 'up
 Route::post('/whitelabel-welcome-email', [WhiteLabelController::class, 'updateWelcomeEmail'])->name('user.whitelabel.update-welcome-email');
 Route::post('/whitelabel-update-logo', [WhiteLabelController::class, 'updateLogo'])->name('user.whitelabel.update-logo');
 
-Route::get('/agency', [ AgencyController::class, 'index'])->name('user.agency');
-Route::get('/agency-teams', [AgencyController::class, 'teams'])->name('user.agency.teams');
+Route::get('/enterprise', [ AgencyController::class, 'index'])->name('user.agency');
+Route::get('/enterprise-teams', [AgencyController::class, 'teams'])->name('user.agency.teams');
 Route::post('/agency-teams/add', [AgencyController::class,'addAccount'])->name('user.agency.account.add');
 Route::delete('/agency-teams/delete', [AgencyController::class,'deleteAccount'])->name('user.agency.account.delete');
 
