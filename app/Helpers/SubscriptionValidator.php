@@ -583,6 +583,11 @@ function getWhitelabelConfigDetails(){
 }
 
 function addToList($user){
+    postToListOne($user);
+    postToListTwo($user);
+}
+
+function postToListOne($user){
     try{
 
         $client = new \GuzzleHttp\Client();
@@ -595,6 +600,38 @@ function addToList($user){
 
             'json' => [
                 "api_secret" => "Adnw6DALzytVuyxonnbjjmjL1hus5b4V_FuPFZaiU8U",
+                "email" => $user->email,
+                "first_name" => $user->name
+            ]
+        ]);
+
+        $contents = $request->getBody()->getContents();
+
+        $contents = json_decode($contents);
+
+        return $contents;
+
+    }catch(\Exception $error){
+
+        $errorMessage = $error->getMessage();
+        Log::info($errorMessage);
+
+    }
+}
+
+function postToListTwo($user){
+    try{
+
+        $client = new \GuzzleHttp\Client();
+        $url = "https://api.convertkit.com/v3/tags/3480125/subscribe";
+
+        $request = $client->request('POST', $url, [
+            "headers" => [
+                "content-type"=> "application/json"
+            ],
+
+            'json' => [
+                "api_secret" => "2oQmnPjg66pVty-Ci4999hBnT-XDFpBYGsTLkBeY8wY",
                 "email" => $user->email,
                 "first_name" => $user->name
             ]
