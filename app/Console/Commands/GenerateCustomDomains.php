@@ -109,6 +109,7 @@ class GenerateCustomDomains extends Command
             foreach ($chunks as $key => $chunk){
                 $server_key = $key+1;
                 exec("sudo /var/www/generate-ssl.sh". $server_key);
+                sleep(300);
             }
           
         }else{

@@ -63,7 +63,7 @@ class MasterPieceController extends Controller
                 'max_tokens' => 1000,
                 'frequency_penalty' => 0,
                 'presence_penalty' => 0,
-                "user"=> Auth::id()
+                "user"=> 'user'.Auth::id()
             ], 
     
         ]);

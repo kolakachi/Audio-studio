@@ -64,7 +64,7 @@ class CopyWriterController extends Controller
                 'frequency_penalty' => 0,
                 'presence_penalty' => 0,
                 'n' => (int) $request->variants,
-                "user"=> Auth::id()
+                "user"=> 'user'.Auth::id()
             ], 
     
         ]);
