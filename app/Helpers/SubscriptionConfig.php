@@ -57,7 +57,7 @@ function updateUserSubConfig($user, $type, $numberOfUserAccounts = 50){
     }elseif (PaymentConfig::OTO_WHITELABEL_AND_RESELLER == $type) {
         $updatedConfig = registerUserWhitelabelAndResellerSub($config, 50);
     }elseif (PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2 == $type) {
-        $updatedConfig = registerUserWhitelabelAndResellerSub($config, 150);
+        $updatedConfig = registerUserWhitelabelAndResellerSub($config, 250);
     }elseif (PaymentConfig::FRONTEND_BUNDLE_1 == $type) {
         $updatedConfig = registerUserFrontendBundleSub($config);
     }elseif (PaymentConfig::FRONTEND_BUNDLE_2 == $type) {

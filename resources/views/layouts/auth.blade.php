@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  @if($whitelabelIsSet == true)
+  <title>Login - {{$config->app_name}}</title>
+  @else
   <title>Login - Audiostudio</title>
+  @endif
+ 
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="/assets/css/styles.css" rel="stylesheet">
-  <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+  @if($whitelabelIsSet == true)
+    <link rel="shortcut icon" href="{{ $config->media_path }}" type="image/x-icon">
+    @else
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    @endif
   <!-- Pixel Code for https://socialproofo.com/demo/ -->
   
 <script async src="https://socialproofo.com/demo/pixel/pep6tirgsba5vmp3qvfmjdrxfvvyz5re"></script>
@@ -20,7 +29,18 @@
   }
 
 
+
   </style>
+  @if($whitelabelIsSet == true)
+  <style>
+    .auth-page{
+      background: {{ $config->color }}
+    }
+    .auth-page .auth-box{
+      background: {{ $config->secondary_color }}
+    }
+  </style>
+  @endif
 <div class="auth-page">
   <div class="auth-box">
     <div class="marketing-col">
@@ -55,7 +75,11 @@
     <div class="form-col">
       <div class="form-col-content">
         <div class="text-center">
-          <img src="/img/new-logo-2.png" style="height: 70px; margin-bottom: 10px" class="marketing-card-user" alt="">
+          @if($whitelabelIsSet == true)
+              <img src="{{ $config->media_path }}" style="height: 70px; margin-bottom: 10px" class="marketing-card-user" alt="">
+          @else
+            <img src="/img/new-logo-2.png" style="height: 70px; margin-bottom: 10px" class="marketing-card-user" alt="">
+          @endif
         </div>
 		@yield('content')
       </div>

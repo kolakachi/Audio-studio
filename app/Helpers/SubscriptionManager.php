@@ -284,6 +284,168 @@ class SubscriptionManager {
         return true;
     }
 
+	public static function addFullBundleSubscription($sub_data, $start, $end, $type = '', $log_txn = true, $extra_subs = [])
+    {
+        $user = SubscriptionManager::addUser(array_merge($sub_data, ['type' => $type]), PaymentConfig::FRONTEND);
+
+        $sub = Subscription::firstOrNew(['user_id' => $user->id]);
+
+
+		if (!$sub->created_at)
+		{
+			$sub->start_date = $start;
+            $sub->end_date = $end;
+            $sub->status = true;
+            $sub->name = PaymentConfig::FRONTEND;
+
+			$sub->type = 'lifetime';
+
+			$sub->save();
+
+			self::sendBasicSubEmail($user);
+		}
+		else
+		{
+			$sub_array = $extra_subs;
+
+			if ( !empty($start) && !empty($end) )
+				$sub_array = array_merge([
+					'start_date' => $start,
+					'end_date' => $end,
+                    'type' => 'lifetime',
+                    'status' => true,
+                    'name' => PaymentConfig::FRONTEND
+				], $extra_subs);
+
+			Subscription::where('user_id', $user->id)->update($sub_array);
+        }
+        updateUserSubConfig($user, PaymentConfig::FRONTEND);
+        self::registerUserSubscriptions($sub);
+		
+		self::activateAddonSub($sub, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+		updateUserSubConfig($user, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+
+		self::activateAddonSub($sub, PaymentConfig::OTO_PLATINUM);
+		updateUserSubConfig($user, PaymentConfig::OTO_PLATINUM);
+
+		self::activateAddonSub($sub, PaymentConfig::OTO_ENTERPRISE);
+		updateUserSubConfig($user, PaymentConfig::OTO_ENTERPRISE);
+		self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
+		updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
+
+		if ($log_txn === true)
+			self::logPaymentTransaction($sub_data, $type);
+
+		return $user;
+    }
+
+	public static function processFullBundleRefund($sub_data, $sub_type, $log_txn = true)
+	{
+		$user = User::where(['email' => $sub_data['email']])->first();
+
+		if ($user)
+		{
+            $sub = $user->frontEnd;
+
+			if ($sub)
+			{
+                $userSub = Subscription::where('user_id', $user->id)->first();
+                $userSub->status = false;
+                $userSub->save();
+
+				self::cancelMainSubscription($user);
+			}
+			resetUserSubConfig($user, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+			resetUserSubConfig($user, PaymentConfig::OTO_PLATINUM);
+			resetUserSubConfig($user, PaymentConfig::OTO_ENTERPRISE);
+            resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
+		}
+
+		if ($log_txn === true)
+			self::logPaymentTransaction($sub_data, $sub_type);
+    }
+
+	public static function addPassBundleSubscription($sub_data, $start, $end, $type = '', $log_txn = true, $extra_subs = [])
+    {
+        $user = SubscriptionManager::addUser(array_merge($sub_data, ['type' => $type]), PaymentConfig::FRONTEND);
+
+        $sub = Subscription::firstOrNew(['user_id' => $user->id]);
+
+
+		if (!$sub->created_at)
+		{
+			$sub->start_date = $start;
+            $sub->end_date = $end;
+            $sub->status = true;
+            $sub->name = PaymentConfig::FRONTEND;
+
+			$sub->type = 'lifetime';
+
+			$sub->save();
+
+			self::sendBasicSubEmail($user);
+		}
+		else
+		{
+			$sub_array = $extra_subs;
+
+			if ( !empty($start) && !empty($end) )
+				$sub_array = array_merge([
+					'start_date' => $start,
+					'end_date' => $end,
+                    'type' => 'lifetime',
+                    'status' => true,
+                    'name' => PaymentConfig::FRONTEND
+				], $extra_subs);
+
+			Subscription::where('user_id', $user->id)->update($sub_array);
+        }
+        updateUserSubConfig($user, PaymentConfig::FRONTEND);
+        self::registerUserSubscriptions($sub);
+		
+		self::activateAddonSub($sub, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+		updateUserSubConfig($user, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+
+		self::activateAddonSub($sub, PaymentConfig::OTO_PLATINUM);
+		updateUserSubConfig($user, PaymentConfig::OTO_PLATINUM);
+
+		self::activateAddonSub($sub, PaymentConfig::OTO_ENTERPRISE);
+		updateUserSubConfig($user, PaymentConfig::OTO_ENTERPRISE);
+		self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
+		updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
+
+		if ($log_txn === true)
+			self::logPaymentTransaction($sub_data, $type);
+
+		return $user;
+    }
+
+	public static function processPassBundleRefund($sub_data, $sub_type, $log_txn = true)
+	{
+		$user = User::where(['email' => $sub_data['email']])->first();
+
+		if ($user)
+		{
+            $sub = $user->frontEnd;
+
+			if ($sub)
+			{
+                $userSub = Subscription::where('user_id', $user->id)->first();
+                $userSub->status = false;
+                $userSub->save();
+
+				self::cancelMainSubscription($user);
+			}
+			resetUserSubConfig($user, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
+			resetUserSubConfig($user, PaymentConfig::OTO_PLATINUM);
+			resetUserSubConfig($user, PaymentConfig::OTO_ENTERPRISE);
+            resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
+		}
+
+		if ($log_txn === true)
+			self::logPaymentTransaction($sub_data, $sub_type);
+    }
+
     
 
    	public static function logPaymentTransaction($sub_data, $sub_type)

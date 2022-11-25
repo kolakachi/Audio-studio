@@ -37,4 +37,6 @@ class PaymentConfig
 
     const FRONTEND_BUNDLE_1 = 'front_end_bundle_1';
     const FRONTEND_BUNDLE_2 = 'front_end_bundle_2';
+    const FULL_BUNDLE_PASS = 'full_bundle_pass';
+    const FULL_BUNDLE = 'full_bundle';
 }

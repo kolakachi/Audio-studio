@@ -21,6 +21,10 @@ class AuthenticatedSessionController extends Controller
         $information_rows = ['title', 'author', 'keywords', 'description'];
         $information = [];
         $settings = Setting::all();
+        $whitelabelConfig = getWhitelabelConfigDetails();
+        if($whitelabelConfig['error'] == true){
+            abort(404);
+        }
 
         foreach ($settings as $row) {
             if (in_array($row['name'], $information_rows)) {
@@ -28,7 +32,13 @@ class AuthenticatedSessionController extends Controller
             }
         }
 
-        return view('auth.login', compact('information'));
+        $data = [ 
+            'information' => $information,
+            'config' => $whitelabelConfig['config'],
+            'whitelabelIsSet' => $whitelabelConfig['whitelabelIsSet'],
+        ];
+
+        return view('auth.login', $data);
     }
 
     /**
@@ -64,7 +74,6 @@ class AuthenticatedSessionController extends Controller
             }
 
         } else {
-            
             $request->authenticate();
 
             $request->session()->regenerate();

@@ -38,6 +38,8 @@
             </a>
             @endif
         </li>
+        @if(Auth::user()->account_type != 'whitelabel' && Auth::user()->account_type != 'agency')
+
         <li class="nav-item">
             @if(userHasAccessToReseller(Auth::id()))
                 <a class="nav-link {{ ($page == 'whitelabel')? 'active' : ''}}" href="{{ route('user.whitelabel') }}">
@@ -50,7 +52,9 @@
                     <span class="label">Whitelabel</span>
                 </a>
             @endif
+            
         </li>
+        @endif
         
         <li class="nav-item">
         <a class="nav-link {{ ($page == 'settings')? 'active' : ''}}" href="{{ route('user.settings') }}">

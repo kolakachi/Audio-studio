@@ -64,8 +64,8 @@ new Vue({
                 agency_url:"/assets/img/AGENCY/VIDEO_PRESENTATION.png", 
                 popup_url:"/assets/img/POP_UP/VIDEO_PRESENTATION_1.png",
                 description: 'We have created some editable highly-converting Video presentations for you by our team of expert video editors. So you’ll no longer have to pay or hire a Video editor anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Video presentations are rated 5star by our early users.',
-                preview_url: '',
-                download_url:''
+                preview_url: 'https://drive.google.com/file/d/15aV-KnZ3k2Xax4w83z6P-L7hGXmAr0ej/view?usp=sharing',
+                download_url:'https://drive.google.com/file/d/15aV-KnZ3k2Xax4w83z6P-L7hGXmAr0ej/view?usp=sharing'
             },
             {
                 title:"Flyer", 

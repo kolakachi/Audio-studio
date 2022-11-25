@@ -159,7 +159,7 @@ class JVZooPaymentHandlerController extends Controller
 		try{
 		    if($this->jvzipnVerification($request) == 1)
 		    {
-		    	if($request->get('sub_type') === PaymentConfig::FRONTEND)
+		    	if($request->get('cproditem') === 389119)
 	    		{
 	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -172,7 +172,7 @@ class JVZooPaymentHandlerController extends Controller
 	    			{
 	    				$sub = SubscriptionManager::processFrontEndRefund($sub_data, PaymentConfig::FRONTEND);
 	    			}
-	    		}elseif($request->get('sub_type') === PaymentConfig::OTO_UNLIMITED_OR_BUSINESS){
+	    		}elseif($request->get('cproditem') === 389311){
 
                     if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -185,7 +185,7 @@ class JVZooPaymentHandlerController extends Controller
 	    			{
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
 	    			}
-	    		}elseif($request->get('sub_type') === PaymentConfig::OTO_ENTERPRISE){
+	    		}elseif($request->get('cproditem') === 389317){
 
 	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -198,7 +198,7 @@ class JVZooPaymentHandlerController extends Controller
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_ENTERPRISE);
 	    			}
-	    		}elseif($request->get('sub_type') === PaymentConfig::OTO_PLATINUM){
+	    		}elseif($request->get('cproditem') === 389315){
 
 	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -211,7 +211,7 @@ class JVZooPaymentHandlerController extends Controller
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_PLATINUM);
 	    			}
-	    		}elseif($request->get('sub_type') === PaymentConfig::OTO_WHITELABEL_AND_RESELLER){
+	    		}elseif($request->get('cproditem') === 389321){
 
 	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -225,7 +225,7 @@ class JVZooPaymentHandlerController extends Controller
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 	    			}
-                }elseif($request->get('sub_type') === PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2){
+                }elseif($request->get('cproditem') === 389319){
 
 	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
 	    			{
@@ -266,6 +266,32 @@ class JVZooPaymentHandlerController extends Controller
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::FRONTEND_BUNDLE_2, true);
+	    			}
+                }elseif($request->get('cproditem') === 389121){
+
+	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			{
+                        $today = SubscriptionManager::today();
+                        $years = SubscriptionManager::hundredYears();
+
+	    				$sub = SubscriptionManager::addFullBundleSubscription($sub_data, $today, $years, PaymentConfig::FULL_BUNDLE);
+	    			}
+	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			{
+	    				$sub = SubscriptionManager::processFullBundleRefund($sub_data, PaymentConfig::FULL_BUNDLE, true);
+	    			}
+                }elseif($request->get('cproditem') === 389313){
+
+	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			{
+                        $today = SubscriptionManager::today();
+                        $years = SubscriptionManager::hundredYears();
+
+	    				$sub = SubscriptionManager::addPassBundleSubscription($sub_data, $today, $years, PaymentConfig::FULL_BUNDLE_PASS);
+	    			}
+	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			{
+	    				$sub = SubscriptionManager::processPassBundleRefund($sub_data, PaymentConfig::FULL_BUNDLE_PASS, true);
 	    			}
                 }
 

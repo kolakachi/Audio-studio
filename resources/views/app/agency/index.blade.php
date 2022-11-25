@@ -11,7 +11,9 @@
     <div class="page-tab-nav">
       <div class="btn-group">
         <a href="{{ route('user.agency') }}" class="btn btn-primary active" aria-current="page">Assets</a>
+        @if(Auth::user()->account_type != 'whitelabel' && Auth::user()->account_type != 'agency')
         <a href="{{ route('user.agency.teams') }}" class="btn btn-primary">Teams</a>
+        @endif
       </div>
     </div>
 
