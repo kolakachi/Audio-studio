@@ -65,6 +65,60 @@ new Vue({
                 type:'',
                 config: {}
             },
+            front_end : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
+            platinum : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
+            unlimited_or_business : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
+            oto_enterprise : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
+            oto_whitelabel_reseller : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
+            oto_whitelabel_reseller_2 : {
+                id: '',
+                status: false,
+                limit: 0,
+                start_date:'',
+                end_date:'',
+                type:'',
+                config: {}
+            },
             // unlimited_pro : {
             //     id: '',
             //     status: false,

@@ -174,22 +174,68 @@
                     </div>
 
                     <div class="tab-pane" id="subscriptions" role="tabpanel">
-                        <div class="row">
-                            <div class="form-group col-12">
-                                <label for="category">Front End Bundle 1</label>
-                                <select class="form-control" v-model="subscriptions.front_end_bundle_1.status">
-                                    <option value="true" selected>Active</option>
-                                    <option value="false">In-Active</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="category">Front End Bundle 2</label>
-                                <select class="form-control" v-model="subscriptions.front_end_bundle_2.status">
-                                    <option value="true" selected>Active</option>
-                                    <option value="false">In-Active</option>
-                                </select>
-                            </div>
+                      <div class="row">
+                        <div class="form-group col-12">
+                            <label for="category">Front End Bundle 1</label>
+                            <select class="form-control" v-model="subscriptions.front_end_bundle_1.status">
+                                <option value="true" selected>Active</option>
+                                <option value="false">In-Active</option>
+                            </select>
                         </div>
+                        <div class="form-group col-12">
+                            <label for="category">Front End Bundle 2</label>
+                            <select class="form-control" v-model="subscriptions.front_end_bundle_2.status">
+                                <option value="true" selected>Active</option>
+                                <option value="false">In-Active</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                          <label for="category">Front End</label>
+                          <select class="form-control" v-model="subscriptions.front_end.status">
+                              <option value="true" selected>Active</option>
+                              <option value="false">In-Active</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="row" v-if="subscriptions.front_end_bundle_1.status == 'true' || subscriptions.front_end_bundle_2.status == 'true' ||subscriptions.front_end.status == 'true'">
+                        <div class="form-group col-12">
+                          <label for="category">Patinum</label>
+                          <select class="form-control" v-model="subscriptions.platinum.status">
+                              <option value="true" selected>Active</option>
+                              <option value="false">In-Active</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="category">Unlimited Or Business</label>
+                            <select class="form-control" v-model="subscriptions.unlimited_or_business.status">
+                                <option value="true" selected>Active</option>
+                                <option value="false">In-Active</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                          <label for="category">Enterprise</label>
+                          <select class="form-control" v-model="subscriptions.oto_enterprise.status">
+                              <option value="true" selected>Active</option>
+                              <option value="false">In-Active</option>
+                          </select>
+                        </div>
+    
+                        <div class="form-group col-12">
+                          <label for="category">Whitelabel Reseller</label>
+                          <select class="form-control" v-model="subscriptions.oto_whitelabel_reseller.status">
+                              <option value="true" selected>Active</option>
+                              <option value="false">In-Active</option>
+                          </select>
+                        </div>
+    
+                        <div class="form-group col-12">
+                            <label for="category">Whitelabel Reseller 2</label>
+                            <select class="form-control" v-model="subscriptions.oto_whitelabel_reseller_2.status">
+                                <option value="true" selected>Active</option>
+                                <option value="false">In-Active</option>
+                            </select>
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <div class="new-user-modal-buttons">
@@ -287,7 +333,7 @@
               </div>
               <div class="new-user-modal-buttons">
                     <button type="button" class="btn btn-light border btn-cancel" data-bs-dismiss="modal" style="color: #FFF">Close</button>
-                    <button class="btn btn-primary  " disabled v-if="requestIsLoading == true">
+                    <button class="btn btn-primary  " disabled v-if="requestIsLoading == 'true'">
                         <i class="fa fa-circle-o-notch fa-spin"></i> Loading
                     </button>
                     <button type="button" class="btn btn-primary btn-upload" v-if="requestIsLoading == false" @click="updateUser()">Save</button>
@@ -321,7 +367,7 @@
                 </div>
                 <div class="new-user-modal-buttons">
                     <button type="button" class="btn btn-light border btn-cancel" data-bs-dismiss="modal" style="color: #FFF">Close</button>
-                    <button class="btn btn-primary  " disabled v-if="requestIsLoading == true">
+                    <button class="btn btn-primary  " disabled v-if="requestIsLoading == 'true'">
                         <i class="fa fa-circle-o-notch fa-spin"></i> Loading
                     </button>
                     <button type="button" class="btn btn-primary btn-upload" v-if="requestIsLoading == false" @click="updateUserPassword()">Save</button>
@@ -357,12 +403,58 @@
                             <option value="false">In-Active</option>
                         </select>
                     </div>
+                    <div class="form-group col-12">
+                      <label for="category">Front End</label>
+                      <select class="form-control" v-model="subscriptions.front_end.status">
+                          <option value="true" selected>Active</option>
+                          <option value="false">In-Active</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="row" v-if="subscriptions.front_end_bundle_1.status == 'true' || subscriptions.front_end_bundle_2.status == 'true' ||subscriptions.front_end.status == 'true'">
+                    <div class="form-group col-12">
+                      <label for="category">Patinum</label>
+                      <select class="form-control" v-model="subscriptions.platinum.status">
+                          <option value="true" selected>Active</option>
+                          <option value="false">In-Active</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="category">Unlimited Or Business</label>
+                        <select class="form-control" v-model="subscriptions.unlimited_or_business.status">
+                            <option value="true" selected>Active</option>
+                            <option value="false">In-Active</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                      <label for="category">Enterprise</label>
+                      <select class="form-control" v-model="subscriptions.oto_enterprise.status">
+                          <option value="true" selected>Active</option>
+                          <option value="false">In-Active</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-12">
+                      <label for="category">Whitelabel Reseller</label>
+                      <select class="form-control" v-model="subscriptions.oto_whitelabel_reseller.status">
+                          <option value="true" selected>Active</option>
+                          <option value="false">In-Active</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label for="category">Whitelabel Reseller 2</label>
+                        <select class="form-control" v-model="subscriptions.oto_whitelabel_reseller_2.status">
+                            <option value="true" selected>Active</option>
+                            <option value="false">In-Active</option>
+                        </select>
+                    </div>
                 </div>
     
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light border btn-sm" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary btn-sm " disabled v-if="requestIsLoading == true">
+                <button class="btn btn-primary btn-sm " disabled v-if="requestIsLoading == 'true'">
                     <i class="fa fa-circle-o-notch fa-spin"></i> Loading
                 </button>
                 <button type="button" class="btn btn-primary btn-sm" v-if="requestIsLoading == false" @click="updateUserSubscriptions()">Save</button>

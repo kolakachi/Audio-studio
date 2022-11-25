@@ -13,6 +13,10 @@ class SubscriptionAddonModel extends Model
     protected $casts = [
         'status' => 'boolean'
     ];
+    protected $fillable = [
+        'subscription_id',
+        'name'
+    ];
 
     public function getEndDateAttribute($value){
         if($value){

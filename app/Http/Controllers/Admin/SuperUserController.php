@@ -94,6 +94,7 @@ class SuperUserController extends Controller
             
             // $this->createWorkspace($user);
             $this->setSubscription($request, $user);
+            $this->setAddonSubscription($request, $user);
 
 
             return response()->json([
@@ -231,6 +232,7 @@ class SuperUserController extends Controller
                 ], 400);
             }
            $this->setSubscription($request, $user);
+           $this->setAddonSubscription($request, $user);
 
             return response()->json([
                 'message' => "User Details updated",
@@ -255,6 +257,7 @@ class SuperUserController extends Controller
             if($key == 'front_end_bundle_1'){
                 $subscription = SubscriptionModel::firstOrNew([
                     'user_id' => $user->id, 
+                    'name' => $key
                 ]);
                 $subscription->name = $key;
                 
@@ -292,7 +295,141 @@ class SuperUserController extends Controller
                 
             }
 
+            if($key == 'front_end'){
+                $subscription = SubscriptionModel::firstOrNew([
+                    'user_id' => $user->id, 
+                ]);
+                $subscription->name = $key;
+                
+                if (!$subscription->created_at && $status){
+                    updateUserSubConfig($user, $key);
+                }elseif (!$status && $subscription->created_at) {
+                    resetUserSubConfig($user, $key);
+                }elseif ($status && !$subscription->status) {
+                    updateUserSubConfig($user, $key);
+                }
+
+                $subscription->status = $status;
+                $subscription->save();
+                
+            }
+
         }
+    }
+
+    private function setAddonSubscription($request, $user){
+        $subscriptions = (array)json_decode($request->subscriptions);
+        $subId = 0;
+        $subscription = SubscriptionModel::where('user_id', $user->id)
+        ->first();
+        if($subscription){
+            foreach($subscriptions as $key => $value){
+                $value = (array) $value;
+                $status = (isset($value['status']))? $value['status'] == 'true' : false; 
+                if($key == 'platinum'){
+                    $subscription = SubscriptionAddonModel::firstOrNew([
+                        'subscription_id' => $subscription->id, 
+                        'name' => $key,
+                    ]);
+                    $subscription->name = $key;
+                    
+                    if (!$subscription->created_at && $status){
+                        updateUserSubConfig($user, $key);
+                    }elseif (!$status && $subscription->created_at) {
+                        resetUserSubConfig($user, $key);
+                    }elseif ($status && !$subscription->status) {
+                        updateUserSubConfig($user, $key);
+                    }
+                    $subscription->status = $status;
+                    $subscription->save();
+                    
+                    // $subId = $subscription->id; 
+                    
+                }
+    
+                if($key == 'unlimited_or_business'){
+                    $subscription = SubscriptionAddonModel::firstOrNew([
+                        'subscription_id' => $subscription->id, 
+                        'name' => $key,
+                    ]);
+                    $subscription->name = $key;
+                    
+                    if (!$subscription->created_at && $status){
+                        updateUserSubConfig($user, $key);
+                    }elseif (!$status && $subscription->created_at) {
+                        resetUserSubConfig($user, $key);
+                    }elseif ($status && !$subscription->status) {
+                        updateUserSubConfig($user, $key);
+                    }
+    
+                    $subscription->status = $status;
+                    $subscription->save();
+                    
+                }
+    
+                if($key == 'oto_enterprise'){
+                    $subscription = SubscriptionAddonModel::firstOrNew([
+                        'subscription_id' => $subscription->id, 
+                        'name' => $key,
+                    ]);
+                    $subscription->name = $key;
+                    
+                    if (!$subscription->created_at && $status){
+                        updateUserSubConfig($user, $key);
+                    }elseif (!$status && $subscription->created_at) {
+                        resetUserSubConfig($user, $key);
+                    }elseif ($status && !$subscription->status) {
+                        updateUserSubConfig($user, $key);
+                    }
+    
+                    $subscription->status = $status;
+                    $subscription->save();
+                    
+                }
+
+                if($key == 'oto_whitelabel_reseller'){
+                    $subscription = SubscriptionAddonModel::firstOrNew([
+                        'subscription_id' => $subscription->id, 
+                        'name' => $key,
+                    ]);
+                    $subscription->name = $key;
+                    
+                    if (!$subscription->created_at && $status){
+                        updateUserSubConfig($user, $key);
+                    }elseif (!$status && $subscription->created_at) {
+                        resetUserSubConfig($user, $key);
+                    }elseif ($status && !$subscription->status) {
+                        updateUserSubConfig($user, $key);
+                    }
+    
+                    $subscription->status = $status;
+                    $subscription->save();
+                    
+                }
+
+                if($key == 'oto_whitelabel_reseller_2'){
+                    $subscription = SubscriptionAddonModel::firstOrNew([
+                        'subscription_id' => $subscription->id, 
+                        'name' => $key,
+                    ]);
+                    $subscription->name = $key;
+                    
+                    if (!$subscription->created_at && $status){
+                        updateUserSubConfig($user, $key);
+                    }elseif (!$status && $subscription->created_at) {
+                        resetUserSubConfig($user, $key);
+                    }elseif ($status && !$subscription->status) {
+                        updateUserSubConfig($user, $key);
+                    }
+    
+                    $subscription->status = $status;
+                    $subscription->save();
+                    
+                }
+    
+            }
+        }
+        
     }
 
     protected function validator(array $data)

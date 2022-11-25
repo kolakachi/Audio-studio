@@ -15,6 +15,7 @@ class SubscriptionModel extends Model
 
     protected $fillable = [
         'user_id',
+        'name'
     ];
 
     public function addons(){
