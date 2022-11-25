@@ -128,6 +128,10 @@ class SuperUserController extends Controller
                     'message' => "You do not have enough permissions to complete request."
                 ], 400);
             }
+            User::where('account_type', 'agency')
+                ->where('admin_id', $user->id)->delete();
+            User::where('account_type', 'whitelabel')
+                ->where('admin_id', $user->id)->delete();
             $user->delete();
             $message = "User deleted successfully";
             return response()->json(['message' => $message]);

@@ -128,8 +128,8 @@ class SubscriptionManager {
         updateUserSubConfig($user, $type);
         self::registerUserSubscriptions($sub);
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $type);
+		
+		self::logPaymentTransaction($sub_data, $type);
 
 		return $user;
 	}
@@ -153,8 +153,8 @@ class SubscriptionManager {
             resetUserSubConfig($user, $sub_type);
 		}
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $sub_type);
+		
+		self::logPaymentTransaction($sub_data, $sub_type);
 	}
 
 	public static function cancelMainSubscription($user)
@@ -201,8 +201,7 @@ class SubscriptionManager {
         updateUserSubConfig($user, $type);
         self::registerUserSubscriptions($sub);
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $type);
+		self::logPaymentTransaction($sub_data, $type);
 
 		return $user;
     }
@@ -226,8 +225,7 @@ class SubscriptionManager {
             resetUserSubConfig($user, $sub_type);
 		}
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $sub_type);
+		self::logPaymentTransaction($sub_data, $sub_type);
     }
 
     public static function addOTOSubscription($sub_data, $start, $end, $sub_type, $log_txn = true)
@@ -254,8 +252,7 @@ class SubscriptionManager {
                 updateUserSubConfig($user, $sub_type);
            }
 
-		if ($log_txn === true)
-		    self::logPaymentTransaction($sub_data, $sub_type);
+		self::logPaymentTransaction($sub_data, $sub_type);
         return true;
     }
 
@@ -279,8 +276,7 @@ class SubscriptionManager {
             resetUserSubConfig($user, $sub_type);
 		}
 
-		if ($log_txn === true)
-		    self::logPaymentTransaction($sub_data, $sub_type);
+		self::logPaymentTransaction($sub_data, $sub_type);
         return true;
     }
 
@@ -333,8 +329,7 @@ class SubscriptionManager {
 		self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
 		updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $type);
+		self::logPaymentTransaction($sub_data, $type);
 
 		return $user;
     }
@@ -361,8 +356,7 @@ class SubscriptionManager {
             resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
 		}
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $sub_type);
+		self::logPaymentTransaction($sub_data, $sub_type);
     }
 
 	public static function addPassBundleSubscription($sub_data, $start, $end, $type = '', $log_txn = true, $extra_subs = [])
@@ -414,8 +408,7 @@ class SubscriptionManager {
 		self::activateAddonSub($sub, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 		updateUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $type);
+		self::logPaymentTransaction($sub_data, $type);
 
 		return $user;
     }
@@ -442,8 +435,7 @@ class SubscriptionManager {
             resetUserSubConfig($user, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 		}
 
-		if ($log_txn === true)
-			self::logPaymentTransaction($sub_data, $sub_type);
+		self::logPaymentTransaction($sub_data, $sub_type);
     }
 
     
