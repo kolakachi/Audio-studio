@@ -30,7 +30,7 @@ class SubAddonMail extends Mailable
     public function build()
     {
         return $this->view('emails.sub-addon', ['user' => $this->user])
-    		->subject("Vidilicious Addon Subscription")
-            ->from('postmaster@mg.vidilicious.io', 'Vidilicious');
+    		->subject("AudioStudio Addon Subscription")
+            ->from('postmaster@app.audiostudio.cc', 'AudioStudio');
     }
 }
