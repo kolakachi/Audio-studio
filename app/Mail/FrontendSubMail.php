@@ -30,7 +30,7 @@ class FrontendSubMail extends Mailable
     public function build()
     {
         return $this->view('emails.frontend-sub', ['user' => $this->user])
-            ->subject("Your Vidilicious Login Credentials")
-            ->from('postmaster@mg.vidilicious.io', 'Vidilicious');
+            ->subject("Your AudioStudio Login Credentials")
+            ->from('postmaster@app.audiostudio.cc', 'AudioStudio');
     }
 }
