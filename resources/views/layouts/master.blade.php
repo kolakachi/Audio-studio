@@ -98,9 +98,15 @@ $whitelabelIsSet = $whitelabelConfig['whitelabelIsSet']
 
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
+          @if($whitelabelIsSet == true)
+          <a class="nav-link active" aria-current="page" href="{{ $config->support_url }}">
+              <span class="icon"><svg width="25" height="30" viewBox="0 0 25 30" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M22.2222 0H2.77778C2.04107 0 1.33453 0.292658 0.813592 0.813592C0.292658 1.33453 0 2.04107 0 2.77778V22.2222C0 22.9589 0.292658 23.6655 0.813592 24.1864C1.33453 24.7073 2.04107 25 2.77778 25H8.33333L12.5 29.1667L16.6667 25H22.2222C23.75 25 25 23.75 25 22.2222V2.77778C25 1.25 23.75 0 22.2222 0ZM13.8889 22.2222H11.1111V19.4444H13.8889V22.2222ZM16.7639 11.4583L15.5139 12.7361C14.5139 13.75 13.8889 14.5833 13.8889 16.6667H11.1111V15.9722C11.1111 14.4444 11.7361 13.0556 12.7361 12.0417L14.4583 10.2917C14.9722 9.79167 15.2778 9.09722 15.2778 8.33333C15.2778 6.80556 14.0278 5.55556 12.5 5.55556C10.9722 5.55556 9.72222 6.80556 9.72222 8.33333H6.94444C6.94444 5.26389 9.43056 2.77778 12.5 2.77778C15.5694 2.77778 18.0556 5.26389 18.0556 8.33333C18.0556 9.55556 17.5556 10.6667 16.7639 11.4583Z" fill="white"></path></svg></span>
+          </a>
+          @else
           <a class="nav-link active" aria-current="page" href="https://support.audiostudio.cc/">
               <span class="icon"><svg width="25" height="30" viewBox="0 0 25 30" fill="none" xmlns="http://www.w3.org/2000/svg" class=""><path d="M22.2222 0H2.77778C2.04107 0 1.33453 0.292658 0.813592 0.813592C0.292658 1.33453 0 2.04107 0 2.77778V22.2222C0 22.9589 0.292658 23.6655 0.813592 24.1864C1.33453 24.7073 2.04107 25 2.77778 25H8.33333L12.5 29.1667L16.6667 25H22.2222C23.75 25 25 23.75 25 22.2222V2.77778C25 1.25 23.75 0 22.2222 0ZM13.8889 22.2222H11.1111V19.4444H13.8889V22.2222ZM16.7639 11.4583L15.5139 12.7361C14.5139 13.75 13.8889 14.5833 13.8889 16.6667H11.1111V15.9722C11.1111 14.4444 11.7361 13.0556 12.7361 12.0417L14.4583 10.2917C14.9722 9.79167 15.2778 9.09722 15.2778 8.33333C15.2778 6.80556 14.0278 5.55556 12.5 5.55556C10.9722 5.55556 9.72222 6.80556 9.72222 8.33333H6.94444C6.94444 5.26389 9.43056 2.77778 12.5 2.77778C15.5694 2.77778 18.0556 5.26389 18.0556 8.33333C18.0556 9.55556 17.5556 10.6667 16.7639 11.4583Z" fill="white"></path></svg></span>
           </a>
+          @endif
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="notification-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -174,6 +180,7 @@ $whitelabelIsSet = $whitelabelConfig['whitelabelIsSet']
 {{-- <script src="{{URL::asset('plugins/bootstrap/js/bootstrap5.min.js')}}?v=1"></script> --}}
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> --}}
 {{-- <script type="text/javascript" src="/assets/js/bundle.js"></script></body> --}}
+@if($whitelabelIsSet =! true)
 <script>
   window.intercomSettings = {
     api_base: "https://api-iam.intercom.io",
@@ -188,6 +195,7 @@ $whitelabelIsSet = $whitelabelConfig['whitelabelIsSet']
 // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/sksvfqxn'
 (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/sksvfqxn';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
 </script>
+@endif
 @yield('js')
 
 </html>
