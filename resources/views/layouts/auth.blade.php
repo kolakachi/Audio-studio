@@ -1,3 +1,8 @@
+@php
+$whitelabelConfig = getWhitelabelConfigDetails();
+$config = $whitelabelConfig['config'];
+$whitelabelIsSet = $whitelabelConfig['whitelabelIsSet']
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
