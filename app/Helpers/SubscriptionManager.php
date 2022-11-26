@@ -140,7 +140,7 @@ class SubscriptionManager {
 
 		if ($user)
 		{
-            $sub = $user->frontEnd;
+            $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
 			if ($sub)
 			{
@@ -212,7 +212,7 @@ class SubscriptionManager {
 
 		if ($user)
 		{
-            $sub = $user->frontEnd;
+            $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();here('user_id', $user->id)->where('status', true)->first();
 
 			if ($sub)
 			{
@@ -235,7 +235,7 @@ class SubscriptionManager {
 
            if ($user)
            {
-                $sub = $user->frontEnd;
+                $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
                 if ($sub){
                     $oto = SubscriptionAddonModel::where('subscription_id', $sub->id)
@@ -262,7 +262,7 @@ class SubscriptionManager {
 
 		if ($user)
 		{
-			$sub = $user->frontEnd;
+			$sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
             if ($sub){
                 $oto = SubscriptionAddonModel::where('subscription_id', $sub->id)
@@ -340,7 +340,7 @@ class SubscriptionManager {
 
 		if ($user)
 		{
-            $sub = $user->frontEnd;
+            $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
 			if ($sub)
 			{
@@ -419,7 +419,7 @@ class SubscriptionManager {
 
 		if ($user)
 		{
-            $sub = $user->frontEnd;
+            $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
 			if ($sub)
 			{
@@ -550,7 +550,7 @@ class SubscriptionManager {
 
 	// 	if ($user)
 	// 	{
-    //         $sub = $user->frontEnd;
+    //         $sub = Subscription::where('user_id', $user->id)->where('status', true)->first();
 
 	// 		if ($sub)
 	// 		{

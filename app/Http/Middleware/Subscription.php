@@ -27,12 +27,13 @@ class Subscription
                     Session::put('error', $message);
                     return redirect('/logout');
                 }
-                
-                if($user->frontEnd){
-                    $userHasAccessToFrontEnd = ($user->frontEnd->status == true)? true :false;
+
+                if(userHasAccessToFrontend($user->id)){
+                    $userHasAccessToFrontEnd =  true;
                 }else{
                     $userHasAccessToFrontEnd = false;
                 }
+                
 
                 if(!$userHasAccessToFrontEnd ){
                     $message = 'You don\'t have an active subscription, please contact support';

@@ -153,136 +153,139 @@ class JVZooPaymentHandlerController extends Controller
             'added_by' => $addedBy,
             'admin_id' => $adminId
         ];
+		Log::info('JVZoo IPN data: ', $data);
 
 
 
 		try{
-		    if($this->jvzipnVerification($request) == 1)
-		    {
-		    	if($request->get('cproditem') === 389119)
+			\Log::info($request->cproditem);
+
+		    // if($this->jvzipnVerification($request) == 1)
+		    // {
+		    	if($request->cproditem == 389119)
 	    		{
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
 	    				$today = SubscriptionManager::today();
 	    				$years = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addFrontEndSubscription($sub_data, $today, $years, PaymentConfig::FRONTEND);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 	    				$sub = SubscriptionManager::processFrontEndRefund($sub_data, PaymentConfig::FRONTEND);
 	    			}
-	    		}elseif($request->get('cproditem') === 389311){
+	    		}elseif($request->cproditem == 389311){
 
-                    if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+                    if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
 						$today = SubscriptionManager::today();
 	    				$years = SubscriptionManager::oneYear();
 
 	    				$sub = SubscriptionManager::addOTOSubscription($sub_data, $today, $years, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_UNLIMITED_OR_BUSINESS);
 	    			}
-	    		}elseif($request->get('cproditem') === 389317){
+	    		}elseif($request->cproditem == 389317){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $years = SubscriptionManager::hundredYears();
 	    				$sub = SubscriptionManager::addOTOSubscription($sub_data, $today, $years, PaymentConfig::OTO_ENTERPRISE);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_ENTERPRISE);
 	    			}
-	    		}elseif($request->get('cproditem') === 389315){
+	    		}elseif($request->cproditem == 389315){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $years = SubscriptionManager::hundredYears();
 	    				$sub = SubscriptionManager::addOTOSubscription($sub_data, $today, $years, PaymentConfig::OTO_PLATINUM);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_PLATINUM);
 	    			}
-	    		}elseif($request->get('cproditem') === 389321){
+	    		}elseif($request->cproditem == 389321){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $hundredYears = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addOTOSubscription($sub_data, $today, $hundredYears, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_WHITELABEL_AND_RESELLER);
 	    			}
-                }elseif($request->get('cproditem') === 389319){
+                }elseif($request->cproditem == 389319){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $hundredYears = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addOTOSubscription($sub_data, $today, $hundredYears, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::OTO_WHITELABEL_AND_RESELLER_2, true);
 	    			}
-                }elseif($request->get('cproditem') === 388527){
+                }elseif($request->cproditem == 388527){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $hundredYears = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addFrontEndSubscription($sub_data, $today, $hundredYears, PaymentConfig::FRONTEND_BUNDLE_1);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::FRONTEND_BUNDLE_1, true);
 	    			}
-                }elseif($request->get('cproditem') === 388528){
+                }elseif($request->cproditem == 388528){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $hundredYears = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addFrontEndSubscription($sub_data, $today, $hundredYears, PaymentConfig::FRONTEND_BUNDLE_2);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 
 	    				$sub = SubscriptionManager::processOTORefund($sub_data, PaymentConfig::FRONTEND_BUNDLE_2, true);
 	    			}
-                }elseif($request->get('cproditem') === 389121){
+                }elseif($request->cproditem == 389121){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $years = SubscriptionManager::hundredYears();
 
 	    				$sub = SubscriptionManager::addFullBundleSubscription($sub_data, $today, $years, PaymentConfig::FULL_BUNDLE);
 	    			}
-	    			elseif ($transaction_type === PaymentConfig::STATUS_REFUND)
+	    			elseif ($transaction_type == PaymentConfig::STATUS_REFUND)
 	    			{
 	    				$sub = SubscriptionManager::processFullBundleRefund($sub_data, PaymentConfig::FULL_BUNDLE, true);
 	    			}
-                }elseif($request->get('cproditem') === 389313){
+                }elseif($request->cproditem == 389313){
 
-	    			if ($transaction_type === PaymentConfig::STATUS_COMPLETED)
+	    			if ($transaction_type == PaymentConfig::STATUS_COMPLETED)
 	    			{
                         $today = SubscriptionManager::today();
                         $years = SubscriptionManager::hundredYears();
@@ -296,7 +299,7 @@ class JVZooPaymentHandlerController extends Controller
                 }
 
 		        echo 'Payment Processed';
-		    }
+		    // }
 		}
 		catch(\Exception $e)
 		{

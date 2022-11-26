@@ -9,6 +9,30 @@ use App\Models\SubscriptionAddonModel;
 use App\Models\WhiteLabelConfigModel;
 
 
+function userHasAccessToFrontend($userId){
+    $subscription_1 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', 'front_end_bundle_1')->first();
+    $subscription_2 = SubscriptionModel::where('user_id', $userId)
+    ->where('name', 'front_end_bundle_2')->first();
+    $subscription = SubscriptionModel::where('user_id', $userId)
+    ->where('name', 'front_end')->first();
+    if($subscription_1){
+        return true;
+    }
+
+
+    if($subscription_2){
+        return true;
+    }
+
+    if($subscription){
+        return true;
+    }
+
+    return false;
+
+}
+
 function userHasAccessToEnterprise($userId){
 
     $user = User::where('id', $userId)->first();
