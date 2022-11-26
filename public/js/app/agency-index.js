@@ -16,8 +16,8 @@ new Vue({
                 agency_url:"/assets/img/AGENCY/DESKTOP.png", 
                 popup_url:"/assets/img/POP_UP/DESKTOP_1.png",
                 description: 'We have created an editable high-converting agency website for you by our team of expert designers and writers, so you’ll no longer have to pay or hire a web designer anymore. All you need to do is to add your Logo and contact information to suit your marketing goals. This Agency website is rated 5star by our early users.',
-                preview_url: 'https://agency.geebital.com/',
-                download_url:'https://agency.geebital.com/'
+                preview_url: 'https://drive.google.com/drive/folders/1F5zpGDqcOC_lt1Y8bBY7Ad450Va-uryu?usp=sharing',
+                download_url:'https://drive.google.com/drive/folders/1F5zpGDqcOC_lt1Y8bBY7Ad450Va-uryu?usp=sharing'
             },
             {
                 title:"Letterhead", 
