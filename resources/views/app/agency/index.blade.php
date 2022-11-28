@@ -57,10 +57,10 @@
                   </div>
                 </div>
                 <div class="asset-file-details-buttons">
-                  <a :href="activeAsset.preview_url" class="btn btn-primary px-4">
+                  <a :href="activeAsset.preview_url" class="btn btn-primary px-4" target="_blank">
                     Preview Online
                   </a>
-                  <a :href="activeAsset.download_url" class="btn btn-success text-white px-4">
+                  <a :href="activeAsset.download_url" class="btn btn-success text-white px-4" target="_blank">
                     Download
                   </a>
                 </div>
