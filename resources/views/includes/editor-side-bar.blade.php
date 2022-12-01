@@ -1,3 +1,8 @@
+@php
+$whitelabelConfig = getWhitelabelConfigDetails();
+$config = $whitelabelConfig['config'];
+$whitelabelIsSet = $whitelabelConfig['whitelabelIsSet']
+@endphp
 <div class="sidebar-col collapsed">
     <ul class="nav flex-column">
       <li class="nav-item">
