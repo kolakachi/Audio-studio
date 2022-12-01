@@ -29,11 +29,12 @@ def mixAudios():
         if "webm" in layer["path"]: 
            
             encodedMP3Path = layer["path"].replace(".webm",str(value)+ ".mp3")
+            stuff_in_string = "ffmpeg -i {} {} -y".format(layer["path"], encodedMP3Path)
+            os.system(stuff_in_string)
         else:
-            encodedMP3Path = layer["path"].replace(".mp3",str(value)+ ".mp3")
+            encodedMP3Path = layer["path"]
 
-        stuff_in_string = "ffmpeg -i {} {} -y".format(layer["path"], encodedMP3Path)
-        os.system(stuff_in_string)
+       
         substr = ".mp3"
         inserttxt = str(value)+ "-volume-changed"
         idx = encodedMP3Path.index(substr)
@@ -49,7 +50,8 @@ def mixAudios():
         audios.append(trimmedClip.set_start(layer["start"]))
         
         pathToDeleteList.append(volumeEncodedMP3Path)
-        pathToDeleteList.append(encodedMP3Path)
+        if "webm" in layer["path"]:
+            pathToDeleteList.append(encodedMP3Path)
 
     mixed = CompositeAudioClip(audios)
     mixed.fps = 44100
