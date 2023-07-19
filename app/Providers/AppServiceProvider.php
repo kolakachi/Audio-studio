@@ -24,7 +24,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if($this->app->environment('production')) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+            if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on")
+            {
+                if(!empty($_SERVER["HTTP_HOST"]) && !empty($_SERVER["REQUEST_URI"])){
+                    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+                    exit();
+                }
+
+            }
         }
     }
 }
